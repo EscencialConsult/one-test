@@ -82,10 +82,11 @@
 
 /* FOOTER */
 .lp-footer { margin-top: 60px; border-top: 1px solid var(--linea); background: rgba(254,254,255,.7); }
-.lp-foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 30px; padding: 46px 0 30px; }
-.lp-foot h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; }
-.lp-foot a { display: block; color: var(--tinta); opacity: .7; text-decoration: none; font-size: 14px; margin-bottom: 9px; }
+.lp-foot { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; padding: 46px 0 30px; }
+.lp-foot h4 { font-size: 15px; letter-spacing: .3px; color: var(--negro); margin-bottom: 16px; }
+.lp-foot a { display: block; color: var(--tinta); opacity: .72; text-decoration: none; font-size: 14px; margin-bottom: 10px; line-height: 1.4; }
 .lp-foot a:hover { opacity: 1; color: var(--violeta); }
+.lp-foot .fline { color: var(--tinta); opacity: .72; font-size: 14px; margin-bottom: 10px; line-height: 1.4; }
 .lp-foot .desc { font-size: 13.5px; color: var(--tinta); opacity: .7; line-height: 1.6; margin-top: 12px; max-width: 280px; }
 .lp-copy { text-align: center; padding: 18px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--linea); }
 

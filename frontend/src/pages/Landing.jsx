@@ -182,14 +182,26 @@ export default function Landing() {
       <footer className="lp-footer" id="contacto"><div className="lp-wrap">
         <div className="lp-foot">
           <div>
-            <div className="lp-brand"><span className="lp-logo">O<b>NE</b></span></div>
-            <p className="desc">Plataforma de evaluación de talento impulsada por {PRODUCTO}. Tests validados, cálculo exacto e informes profesionales.</p>
+            <h4>Sucursal Tucumán</h4>
+            <a href="mailto:info@escencialconsult.com.ar">Email: info@escencialconsult.com.ar</a>
+            <div className="fline">Dirección: Catamarca 873 — San Miguel de Tucumán</div>
+            <a href="tel:+5493816221565">Teléfono: +54 9 3816 22-1565</a>
+            <a href="tel:+5493816221565">Celular: +54 9 3816 22-1565</a>
           </div>
-          <div><h4>Plataforma</h4><a href="#plataforma">Qué es</a><a href="#evaluaciones">Evaluaciones</a><a href="#como">Cómo funciona</a></div>
-          <div><h4>Acceso</h4><a onClick={irEvaluado} style={{ cursor: 'pointer' }}>Soy evaluado</a><a onClick={irLogin} style={{ cursor: 'pointer' }}>Soy administrador</a></div>
-          <div><h4>Contacto</h4><a href="mailto:hola@escencial.com"><Ico id="i-mail" className="lp-ico" /> hola@escencial.com</a><a onClick={irLogin} style={{ cursor: 'pointer' }}>Solicitar demo</a></div>
+          <div>
+            <h4>Sucursal Bolivia</h4>
+            <div className="fline">Manzana 40, torre 2, piso 10</div>
+            <div className="fline">Santa Cruz de la Sierra, Bolivia</div>
+            <a href="tel:+59176030430">Teléfono: +591 76030430</a>
+          </div>
+          <div>
+            <h4>Sucursal Buenos Aires</h4>
+            <div className="fline">Paraguay 635, C1008AAT</div>
+            <div className="fline">Cdad. Autónoma de Buenos Aires</div>
+            <a href="tel:+5491150061604">Teléfono: +54 9 11 5006-1604</a>
+          </div>
         </div>
-        <div className="lp-copy">© 2026 {EMPRESA} · Plataforma {PRODUCTO}. Todos los derechos reservados.</div>
+        <div className="lp-copy"><span className="lp-logo" style={{ fontSize: 16 }}>O<b>NE</b></span> · © 2026 {EMPRESA} · {PRODUCTO}. Todos los derechos reservados.</div>
       </div></footer>
     </div>
   )
