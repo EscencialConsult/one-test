@@ -1,0 +1,89 @@
+{
+  "_descripcion": "Configuración del informe Eneagrama. El renderizador consume la salida de scoring.py (puntajes, porcentajes, ranking, dominante/secundario/terciario, arquetipo).",
+  "titulo": "Tu Informe Profesional de Eneagrama",
+  "subtitulo": "Descubre tu esencia — perfil de los 9 eneatipos",
+  "secciones": [
+    {
+      "id": "grafico_radar",
+      "tipo": "grafico_radar",
+      "titulo": "Distribución de Eneatipos",
+      "_fuente": "Test9/script.gs · chartConfig (radar, quickchart) + index.html · createRadarChart",
+      "datos": {
+        "labels": [
+          "1. REFORMADOR", "2. AYUDADOR", "3. TRIUNFADOR",
+          "4. INDIVIDUALISTA", "5. INVESTIGADOR", "6. LEAL",
+          "7. ENTUSIASTA", "8. LÍDER", "9. CONCILIADOR"
+        ],
+        "valores": "puntajes[1..9]",
+        "eje": { "min": 0, "max": 30, "paso": 5 }
+      }
+    },
+    {
+      "id": "eneatipo_dominante",
+      "tipo": "bloque_eneatipo",
+      "titulo": "Tu Eneatipo Dominante",
+      "fuente": "dominante",
+      "bloque": {
+        "encabezado": "{nombre} (puntaje {puntaje}/30 · {porcentaje}%)",
+        "campos": [
+          { "label": "Descripción general", "tipo": "texto", "valor": "general" },
+          { "label": "Motivación central", "tipo": "texto", "valor": "motivacion" },
+          { "label": "Miedo fundamental", "tipo": "texto", "valor": "miedo" },
+          { "label": "Rasgos", "tipo": "lista", "valor": "rasgos" },
+          { "label": "Fortalezas", "tipo": "lista", "valor": "fortalezas" },
+          { "label": "Áreas de desarrollo", "tipo": "lista", "valor": "areas" }
+        ]
+      }
+    },
+    {
+      "id": "eneatipo_secundario",
+      "tipo": "bloque_eneatipo",
+      "titulo": "Tu Eneatipo Secundario",
+      "fuente": "secundario",
+      "bloque": {
+        "encabezado": "{nombre} (puntaje {puntaje}/30 · {porcentaje}%)",
+        "campos": [
+          { "label": "Descripción general", "tipo": "texto", "valor": "general" },
+          { "label": "Fortalezas", "tipo": "lista", "valor": "fortalezas" }
+        ]
+      }
+    },
+    {
+      "id": "eneatipo_terciario",
+      "tipo": "bloque_eneatipo",
+      "titulo": "Tu Eneatipo Terciario",
+      "fuente": "terciario",
+      "bloque": {
+        "encabezado": "{nombre} (puntaje {puntaje}/30 · {porcentaje}%)",
+        "campos": [
+          { "label": "Descripción general", "tipo": "texto", "valor": "general" }
+        ]
+      }
+    },
+    {
+      "id": "arquetipo",
+      "tipo": "bloque_arquetipo",
+      "titulo": "Tu Arquetipo (combinación dominante + ala)",
+      "fuente": "arquetipo",
+      "bloque": {
+        "encabezado": "{arq}",
+        "campos": [
+          { "label": "Descripción", "tipo": "texto", "valor": "desc" },
+          { "label": "Cualidad rara", "tipo": "texto", "valor": "cualidad" },
+          { "label": "Fortalezas del arquetipo", "tipo": "lista", "valor": "fortalezas" }
+        ]
+      }
+    },
+    {
+      "id": "ranking",
+      "tipo": "tabla_ranking",
+      "titulo": "Puntuaciones detalladas por eneatipo",
+      "fuente": "ranking",
+      "columnas": [
+        { "label": "Eneatipo", "valor": "nombre" },
+        { "label": "Puntaje", "valor": "puntaje" },
+        { "label": "Porcentaje", "valor": "porcentaje" }
+      ]
+    }
+  ]
+}

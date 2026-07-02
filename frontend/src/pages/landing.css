@@ -1,0 +1,93 @@
+/* Landing pública (página de inicio). Clases con prefijo lp- para no chocar con la app. */
+.lp { color: var(--negro); }
+.lp-ico { width: 24px; height: 24px; stroke: currentColor; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.lp-wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+/* NAV */
+.lp-nav { position: sticky; top: 0; z-index: 30; background: rgba(254,254,255,.82); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(198,201,215,.55); }
+.lp-navin { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+.lp-brand { display: flex; align-items: center; gap: 10px; }
+.lp-brand .lp-logo { font-weight: 800; font-size: 23px; letter-spacing: .5px; color: var(--negro); }
+.lp-brand .lp-logo b { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lp-links { display: flex; gap: 30px; }
+.lp-links a { color: var(--tinta); text-decoration: none; font-size: 14px; font-weight: 600; opacity: .72; transition: .2s; }
+.lp-links a:hover { opacity: 1; color: var(--violeta); }
+.lp-btn { border: 0; cursor: pointer; font-weight: 700; font-size: 14px; padding: 12px 20px; border-radius: 12px; transition: .2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+.lp-btn:hover { transform: translateY(-1px); }
+.lp-btn.prim { background: var(--grad); color: #fff; box-shadow: 0 14px 30px -12px rgba(225,123,215,.85); }
+.lp-btn.dark { background: var(--violeta); color: #fff; }
+.lp-btn.ghost { background: #fff; color: var(--tinta); border: 1.5px solid var(--linea); }
+
+/* HERO */
+.lp-hero { text-align: center; padding: 72px 0 56px; }
+.lp-eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: 12.5px; font-weight: 700; color: var(--violeta); background: rgba(77,36,143,.08); border: 1px solid rgba(77,36,143,.2); padding: 8px 16px; border-radius: 999px; margin-bottom: 24px; }
+.lp-eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cian); }
+.lp-hero h1 { font-size: 54px; line-height: 1.05; letter-spacing: -1px; margin-bottom: 18px; }
+.lp-hero h1 .c { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lp-lead { font-size: 17px; color: var(--tinta); opacity: .72; max-width: 620px; margin: 0 auto 38px; line-height: 1.65; }
+.lp-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 720px; margin: 0 auto; }
+.lp-role { position: relative; background: rgba(255,255,255,.9); border: 1px solid var(--linea); border-radius: 22px; box-shadow: var(--sombra); padding: 26px; text-align: left; cursor: pointer; transition: .22s; overflow: hidden; }
+.lp-role::after { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: var(--grad); opacity: 0; transition: .22s; }
+.lp-role:hover { transform: translateY(-4px); border-color: transparent; } .lp-role:hover::after { opacity: 1; }
+.lp-roleic { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; color: #fff; margin-bottom: 16px; }
+.lp-roleic.ev { background: var(--grad); } .lp-roleic.ad { background: linear-gradient(135deg,#4d248f,#e17bd7); }
+.lp-roleic .lp-ico { width: 26px; height: 26px; }
+.lp-role h3 { font-size: 19px; margin-bottom: 6px; }
+.lp-role p { font-size: 13px; color: var(--tinta); opacity: .7; line-height: 1.5; margin-bottom: 16px; min-height: 38px; }
+.lp-act { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: var(--violeta); }
+.lp-act .lp-ico { width: 17px; height: 17px; }
+
+/* SECCIONES */
+.lp-sec { padding: 64px 0; }
+.lp-sech { text-align: center; max-width: 640px; margin: 0 auto 44px; }
+.lp-sech .eb { font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--violeta); opacity: .8; }
+.lp-sech h2 { font-size: 34px; letter-spacing: -.5px; margin: 12px 0 12px; }
+.lp-sech p { font-size: 15.5px; color: var(--tinta); opacity: .7; line-height: 1.6; }
+.lp-card { background: rgba(255,255,255,.88); border: 1px solid var(--linea); border-radius: 18px; box-shadow: var(--sombra); }
+.lp-grid2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+.lp-grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.lp-grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+.lp-feat { padding: 26px; }
+.lp-featic { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 16px; color: var(--violeta); }
+.lp-featic.r { background: rgba(225,123,215,.14); } .lp-featic.c { background: rgba(107,225,227,.16); } .lp-featic.o { background: rgba(228,199,106,.22); } .lp-featic.v { background: rgba(77,36,143,.1); }
+.lp-feat h3 { font-size: 17px; margin-bottom: 8px; }
+.lp-feat p { font-size: 13.5px; color: var(--tinta); opacity: .72; line-height: 1.55; }
+
+/* QUÉ ES */
+.lp-about { display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+.lp-about h2 { font-size: 32px; letter-spacing: -.5px; margin-bottom: 16px; }
+.lp-about p { font-size: 15.5px; color: var(--tinta); opacity: .78; line-height: 1.7; margin-bottom: 14px; }
+.lp-checks { list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+.lp-checks li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; font-weight: 600; }
+.lp-checks .lp-ico { width: 22px; height: 22px; color: #1b9aa0; flex: none; margin-top: 1px; }
+.lp-aboutart { padding: 30px; }
+.lp-stat { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--linea); }
+.lp-stat:last-child { border-bottom: 0; }
+.lp-stat .n { font-size: 30px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; min-width: 84px; }
+.lp-stat .t { font-size: 13.5px; color: var(--tinta); opacity: .75; line-height: 1.4; }
+
+/* PASOS */
+.lp-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+.lp-step { padding: 26px; position: relative; }
+.lp-step .num { width: 34px; height: 34px; border-radius: 10px; background: var(--violeta); color: #fff; font-weight: 800; display: grid; place-items: center; margin-bottom: 14px; }
+.lp-step .lp-ico { width: 24px; height: 24px; color: var(--violeta); margin-bottom: 10px; }
+.lp-step h3 { font-size: 16px; margin-bottom: 6px; }
+.lp-step p { font-size: 13px; color: var(--tinta); opacity: .72; line-height: 1.5; }
+
+/* CTA */
+.lp-cta { margin: 24px 0 0; border-radius: 28px; padding: 48px; text-align: center; color: #fff; background: linear-gradient(135deg,#4d248f 0%,#e17bd7 60%,#6be1e3 130%); box-shadow: var(--sombra); }
+.lp-cta h2 { font-size: 30px; margin-bottom: 10px; }
+.lp-cta p { opacity: .92; font-size: 15px; margin-bottom: 26px; }
+.lp-cta .lp-btn { background: #fff; color: var(--violeta); padding: 15px 28px; font-size: 15px; }
+
+/* FOOTER */
+.lp-footer { margin-top: 60px; border-top: 1px solid var(--linea); background: rgba(254,254,255,.7); }
+.lp-foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 30px; padding: 46px 0 30px; }
+.lp-foot h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; }
+.lp-foot a { display: block; color: var(--tinta); opacity: .7; text-decoration: none; font-size: 14px; margin-bottom: 9px; }
+.lp-foot a:hover { opacity: 1; color: var(--violeta); }
+.lp-foot .desc { font-size: 13.5px; color: var(--tinta); opacity: .7; line-height: 1.6; margin-top: 12px; max-width: 280px; }
+.lp-copy { text-align: center; padding: 18px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--linea); }
+
+@media (max-width: 900px) { .lp-grid4, .lp-steps { grid-template-columns: 1fr 1fr; } .lp-about { grid-template-columns: 1fr; gap: 26px; } .lp-foot { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 620px) { .lp-roles, .lp-grid2, .lp-grid3, .lp-grid4, .lp-steps, .lp-foot { grid-template-columns: 1fr; } .lp-hero h1 { font-size: 38px; } .lp-links { display: none; } }

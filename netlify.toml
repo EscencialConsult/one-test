@@ -1,0 +1,27 @@
+# Configuración de Netlify para el frontend (React + Vite).
+#
+# Netlify sirve SOLO el frontend estático. La API (FastAPI) corre en otro host
+# (recomendado: el web service gratuito de Render) y la base de datos en Render.
+
+[build]
+  base = "frontend"          # el proyecto del frontend
+  command = "npm run build"  # genera frontend/dist
+  publish = "dist"           # relativo a `base` → frontend/dist
+
+# ── Proxy de la API ───────────────────────────────────────────────────────────
+# Reenvía /api/* al backend. Así el frontend sigue usando rutas /api relativas
+# y el navegador nunca ve otro dominio → NO hay problema de CORS.
+# IMPORTANTE: reemplazá la URL por la de TU backend (ej. Render).
+[[redirects]]
+  from = "/api/*"
+  to = "https://TU-BACKEND.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# ── Fallback SPA (React Router) ───────────────────────────────────────────────
+# Sin esto, recargar en /admin, /empresa, etc. da 404.
+# Debe ir DESPUÉS del proxy /api (Netlify evalúa en orden).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

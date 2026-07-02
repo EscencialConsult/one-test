@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe IPP-R — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:860px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:28px;margin-bottom:6px}
+  .hcover .st{font-size:13.5px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:10px 11px;font-size:12.5px;border-bottom:1px solid var(--linea);vertical-align:middle}
+  thead th{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td .dn{font-weight:800;color:var(--violeta)}
+  td.c{text-align:center}
+  .pdcell{display:flex;align-items:center;gap:8px;min-width:120px}
+  .pdcell .mini{flex:1;height:8px;background:#eef0f6;border-radius:999px;overflow:hidden}
+  .pdcell .mini i{display:block;height:100%;border-radius:999px}
+  .pdcell .n{font-weight:800;width:42px;text-align:right}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .warn{background:rgba(228,199,106,.16);border:1px solid rgba(228,199,106,.55);border-radius:12px;padding:14px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .warn b{color:#9a7d1a}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  /* niveles (badges) */
+  .lvl{font-size:10px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+  .lvl.muyalto{color:#0f7a57;background:rgba(16,185,129,.18)}
+  .lvl.alto{color:#0f7a57;background:rgba(16,185,129,.12)}
+  .lvl.medioalto{color:#6b3fb0;background:rgba(77,36,143,.12)}
+  .lvl.medio{color:#9a7d1a;background:rgba(228,199,106,.28)}
+  .lvl.bajo{color:#6b7280;background:#eef0f6}
+  .lvl.rechazo{color:#c0392b;background:rgba(192,57,43,.12)}
+  .fl.muyalto{background:linear-gradient(90deg,#10b981,#34d399)}
+  .fl.medioalto{background:var(--gradv)}
+  .fl.medio{background:linear-gradient(90deg,#e4c76a,#e8b34a)}
+  .fl.bajo{background:#c6c9d7}
+  .fl.rechazo{background:#e0a0a0}
+
+  /* perfil identificado */
+  .perfilbox{display:flex;align-items:center;gap:18px;border:1px solid var(--linea);border-radius:16px;padding:22px;background:linear-gradient(135deg,rgba(225,123,215,.06),rgba(107,225,227,.06))}
+  .perfilbox .tag{font-size:15px;font-weight:800;color:#fff;background:var(--gradv);padding:9px 18px;border-radius:999px;white-space:nowrap}
+  .perfilbox p{font-size:13.5px;color:#3a3d4d;line-height:1.55}
+
+  /* tarjeta de campo principal */
+  .acard{border:1px solid var(--linea);border-radius:14px;padding:20px;margin-bottom:16px;break-inside:avoid}
+  .acard .ah{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .acard .rank{font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--muted)}
+  .acard .ah b{font-size:17px}
+  .acard .ah .pd{font-size:22px;font-weight:800;color:var(--violeta);white-space:nowrap}
+  .acard .desc{font-size:13px;color:#3a3d4d;margin:4px 0 12px;line-height:1.5}
+  .acard .track{height:10px;background:#eef0f6;border-radius:999px;overflow:hidden;margin-bottom:14px}
+  .acard .track i{display:block;height:100%;border-radius:999px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .two .lbl{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .two p{font-size:12.8px;line-height:1.55;color:#3a3d4d}
+  .two .car{font-size:12.8px;line-height:1.7;color:var(--violeta);font-weight:600}
+  .acard .foot{font-size:11.5px;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--linea)}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}.footer .row{margin-top:6px}
+
+  @media print{body{background:#fff;padding:0}.toolbar{display:none}.doc{margin:0;max-width:100%;gap:0}.sheet{box-shadow:none;border-radius:0;break-after:page}.acard{break-inside:avoid}}
+  @media(max-width:620px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top"><div class="clogo"><span class="b">EC</span> Escencial Consultora</div><span class="conf">Informe confidencial</span></div>
+        <h1>Informe IPP-R</h1>
+        <div class="st">Inventario de Intereses y Preferencias Profesionales — Revisado · TEA Ediciones</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Validez</div><div class="v" style="color:#0f7a57">Válida · 99%</div></div>
+        <div class="it"><div class="k">Perfil</div><div class="v" style="color:var(--violeta)">Disperso</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el test</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test IPP-R?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo</b></li>
+          <li><span class="nn">3</span><b>Qué NO es el test (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">4</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Perfil de intereses</li>
+          <li><span class="nn">1</span><b>Validez y tipo de perfil</b></li>
+          <li><span class="nn">2</span><b>Campos de interés principal</b></li>
+          <li><span class="nn">3</span><b>Perfil completo (15 campos)</b></li>
+          <li><span class="nn">4</span><b>Menor interés, rechazo y desconocimiento</b></li>
+          <li><span class="nn">5</span><b>Consideraciones para la orientación</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el test</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Comprendiendo el test</span><span>1 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test IPP-R?</h2>
+        <p class="tx">El Inventario de Intereses y Preferencias Profesionales — Revisado (IPP-R) es un cuestionario de orientación vocacional diseñado para evaluar las <b>preferencias personales hacia diversos campos profesionales</b> de la actualidad.</p>
+        <p class="tx">La evaluación se compone de <b>180 ítems</b> distribuidos en <b>15 campos profesionales</b>, con 12 ítems por campo (6 orientados a "actividades" y 6 a "profesiones"). Para responder, el evaluado utiliza una escala de 4 puntos que refleja su nivel de afinidad: <i>No Conozco (0), Desagrado (1), Indiferencia (2) y Agrado (3)</i>. Entre los campos evaluados se encuentran Científico, Técnico, Sanitario, Jurídico-Social, Informática, y Turismo y Hostelería, entre otros.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Comprendiendo el test</span><span>2 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo</h2>
+        <p class="tx">El IPP-R es una obra desarrollada por <b>M.ª Victoria de la Cruz López</b> y publicada por <b>TEA Ediciones (2004/2010)</b>. Sus bases metodológicas y métricas se fundamentan en:</p>
+        <p class="tx"><b>Muestra normativa:</b> los baremos de referencia corresponden a una amplia muestra del nivel ESO-Bachillerato (N=1.256 sujetos, estandarizada por TEA Ediciones en 2010).</p>
+        <p class="tx"><b>Sistema de puntuación:</b> el instrumento calcula la Puntuación Directa (PD) sumando las respuestas de cada campo, con un máximo de 36 puntos por área, clasificando el interés en seis niveles, de "Muy alto" a "Muy bajo / Rechazo".</p>
+        <p class="tx"><b>Tipología de perfiles:</b> el algoritmo categoriza el perfil global según la distribución de los puntajes: <b>Plano</b> (sin preferencias marcadas), <b>Alto generalizado</b> (posible sesgo de aquiescencia), <b>Diferenciado</b> (campos claramente destacados) o <b>Disperso</b> (intereses distribuidos en varias áreas, reflejando versatilidad).</p>
+        <p class="tx"><b>Detección de discrepancias y desconocimiento:</b> el modelo aísla áreas primarias, secundarias y de rechazo, evalúa discrepancias significativas (diferencias mayores a 6 puntos) entre el agrado por la "actividad" frente a la "profesión", y señala los campos con muchas respuestas "No Conozco", advirtiendo que esto refleja posible <b>falta de información</b>, no necesariamente falta de interés.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Comprendiendo el test</span><span>3 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Qué NO es el test (y cómo evitar malos usos)</h2>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No evalúa aptitudes, nivel de inteligencia ni la probabilidad de éxito</b> en los estudios o en el ejercicio de una profesión. Identifica de manera exclusiva las áreas de mayor motivación e interés.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No representa una conclusión definitiva.</b> El perfil refleja los intereses actuales, que pueden evolucionar con la edad, la experiencia, el estudio y la exposición a nuevos entornos. Es un punto de partida, no un veredicto.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No debe emplearse como un veredicto aislado.</b> Los datos deben ser interpretados por un profesional cualificado y conviene complementarlos con entrevistas individuales, exploración directa del mercado laboral y, si es necesario, evaluación de aptitudes específicas.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Comprendiendo el test</span><span>4 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">Cada campo suma sus 12 ítems → <b>Puntuación Directa (PD)</b> de 0 a 36. Esa PD se clasifica en un nivel de interés:</p>
+        <table>
+          <thead><tr><th>PD por campo</th><th>Nivel de interés</th></tr></thead>
+          <tbody>
+            <tr><td>31 – 36</td><td>Muy alto</td></tr>
+            <tr><td>25 – 30</td><td>Alto</td></tr>
+            <tr><td>19 – 24</td><td>Medio-alto</td></tr>
+            <tr><td>13 – 18</td><td>Medio</td></tr>
+            <tr><td>7 – 12</td><td>Bajo</td></tr>
+            <tr><td>0 – 6</td><td>Muy bajo / Rechazo</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Cálculo exacto y sin IA.</b> Cada campo se desglosa en Actividades (AC, 0–18) y Profesiones (PR, 0–18). El sistema también cuenta los ítems "No Conozco" (NC) por campo y el tipo de perfil global, de forma determinista.</div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Perfil de intereses</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Perfil</span><span>Validez y perfil</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Validez y tipo de perfil</h2>
+        <p class="tx"><b>Validez: Válida.</b> 179/180 ítems respondidos (99%). Ítems "No Conozco": 43 (24%).</p>
+        <div class="warn"><b>⚠ Atención:</b> tiempo empleado muy corto (3 m 56 s, &lt; 10 min). Posible respuesta apresurada; conviene tenerlo en cuenta al interpretar.</div>
+        <div class="perfilbox" style="margin-top:8px">
+          <span class="tag">Perfil Disperso</span>
+          <p>El perfil muestra intereses distribuidos en varias áreas, lo que refleja versatilidad y apertura a distintas opciones. Puede ser una fortaleza para carreras interdisciplinarias o perfiles profesionales amplios.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Perfil</span><span>Interés principal</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Campos de interés principal</h2>
+        <p class="tx">Los tres campos con mayor puntuación directa constituyen el perfil vocacional primario.</p>
+
+        <div class="acard">
+          <div class="ah">
+            <div><div class="rank">#1 · MUY ALTO</div><b>💻 Informática</b></div>
+            <div class="pd">36<span style="font-size:13px;color:var(--muted)">/36</span></div>
+          </div>
+          <div class="desc">Tecnología, programación, sistemas informáticos y desarrollo de software.</div>
+          <div class="track"><i class="fl muyalto" style="width:100%"></i></div>
+          <div class="two">
+            <div><div class="lbl">Actividades representativas</div><p>Realizar tareas especializadas en informática. Programar aplicaciones. Crear sistemas para administración. Elaborar software de gestión. Informática aplicada a las comunicaciones.</p></div>
+            <div><div class="lbl">Carreras relacionadas</div><div class="car">Ingeniería en Sistemas · Desarrollo de Software · Ciberseguridad · Data Science · Diseño Web</div></div>
+          </div>
+          <div class="foot">PD Actividades: 18/18 · PD Profesiones: 18/18 · Ítems "No Conozco": 0</div>
+        </div>
+
+        <div class="acard">
+          <div class="ah">
+            <div><div class="rank">#2 · MEDIO-ALTO</div><b>🏛 Científico-Social · Humanidades</b></div>
+            <div class="pd">24<span style="font-size:13px;color:var(--muted)">/36</span></div>
+          </div>
+          <div class="desc">Comprensión de la historia, las culturas, los comportamientos sociales y el pensamiento humano.</div>
+          <div class="track"><i class="fl medioalto" style="width:66.7%"></i></div>
+          <div class="two">
+            <div><div class="lbl">Actividades representativas</div><p>Estudiar la actuación del ser humano a lo largo del tiempo. Interpretar o traducir textos. Estudiar los grupos humanos y sus relaciones. Aplicar conocimientos sobre arte.</p></div>
+            <div><div class="lbl">Carreras relacionadas</div><div class="car">Historia · Filosofía · Sociología · Antropología · Humanidades · Filología</div></div>
+          </div>
+          <div class="foot">PD Actividades: 12/18 · PD Profesiones: 12/18 · Ítems "No Conozco": 0</div>
+        </div>
+
+        <div class="acard">
+          <div class="ah">
+            <div><div class="rank">#3 · MEDIO</div><b>🔬 Científico</b></div>
+            <div class="pd">18<span style="font-size:13px;color:var(--muted)">/36</span></div>
+          </div>
+          <div class="desc">Investigación, experimentación y comprensión de fenómenos naturales y científicos.</div>
+          <div class="track"><i class="fl medio" style="width:50%"></i></div>
+          <div class="two">
+            <div><div class="lbl">Actividades representativas</div><p>Estudiar seres vivos, fenómenos geológicos y astronómicos. Aplicar conocimientos sobre las propiedades de la materia. Investigar el medio ambiente y los mares.</p></div>
+            <div><div class="lbl">Carreras relacionadas</div><div class="car">Biología · Química · Física · Ciencias Ambientales · Geología · Farmacia</div></div>
+          </div>
+          <div class="foot">PD Actividades: 7/18 · PD Profesiones: 11/18 · Ítems "No Conozco": 2</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Perfil</span><span>15 campos</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Perfil completo — todos los campos</h2>
+        <table>
+          <thead><tr><th>#</th><th>Campo profesional</th><th>PD</th><th>Nivel</th><th>AC / PR / NC</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>💻 Informática</td><td><div class="pdcell"><div class="mini"><i class="fl muyalto" style="width:100%"></i></div><span class="n">36</span></div></td><td><span class="lvl muyalto">Muy alto</span></td><td>18 / 18 / 0</td></tr>
+            <tr><td>2</td><td>🏛 Científico-Social. Humanidades</td><td><div class="pdcell"><div class="mini"><i class="fl medioalto" style="width:66.7%"></i></div><span class="n">24</span></div></td><td><span class="lvl medioalto">Medio-alto</span></td><td>12 / 12 / 0</td></tr>
+            <tr><td>3</td><td>🔬 Científico</td><td><div class="pdcell"><div class="mini"><i class="fl medio" style="width:50%"></i></div><span class="n">18</span></div></td><td><span class="lvl medio">Medio</span></td><td>7 / 11 / 2</td></tr>
+            <tr><td>4</td><td>🏥 Sanitario</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>5</td><td>💼 Empresarial. Administrativo</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>6</td><td>🌿 Agrario. Ambiental</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>7</td><td>🎨 Artístico-Plástico. Moda</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>8</td><td>🎭 Artístico-Musical. Espectáculo</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>9</td><td>🛡 Fuerzas Armadas. Seguridad</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>10</td><td>⚽ Deportivo</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>11</td><td>✈️ Turismo y Hostelería</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:33.3%"></i></div><span class="n">12</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>6 / 6 / 0</td></tr>
+            <tr><td>12</td><td>⚙️ Técnico</td><td><div class="pdcell"><div class="mini"><i class="fl bajo" style="width:30.6%"></i></div><span class="n">11</span></div></td><td><span class="lvl bajo">Bajo</span></td><td>2 / 9 / 6</td></tr>
+            <tr><td>13</td><td>⚖️ Jurídico-Social</td><td><div class="pdcell"><div class="mini"><i class="fl rechazo" style="width:3%"></i></div><span class="n">0</span></div></td><td><span class="lvl rechazo">Rechazo</span></td><td>0 / 0 / 12</td></tr>
+            <tr><td>14</td><td>📡 Comunicación-Información</td><td><div class="pdcell"><div class="mini"><i class="fl rechazo" style="width:3%"></i></div><span class="n">0</span></div></td><td><span class="lvl rechazo">Rechazo</span></td><td>0 / 0 / 12</td></tr>
+            <tr><td>15</td><td>🎓 Psicopedagógico</td><td><div class="pdcell"><div class="mini"><i class="fl rechazo" style="width:3%"></i></div><span class="n">0</span></div></td><td><span class="lvl rechazo">Rechazo</span></td><td>0 / 0 / 12</td></tr>
+          </tbody>
+        </table>
+        <p class="tx" style="font-size:12px;color:var(--muted);margin-top:8px">AC = Actividades (0–18) · PR = Profesiones (0–18) · NC = ítems respondidos "No Conozco".</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>IPP-R</b> · Perfil</span><span>Menor interés y orientación</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Menor interés, rechazo y desconocimiento</h2>
+
+        <h3 style="font-size:14px;margin:6px 0 8px;color:var(--violeta)">Campos de menor interés (Bajo)</h3>
+        <p class="tx" style="margin-bottom:8px">Sanitario · Empresarial-Administrativo · Agrario-Ambiental · Artístico-Plástico/Moda · Artístico-Musical/Espectáculo · Fuerzas Armadas/Seguridad · Deportivo · Turismo y Hostelería (12/36) · Técnico (11/36).</p>
+
+        <h3 style="font-size:14px;margin:14px 0 8px;color:#c0392b">Campos de rechazo (Muy bajo)</h3>
+        <p class="tx" style="margin-bottom:8px">Jurídico-Social · Comunicación-Información · Psicopedagógico (0/36). Esto <b>no implica incapacidad</b> para desarrollarse en estas áreas; refleja menor motivación actual hacia ellas.</p>
+
+        <div class="warn">
+          <b>📚 Desconocimiento importante.</b> Los siguientes campos tienen 3 o más ítems "No Conozco", lo que sugiere <b>falta de información</b> (no de interés) y conviene explorarlos antes de descartarlos: Técnico (6/12), Jurídico-Social (12/12), Comunicación-Información (12/12), Psicopedagógico (12/12).
+        </div>
+
+        <span class="eyebrow" style="margin-top:24px">Sección 5</span>
+        <h2 class="sec">Consideraciones para la orientación</h2>
+        <p class="tx">Los resultados del IPP-R son el <b>punto de partida</b> de un proceso de orientación, no su conclusión. El perfil refleja los intereses actuales, que pueden evolucionar con la experiencia, el estudio y la exposición a nuevos entornos profesionales.</p>
+        <p class="tx">Se recomienda complementar estos resultados con entrevistas individuales, exploración directa de las áreas de interés identificadas y, cuando sea pertinente, evaluación de aptitudes específicas para las carreras de mayor atracción.</p>
+        <div class="callout"><b>Nota técnica.</b> Informe generado a partir de las respuestas al IPP-R (M.ª Victoria de la Cruz López, TEA Ediciones, 2004/2010). Los niveles de interés se expresan en puntuación directa (PD) sobre 36 por campo; baremos de referencia: muestra normativa ESO–Bachillerato (N=1.256, 2010). El IPP-R no evalúa aptitudes, inteligencia ni probabilidad de éxito. Debe ser interpretado por un profesional cualificado en orientación vocacional.</div>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Documento confidencial de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

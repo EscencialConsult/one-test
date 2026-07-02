@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Escencial Consultora · Plataforma de Evaluación de Talento | PACK ONE MATCH</title>
+<meta name="description" content="Plataforma de evaluación de talento: tests psicotécnicos, psicométricos, psicolaborales y vocacionales validados. Informes profesionales, cálculo exacto y resultados confidenciales." />
+<style>
+  :root{
+    --negro:#000000; --tinta:#1a181d; --blanco:#fefeff;
+    --rosa:#e17bd7; --cian:#6be1e3; --oro:#e4c76a; --violeta:#4d248f;
+    --muted:#a4a8c0; --linea:#c6c9d7;
+    --grad:linear-gradient(135deg,#e17bd7 0%,#6be1e3 100%);
+    --sombra:0 22px 60px -22px rgba(26,24,29,.28); --radio:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--negro);position:relative;overflow-x:hidden;background:var(--blanco)}
+  .bg{position:fixed;inset:0;z-index:-3;overflow:hidden}
+  .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;animation:float 20s ease-in-out infinite}
+  .blob.a{width:520px;height:520px;background:radial-gradient(circle,#e17bd7,transparent 68%);top:-160px;left:-120px}
+  .blob.b{width:480px;height:480px;background:radial-gradient(circle,#6be1e3,transparent 68%);top:-120px;right:-130px;animation-delay:-7s}
+  .blob.c{width:460px;height:460px;background:radial-gradient(circle,#e4c76a,transparent 70%);top:60%;left:40%;opacity:.35;animation-delay:-13s}
+  @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(70px,50px) scale(1.12)}66%{transform:translate(-50px,30px) scale(.92)}}
+  .veil{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(254,254,255,.34),rgba(254,254,255,.74))}
+  .plexus{position:fixed;inset:0;z-index:-1;width:100%;height:100%;opacity:.42}
+
+  .ico{width:24px;height:24px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+  /* NAV */
+  .topnav{position:sticky;top:0;z-index:30;background:rgba(254,254,255,.78);backdrop-filter:blur(12px);border-bottom:1px solid rgba(198,201,215,.55)}
+  .topnav .in{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand .logoimg{height:38px;display:block}
+  .swirl{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 200deg,#6be1e3,#e17bd7,#e4c76a,#6be1e3);-webkit-mask:radial-gradient(circle,#000 55%,transparent 56%);mask:radial-gradient(circle,#000 55%,transparent 56%)}
+  .links{display:flex;gap:30px}
+  .links a{color:var(--tinta);text-decoration:none;font-size:14px;font-weight:600;opacity:.72;transition:.2s}
+  .links a:hover{opacity:1;color:var(--violeta)}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:12px;transition:.2s;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.prim{background:var(--grad);color:#fff;box-shadow:0 14px 30px -12px rgba(225,123,215,.85)}
+  .btn.dark{background:var(--violeta);color:#fff}
+  .btn.ghost{background:#fff;color:var(--tinta);border:1.5px solid var(--linea)}
+
+  /* HERO */
+  .hero{text-align:center;padding:72px 0 56px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;color:var(--violeta);
+    background:rgba(77,36,143,.08);border:1px solid rgba(77,36,143,.2);padding:8px 16px;border-radius:999px;margin-bottom:24px}
+  .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--cian)}
+  .hero h1{font-size:54px;line-height:1.05;letter-spacing:-1px;margin-bottom:18px}
+  .hero h1 .c{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .lead{font-size:17px;color:var(--tinta);opacity:.72;max-width:620px;margin:0 auto 38px;line-height:1.65}
+
+  .roles{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:720px;margin:0 auto}
+  .role{position:relative;background:rgba(255,255,255,.88);border:1px solid var(--linea);border-radius:var(--radio);box-shadow:var(--sombra);
+    padding:26px;text-align:left;cursor:pointer;transition:.22s;overflow:hidden}
+  .role::after{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:var(--grad);opacity:0;transition:.22s}
+  .role:hover{transform:translateY(-4px);border-color:transparent}.role:hover::after{opacity:1}
+  .roleic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;color:#fff;margin-bottom:16px}
+  .roleic.ev{background:var(--grad)}.roleic.ad{background:linear-gradient(135deg,#4d248f,#e17bd7)}
+  .roleic .ico{width:26px;height:26px}
+  .role h3{font-size:19px;margin-bottom:6px}
+  .role p{font-size:13px;color:var(--tinta);opacity:.7;line-height:1.5;margin-bottom:16px;min-height:38px}
+  .role .act{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--violeta)}
+  .role .act .ico{width:17px;height:17px}
+
+  /* SECCIONES */
+  .sec{padding:64px 0}
+  .sech{text-align:center;max-width:640px;margin:0 auto 44px}
+  .sech .eb{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);opacity:.8}
+  .sech h2{font-size:34px;letter-spacing:-.5px;margin:12px 0 12px}
+  .sech p{font-size:15.5px;color:var(--tinta);opacity:.7;line-height:1.6}
+  .card{background:rgba(255,255,255,.86);border:1px solid var(--linea);border-radius:18px;box-shadow:var(--sombra)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .feat{padding:26px}
+  .feat .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;margin-bottom:16px;color:var(--violeta)}
+  .ic.r{background:rgba(225,123,215,.14)}.ic.c{background:rgba(107,225,227,.16)}.ic.o{background:rgba(228,199,106,.22)}.ic.v{background:rgba(77,36,143,.1)}
+  .feat h3{font-size:17px;margin-bottom:8px}
+  .feat p{font-size:13.5px;color:var(--tinta);opacity:.72;line-height:1.55}
+
+  /* QUÉ ES */
+  .about{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .about h2{font-size:32px;letter-spacing:-.5px;margin-bottom:16px}
+  .about p{font-size:15.5px;color:var(--tinta);opacity:.78;line-height:1.7;margin-bottom:14px}
+  .checks{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:12px}
+  .checks li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;font-weight:600}
+  .checks .ico{width:22px;height:22px;color:#1b9aa0;flex:none;margin-top:1px}
+  .aboutart{padding:30px}
+  .stat{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--linea)}
+  .stat:last-child{border-bottom:0}
+  .stat .n{font-size:30px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;min-width:84px}
+  .stat .t{font-size:13.5px;color:var(--tinta);opacity:.75;line-height:1.4}
+
+  /* PASOS */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:s}
+  .step{padding:26px;position:relative}
+  .step .num{counter-increment:s;width:34px;height:34px;border-radius:10px;background:var(--violeta);color:#fff;font-weight:800;display:grid;place-items:center;margin-bottom:14px}
+  .step .num::before{content:counter(s)}
+  .step .ic{width:24px;height:24px;color:var(--violeta);margin-bottom:10px}
+  .step h3{font-size:16px;margin-bottom:6px}
+  .step p{font-size:13px;color:var(--tinta);opacity:.72;line-height:1.5}
+
+  /* CTA band */
+  .ctaband{margin:24px 0 0;border-radius:28px;padding:48px;text-align:center;color:#fff;
+    background:linear-gradient(135deg,#4d248f 0%,#e17bd7 60%,#6be1e3 130%);box-shadow:var(--sombra)}
+  .ctaband h2{font-size:30px;margin-bottom:10px}
+  .ctaband p{opacity:.92;font-size:15px;margin-bottom:26px}
+  .ctaband .btn{background:#fff;color:var(--violeta);padding:15px 28px;font-size:15px}
+
+  /* FOOTER */
+  footer{margin-top:60px;border-top:1px solid var(--linea);background:rgba(254,254,255,.7)}
+  .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;padding:46px 0 30px}
+  .foot h4{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px}
+  .foot a{display:block;color:var(--tinta);opacity:.7;text-decoration:none;font-size:14px;margin-bottom:9px}
+  .foot a:hover{opacity:1;color:var(--violeta)}
+  .foot .desc{font-size:13.5px;color:var(--tinta);opacity:.7;line-height:1.6;margin-top:12px;max-width:280px}
+  .copy{text-align:center;padding:18px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--linea)}
+
+  /* LOGIN */
+  .overlay{position:fixed;inset:0;background:rgba(26,24,29,.45);backdrop-filter:blur(4px);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
+  .overlay.on{display:flex}
+  .modal{width:404px;max-width:100%;background:var(--blanco);border-radius:24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.5);padding:30px;position:relative}
+  .modal .x{position:absolute;top:14px;right:16px;border:0;background:transparent;cursor:pointer;color:var(--muted)}
+  .modal .mhead{display:flex;justify-content:center;margin-bottom:6px}
+  .modal .ic2{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:#fff}
+  .modal h2{text-align:center;font-size:20px;margin-top:10px}
+  .modal .msub{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 22px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px}
+  .inwrap{position:relative;display:flex;align-items:center}
+  .inwrap .ico{position:absolute;left:13px;width:18px;height:18px;color:var(--muted)}
+  .field input{width:100%;padding:13px 14px 13px 40px;border:1.5px solid var(--linea);border-radius:12px;font-size:14px;background:#fff}
+  .field input:focus{outline:0;border-color:var(--rosa);box-shadow:0 0 0 4px rgba(225,123,215,.14)}
+  .modal .btn{width:100%;padding:15px;margin-top:4px}
+  .forgot{text-align:center;margin-top:14px}.forgot a{color:var(--violeta);font-size:13px;font-weight:600;text-decoration:none}
+
+  @media(max-width:900px){.grid4,.steps{grid-template-columns:1fr 1fr}.about{grid-template-columns:1fr;gap:26px}.foot{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.roles,.grid3,.grid4,.steps,.foot{grid-template-columns:1fr}.hero h1{font-size:38px}.links{display:none}}
+</style>
+</head>
+<body>
+  <div class="bg"><div class="blob a"></div><div class="blob b"></div><div class="blob c"></div></div>
+  <div class="veil"></div><svg class="plexus" id="plexus" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-user"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></g>
+    <g id="i-brief"><rect x="3" y="7.5" width="18" height="12.5" rx="2.2"/><path d="M8.5 7.5V5.8A1.8 1.8 0 0 1 10.3 4h3.4a1.8 1.8 0 0 1 1.8 1.8v1.7"/><path d="M3 12.5h18"/></g>
+    <g id="i-arrow"><path d="M5 12h13"/><path d="M12.5 6l6 6-6 6"/></g>
+    <g id="i-lock"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></g>
+    <g id="i-chart"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 20v-6"/><path d="M13 20v-9"/><path d="M18 20v-4"/></g>
+    <g id="i-shield"><path d="M12 3.5l7.5 2.8v5.2c0 4.6-3.2 7.4-7.5 8.5-4.3-1.1-7.5-3.9-7.5-8.5V6.3z"/></g>
+    <g id="i-mail"><rect x="3.5" y="5.5" width="17" height="13" rx="2.2"/><path d="M4 7l8 6 8-6"/></g>
+    <g id="i-help"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.8.5-1.1 1-1.1 1.8"/><path d="M12 17h.01"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+    <g id="i-clip"><rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2.6" width="6" height="3.4" rx="1.2"/><path d="M9 11h6M9 15h5"/></g>
+    <g id="i-spark"><path d="M12 3v5M12 16v5M3 12h5M16 12h5M6.5 6.5l3 3M14.5 14.5l3 3M17.5 6.5l-3 3M9.5 14.5l-3 3"/></g>
+    <g id="i-target"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.4"/></g>
+    <g id="i-users"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.3a3.2 3.2 0 0 1 0 6"/><path d="M21 19c0-2.3-1.6-4-4-4.6"/></g>
+    <g id="i-doc"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h5"/></g>
+    <g id="i-send"><path d="M21 4L3 11l6 2.5L11.5 20 21 4z"/><path d="M9 13.5L21 4"/></g>
+    <g id="i-pencil"><path d="M4 20l4-1L19 8l-3-3L5 16l-1 4z"/><path d="M14.5 6.5l3 3"/></g>
+    <g id="i-calc"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 15h.01M12 15h.01M15.5 15h.01"/></g>
+    <g id="i-check"><path d="M5 12.5l4.5 4.5L19 7"/></g>
+  </defs></svg>
+
+  <nav class="topnav"><div class="wrap in">
+    <div class="brand">
+      <img class="logoimg" src="assets/one-logo.png" alt="ONE" onerror="this.style.display='none';document.getElementById('lfb').style.display='inline-block'" />
+      <span id="lfb" class="swirl" style="display:none"></span>
+    </div>
+    <div class="links"><a href="#plataforma">Plataforma</a><a href="#evaluaciones">Evaluaciones</a><a href="#como">Cómo funciona</a><a href="#contacto">Contacto</a></div>
+    <button class="btn ghost" onclick="openLogin('admin')">Acceder</button>
+  </div></nav>
+
+  <!-- HERO + ACCESO -->
+  <header class="hero"><div class="wrap">
+    <span class="eyebrow"><span class="dot"></span> Plataforma de evaluación de talento</span>
+    <h1>Decisiones de talento<br><span class="c">con base en evidencia.</span></h1>
+    <p class="lead">Centralizá tests psicotécnicos, psicométricos, psicolaborales y vocacionales en un solo lugar. Aplicación guiada, cálculo exacto e informes profesionales — sin planillas y sin improvisar.</p>
+    <div class="roles">
+      <div class="role" onclick="openLogin('evaluado')">
+        <div class="roleic ev"><svg class="ico"><use href="#i-user"/></svg></div>
+        <h3>Soy evaluado</h3><p>Realizá las pruebas que tu empresa te asignó.</p>
+        <span class="act">Iniciar evaluación <svg class="ico"><use href="#i-arrow"/></svg></span>
+      </div>
+      <div class="role" onclick="openLogin('admin')">
+        <div class="roleic ad"><svg class="ico"><use href="#i-brief"/></svg></div>
+        <h3>Soy administrador</h3><p>Gestioná evaluados, asignaciones y resultados.</p>
+        <span class="act">Acceder al panel <svg class="ico"><use href="#i-arrow"/></svg></span>
+      </div>
+    </div>
+  </div></header>
+
+  <!-- QUÉ ES -->
+  <section class="sec" id="plataforma"><div class="wrap about">
+    <div>
+      <div class="sech" style="text-align:left;margin:0 0 4px"><span class="eb">La plataforma</span></div>
+      <h2>Toda tu batería de evaluaciones, centralizada</h2>
+      <p>Reemplazamos las planillas y los procesos manuales por una plataforma robusta y segura. Cada empresa gestiona sus evaluados, asigna pruebas y obtiene informes claros, mientras el sistema calcula puntajes y baremos de forma exacta.</p>
+      <p>La interpretación de cada test se basa en su lógica validada por profesionales — los resultados son reales, no generados por inteligencia artificial.</p>
+      <ul class="checks">
+        <li><svg class="ico"><use href="#i-check"/></svg> Cálculo de puntajes y percentiles idéntico a las matrices originales.</li>
+        <li><svg class="ico"><use href="#i-check"/></svg> Aislamiento y confidencialidad de los datos de cada empresa.</li>
+        <li><svg class="ico"><use href="#i-check"/></svg> Informes profesionales con gráficos, listos para descargar.</li>
+      </ul>
+    </div>
+    <div class="card aboutart">
+      <div class="stat"><span class="n">18+</span><span class="t">Tests validados: psicotécnicos, psicométricos, psicolaborales y vocacionales.</span></div>
+      <div class="stat"><span class="n">100%</span><span class="t">Cálculo determinista, sin IA en el resultado individual.</span></div>
+      <div class="stat"><span class="n">360°</span><span class="t">Evaluaciones de desempeño con feedback multi-fuente.</span></div>
+    </div>
+  </div></section>
+
+  <!-- TIPOS DE EVALUACIONES -->
+  <section class="sec" id="evaluaciones"><div class="wrap">
+    <div class="sech"><span class="eb">Evaluaciones</span><h2>Una batería completa</h2>
+      <p>Seleccioná las pruebas según el perfil y el objetivo de cada proceso.</p></div>
+    <div class="grid3">
+      <div class="card feat"><div class="ic r"><svg class="ico"><use href="#i-clip"/></svg></div><h3>Psicotécnicas</h3><p>Aptitudes y razonamiento: lógica, atención, capacidad espacial y numérica.</p></div>
+      <div class="card feat"><div class="ic c"><svg class="ico"><use href="#i-spark"/></svg></div><h3>Psicométricas</h3><p>Personalidad e inteligencia emocional con baremos e interpretación por dimensión.</p></div>
+      <div class="card feat"><div class="ic v"><svg class="ico"><use href="#i-brief"/></svg></div><h3>Psicolaborales</h3><p>Competencias y perfiles orientados al desempeño y la selección.</p></div>
+      <div class="card feat"><div class="ic o"><svg class="ico"><use href="#i-target"/></svg></div><h3>Vocacionales</h3><p>Intereses y orientación profesional para decisiones de carrera.</p></div>
+      <div class="card feat"><div class="ic c"><svg class="ico"><use href="#i-users"/></svg></div><h3>Evaluación 360°</h3><p>Feedback de pares, líderes y reportes, con anonimato y mapa de brechas.</p></div>
+      <div class="card feat"><div class="ic r"><svg class="ico"><use href="#i-doc"/></svg></div><h3>Informes consolidados</h3><p>Cruce de varios tests en una devolución ejecutiva clara y accionable.</p></div>
+    </div>
+  </div></section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="sec" id="como"><div class="wrap">
+    <div class="sech"><span class="eb">Cómo funciona</span><h2>Del alta al informe, en 4 pasos</h2></div>
+    <div class="steps">
+      <div class="card step"><div class="num"></div><svg class="ico"><use href="#i-send"/></svg><h3>Asignación</h3><p>La empresa carga al evaluado y le asigna las pruebas; recibe sus credenciales por correo.</p></div>
+      <div class="card step"><div class="num"></div><svg class="ico"><use href="#i-pencil"/></svg><h3>Evaluación</h3><p>El evaluado realiza los tests en una interfaz guiada, sin distracciones.</p></div>
+      <div class="card step"><div class="num"></div><svg class="ico"><use href="#i-calc"/></svg><h3>Cálculo</h3><p>El sistema procesa baremos y percentiles de forma exacta, al instante.</p></div>
+      <div class="card step"><div class="num"></div><svg class="ico"><use href="#i-doc"/></svg><h3>Informe</h3><p>La empresa accede al informe completo y lo descarga en PDF profesional.</p></div>
+    </div>
+  </div></section>
+
+  <!-- BENEFICIOS -->
+  <section class="sec"><div class="wrap">
+    <div class="sech"><span class="eb">Por qué elegirnos</span><h2>Precisión, claridad y seguridad</h2></div>
+    <div class="grid4">
+      <div class="card feat"><div class="ic v"><svg class="ico"><use href="#i-chart"/></svg></div><h3>Cálculo exacto</h3><p>Resultados deterministas, idénticos a las matrices validadas.</p></div>
+      <div class="card feat"><div class="ic r"><svg class="ico"><use href="#i-shield"/></svg></div><h3>Confidencial</h3><p>Datos aislados por empresa y resguardados con altos estándares.</p></div>
+      <div class="card feat"><div class="ic c"><svg class="ico"><use href="#i-doc"/></svg></div><h3>Informes claros</h3><p>Gráficos e interpretaciones profesionales, listos para usar.</p></div>
+      <div class="card feat"><div class="ic o"><svg class="ico"><use href="#i-lock"/></svg></div><h3>Acceso seguro</h3><p>Autenticación individual y control de cada evaluación.</p></div>
+    </div>
+  </div></section>
+
+  <!-- CTA -->
+  <section class="sec" style="padding-top:10px"><div class="wrap"><div class="ctaband">
+    <h2>¿Listo para evaluar con precisión?</h2>
+    <p>Accedé a tu espacio o solicitá una demostración para tu empresa.</p>
+    <button class="btn" onclick="openLogin('admin')">Acceder al panel <svg class="ico" style="width:18px;height:18px"><use href="#i-arrow"/></svg></button>
+  </div></div></section>
+
+  <!-- FOOTER -->
+  <footer id="contacto"><div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand"><span class="swirl"></span><b style="font-size:18px">Escencial Consultora</b></div>
+        <p class="desc">Plataforma de evaluación de talento impulsada por PACK ONE MATCH. Tests validados, cálculo exacto e informes profesionales.</p>
+      </div>
+      <div><h4>Plataforma</h4><a href="#plataforma">Qué es</a><a href="#evaluaciones">Evaluaciones</a><a href="#como">Cómo funciona</a></div>
+      <div><h4>Acceso</h4><a href="#" onclick="openLogin('evaluado')">Soy evaluado</a><a href="#" onclick="openLogin('admin')">Soy administrador</a><a href="#">Ayuda</a></div>
+      <div><h4>Contacto</h4><a href="#"><svg class="ico" style="width:15px;height:15px;display:inline;vertical-align:-2px"><use href="#i-mail"/></svg> hola@escencial.com</a><a href="#">Solicitar demo</a></div>
+    </div>
+    <div class="copy">© 2026 Escencial Consultora · Plataforma PACK ONE MATCH. Todos los derechos reservados.</div>
+  </div></footer>
+
+  <!-- LOGIN -->
+  <div class="overlay" id="ov">
+    <div class="modal">
+      <button class="x" onclick="closeLogin()"><svg class="ico"><use href="#i-x"/></svg></button>
+      <div class="mhead"><div class="ic2" id="mic"><svg class="ico"><use href="#i-user"/></svg></div></div>
+      <h2 id="mtitle">Acceso del evaluado</h2>
+      <p class="msub" id="msub">Ingresá con las credenciales que te envió la empresa</p>
+      <div class="field"><label>Correo electrónico</label>
+        <div class="inwrap"><svg class="ico"><use href="#i-mail"/></svg><input type="email" placeholder="tu@correo.com" /></div></div>
+      <div class="field"><label>Contraseña</label>
+        <div class="inwrap"><svg class="ico"><use href="#i-lock"/></svg><input type="password" placeholder="••••••••" /></div></div>
+      <button class="btn dark">Ingresar <svg class="ico" style="width:18px;height:18px"><use href="#i-arrow"/></svg></button>
+      <div class="forgot"><a href="#">Olvidé mi contraseña</a></div>
+    </div>
+  </div>
+
+<script>
+  (function plexus(){
+    var ns="http://www.w3.org/2000/svg", svg=document.getElementById('plexus');
+    function build(){
+      var W=innerWidth,H=innerHeight; svg.setAttribute('viewBox','0 0 '+W+' '+H);
+      while(svg.firstChild) svg.removeChild(svg.firstChild);
+      var N=Math.max(30,Math.min(70,Math.round(W*H/24000))), p=[];
+      for(var i=0;i<N;i++) p.push({x:Math.random()*W,y:Math.random()*H});
+      var maxd=Math.min(W,H)*0.20, seen={};
+      function addLine(a,b){var k=a<b?a+'_'+b:b+'_'+a;if(seen[k])return;seen[k]=1;
+        var dx=p[a].x-p[b].x,dy=p[a].y-p[b].y,d=Math.sqrt(dx*dx+dy*dy),ln=document.createElementNS(ns,'line');
+        ln.setAttribute('x1',p[a].x.toFixed(1));ln.setAttribute('y1',p[a].y.toFixed(1));
+        ln.setAttribute('x2',p[b].x.toFixed(1));ln.setAttribute('y2',p[b].y.toFixed(1));
+        ln.setAttribute('stroke','#4d248f');ln.setAttribute('stroke-width','1.1');
+        ln.setAttribute('stroke-opacity',Math.max(0.10,(0.4*(1-d/(maxd*1.6)))).toFixed(3));svg.appendChild(ln);}
+      for(var i=0;i<N;i++){var arr=[];for(var j=0;j<N;j++) if(j!==i){var dx=p[i].x-p[j].x,dy=p[i].y-p[j].y;arr.push([dx*dx+dy*dy,j]);}
+        arr.sort(function(a,b){return a[0]-b[0];});for(var k=0;k<3&&k<arr.length;k++) addLine(i,arr[k][1]);}
+      for(var i=0;i<N;i++){var c=document.createElementNS(ns,'circle');
+        c.setAttribute('cx',p[i].x.toFixed(1));c.setAttribute('cy',p[i].y.toFixed(1));
+        c.setAttribute('r',(Math.random()*1.3+1.2).toFixed(1));c.setAttribute('fill','#4d248f');c.setAttribute('fill-opacity','0.6');svg.appendChild(c);}
+    }
+    build();var t;addEventListener('resize',function(){clearTimeout(t);t=setTimeout(build,200);});
+  })();
+  function openLogin(role){
+    var ev=role==='evaluado';
+    document.getElementById('mtitle').textContent= ev?'Acceso del evaluado':'Acceso del administrador';
+    document.getElementById('msub').textContent= ev?'Ingresá con las credenciales que te envió la empresa':'Ingresá para gestionar evaluaciones y resultados';
+    document.getElementById('mic').style.background= ev?'linear-gradient(135deg,#e17bd7,#6be1e3)':'linear-gradient(135deg,#4d248f,#e17bd7)';
+    document.getElementById('mic').querySelector('use').setAttribute('href', ev?'#i-user':'#i-brief');
+    document.getElementById('ov').classList.add('on');
+  }
+  function closeLogin(){document.getElementById('ov').classList.remove('on');}
+  document.getElementById('ov').addEventListener('click',function(e){if(e.target===this)closeLogin();});
+</script>
+</body>
+</html>

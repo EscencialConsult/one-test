@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe STAI — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:840px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:28px;margin-bottom:6px}
+  .hcover .st{font-size:13.5px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:10px 11px;font-size:12.5px;border-bottom:1px solid var(--linea);vertical-align:middle}
+  thead th{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td.c{text-align:center}
+  .mini-t th,.mini-t td{padding:7px 9px;font-size:11.5px}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .alert{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.3px;line-height:1.6}
+  .alert b{color:#c0392b}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
+  .stat{border:1px solid var(--linea);border-radius:14px;padding:20px;text-align:center}
+  .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .stat .v{font-size:40px;font-weight:800;color:var(--violeta);line-height:1;margin-top:6px}
+  .stat .sub{font-size:12px;color:var(--muted);margin-top:4px}
+  .lvlpill{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;color:#0f9d6b;background:rgba(16,185,129,.16)}
+
+  .interp{border-left:4px solid var(--cian);background:rgba(107,225,227,.07);border-radius:0 10px 10px 0;padding:15px 18px;margin-bottom:14px}
+  .interp .t{font-size:13px;font-weight:800;color:#178a8f;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+  .interp p{font-size:13.5px;line-height:1.6;color:#3a3d4d}
+
+  /* factores */
+  .fcard{border:1px solid var(--linea);border-radius:13px;padding:16px 18px;margin-bottom:12px}
+  .fcard .fh{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .fcard .fh b{font-size:14.5px}
+  .fcard .fh .pc{font-size:18px;font-weight:800}
+  .fcard p{font-size:12.5px;color:#3a3d4d;line-height:1.5;margin:5px 0 10px}
+  .fcard .track{height:9px;background:#eef0f6;border-radius:999px;overflow:hidden}
+  .fcard .track i{display:block;height:100%;border-radius:999px}
+  .afir .pc{color:#c0392b}.afir .track i{background:linear-gradient(90deg,#e3556a,#ef8b9b)}
+  .nega .pc{color:#0f9d6b}.nega .track i{background:linear-gradient(90deg,#10b981,#34d399)}
+  .fcard .q{font-size:11.5px;color:var(--muted);margin-top:6px}
+
+  .val{font-weight:800;text-align:center;width:42px}
+  .val.v0{color:#0f9d6b}.val.v1{color:#c4901a}.val.v2,.val.v3{color:#c0392b}
+  .inv{text-align:center;color:var(--violeta);font-weight:800}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}.footer .row{margin-top:6px}
+
+  @media print{body{background:#fff;padding:0}.toolbar{display:none}.doc{margin:0;max-width:100%;gap:0}.sheet{box-shadow:none;border-radius:0;break-after:page}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top"><div class="clogo"><span class="b">EC</span> Escencial Consultora</div><span class="conf">Informe confidencial</span></div>
+        <h1>Informe STAI</h1>
+        <div class="st">Cuestionario de Ansiedad Estado-Rasgo · Spielberger, Gorsuch y Lushene</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Ansiedad Estado</div><div class="v" style="color:#0f9d6b">12/60 · Bajo</div></div>
+        <div class="it"><div class="k">Ansiedad Rasgo</div><div class="v" style="color:#0f9d6b">5/60 · Bajo</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el test</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test STAI?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo</b></li>
+          <li><span class="nn">3</span><b>Qué NO es el test (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">4</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Resultados de la evaluación</li>
+          <li><span class="nn">1</span><b>Resultados generales y clasificación</b></li>
+          <li><span class="nn">2</span><b>Interpretación Estado y Rasgo</b></li>
+          <li><span class="nn">3</span><b>Análisis factorial (4 dimensiones)</b></li>
+          <li><span class="nn">4</span><b>Detalle ítem por ítem</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el test</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Comprendiendo el test</span><span>1 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test STAI?</h2>
+        <p class="tx">El Cuestionario de Ansiedad Estado-Rasgo (STAI, <i>State-Trait Anxiety Inventory</i>) es un instrumento diseñado para evaluar dos conceptos independientes de la ansiedad. Consta de <b>40 preguntas</b> puntuadas de 0 a 3 (máximo 60 por escala), divididas en dos bloques de 20 ítems:</p>
+        <p class="tx"><b>Ansiedad Estado (A/E):</b> mide cómo se siente la persona <b>ahora mismo</b>, en el momento de la evaluación. Es una condición emocional transitoria —tensión y aprensión— que puede variar con el tiempo y fluctuar en intensidad.</p>
+        <p class="tx"><b>Ansiedad Rasgo (A/R):</b> mide cómo se siente la persona <b>generalmente</b>. Indica una propensión ansiosa relativamente estable y la tendencia habitual a percibir las situaciones como amenazadoras, reflejando la tolerancia general al estrés.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Comprendiendo el test</span><span>2 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo</h2>
+        <p class="tx">El test fue creado por <b>C. D. Spielberger, R. L. Gorsuch y R. E. Lushene</b> y publicado por Consulting Psychologists Press. La adaptación y tipificación en población de habla hispana fue realizada por la Sección de Estudios de TEA Ediciones. Sus bases incluyen:</p>
+        <p class="tx"><b>Alta fiabilidad estadística:</b> los coeficientes de consistencia interna (KR-20) en la adaptación española oscilan entre 0,84 y 0,93.</p>
+        <p class="tx"><b>Baremos diferenciados:</b> las puntuaciones directas se convierten en percentiles según una muestra normativa de adultos (N=1.109), con tablas <b>diferenciadas por sexo</b> (varones y mujeres).</p>
+        <p class="tx"><b>Categorización:</b> los resultados ubican a la persona en uno de cinco niveles: Bajo, Tendencia Promedio, Promedio, Sobre promedio y Alto.</p>
+        <p class="tx"><b>Análisis factorial:</b> el modelo descompone cada escala en factores "Afirmativos" (tensión, melancolía, preocupación) y "Negativos" (bienestar, animación, estabilidad emocional).</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Comprendiendo el test</span><span>3 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Qué NO es el test (y cómo evitar malos usos)</h2>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No evalúa la ansiedad como un bloque único.</b> Distingue entre un episodio de estrés puntual y una propensión estable; por eso incluye ítems directos e inversos para controlar el sesgo de aquiescencia (tendencia a responder siempre afirmativamente).</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>Las escalas no deben leerse de forma aislada.</b> La relación comparativa entre Estado y Rasgo es la métrica clínica más importante: si la Ansiedad Estado es significativamente superior a la Rasgo, el sistema arroja una alerta, indicando una sobrecarga que supera los mecanismos de afrontamiento habituales.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No reemplaza el juicio clínico.</b> Los resultados deben ser interpretados por un profesional considerando el contexto global de la persona.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Comprendiendo el test</span><span>4 / 4</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">Cada ítem se puntúa de 0 a 3 en dirección-ansiedad. Los ítems redactados en sentido contrario (inversos) se invierten (3 − valor) antes de sumar. Se obtienen dos puntuaciones directas (0–60): Estado y Rasgo, que se clasifican por percentiles según el sexo.</p>
+        <div class="callout"><b>Cálculo exacto y sin IA.</b> Además de las dos escalas, el modelo descompone los resultados en 4 factores (EA, EN, RA, RN) y compara Estado vs. Rasgo de forma determinista. Los baremos por sexo se aplican según el caso.</div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Resultados de la evaluación</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Resultados</span><span>General</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Resultados generales y clasificación</h2>
+        <div class="stats">
+          <div class="stat"><div class="k">Ansiedad Estado (A/E)</div><div class="v">12<span style="font-size:15px;color:var(--muted)">/60</span></div><div class="sub">cómo se sentía en el momento</div></div>
+          <div class="stat"><div class="k">Ansiedad Rasgo (A/R)</div><div class="v">5<span style="font-size:15px;color:var(--muted)">/60</span></div><div class="sub">cómo se siente en general</div></div>
+        </div>
+        <p class="tx" style="font-size:12.5px;color:var(--muted);margin-top:12px">Los baremos del STAI difieren según el sexo; se presentan ambas clasificaciones para aplicar la que corresponda.</p>
+        <table class="mini-t">
+          <thead><tr><th>Escala</th><th>PD</th><th>Categoría (Varón)</th><th>Percentil (V)</th><th>Categoría (Mujer)</th><th>Percentil (M)</th></tr></thead>
+          <tbody>
+            <tr><td><b>A/E — Estado</b></td><td>12</td><td><span class="lvlpill">Bajo</span></td><td>20</td><td><span class="lvlpill">Bajo</span></td><td>15</td></tr>
+            <tr><td><b>A/R — Rasgo</b></td><td>5</td><td><span class="lvlpill">Bajo</span></td><td>1</td><td><span class="lvlpill">Bajo</span></td><td>1</td></tr>
+          </tbody>
+        </table>
+        <div class="alert">
+          <b>⚠ Alerta: Ansiedad Estado superior a Ansiedad Rasgo.</b> La puntuación de Ansiedad Estado (12) es superior a la de Ansiedad Rasgo (5) — <b>7 puntos de diferencia</b>. El modelo marca esta configuración como clínicamente significativa: la persona estaría experimentando un nivel de ansiedad actual que supera su tolerancia habitual al estrés (posible sobrecarga situacional). Se recomienda intervención o seguimiento profesional para contextualizar el dato, considerando que ambas puntuaciones se ubican en rango bajo.
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Resultados</span><span>Interpretación</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Interpretación Estado y Rasgo</h2>
+
+        <div class="interp">
+          <div class="t">Ansiedad Estado (A/E) — Bajo · P15 (mujer) / P20 (varón)</div>
+          <p>La Ansiedad Estado evalúa cómo se sentía la persona en el momento de la evaluación; es una medida transitoria. El nivel se sitúa en un rango <b>bajo</b>, lo que indica escasa tensión, nerviosismo o aprensión en ese momento. Refleja un estado emocional de calma y bienestar, ausencia de estresores significativos o una adecuada capacidad de regulación emocional.</p>
+        </div>
+        <div class="interp">
+          <div class="t">Ansiedad Rasgo (A/R) — Bajo · P1</div>
+          <p>La Ansiedad Rasgo evalúa la propensión ansiosa relativamente estable. El nivel se encuentra en un rango <b>bajo</b>, lo que sugiere una baja propensión general a experimentar ansiedad: tiende a percibir las situaciones cotidianas como poco amenazantes y cuenta con recursos de afrontamiento estables. Indica estabilidad emocional y buena tolerancia al estrés.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Resultados</span><span>Factores</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Análisis factorial (4 dimensiones)</h2>
+        <p class="tx">Cada escala se descompone en un factor afirmativo de ansiedad (tensión, preocupación) y uno negativo (bienestar, estabilidad).</p>
+
+        <div class="fcard afir">
+          <div class="fh"><b>EA · Estado Afirmativo</b><span class="pc">17%</span></div>
+          <p>Nerviosismo, tensión, preocupación e intranquilidad percibidos en el momento actual.</p>
+          <div class="track"><i style="width:17%"></i></div>
+          <div class="q">Puntuación: 5 de 30 (10 ítems)</div>
+        </div>
+        <div class="fcard nega">
+          <div class="fh"><b>EN · Estado Negativo</b><span class="pc">77%</span></div>
+          <p>Activación positiva, animación, bienestar, satisfacción y confianza en sí mismo en el momento actual.</p>
+          <div class="track"><i style="width:77%"></i></div>
+          <div class="q">Puntuación: 23 de 30 (10 ítems)</div>
+        </div>
+        <div class="fcard afir">
+          <div class="fh"><b>RA · Rasgo Afirmativo</b><span class="pc">13%</span></div>
+          <p>Melancolía, desesperanza y sentimientos de incapacidad como disposición habitual.</p>
+          <div class="track"><i style="width:13%"></i></div>
+          <div class="q">Puntuación: 5 de 39 (13 ítems)</div>
+        </div>
+        <div class="fcard nega">
+          <div class="fh"><b>RN · Rasgo Negativo</b><span class="pc">100%</span></div>
+          <p>Estabilidad emocional y ausencia de cambios de humor como disposición habitual.</p>
+          <div class="track"><i style="width:100%"></i></div>
+          <div class="q">Puntuación: 21 de 21 (7 ítems)</div>
+        </div>
+
+        <div class="callout"><b>Lectura factorial.</b> En los factores afirmativos (EA, RA), porcentajes altos indican mayor manifestación de síntomas ansiosos. En los negativos (EN, RN), porcentajes altos indican mayor bienestar y estabilidad (inversamente relacionado con la ansiedad). Lo esperable es <b>EA y RA bajos, con EN y RN altos</b> — patrón que se observa en este perfil.</div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>STAI</b> · Resultados</span><span>Detalle</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Detalle ítem por ítem</h2>
+        <h3 style="font-size:13px;font-weight:800;color:var(--violeta);margin:6px 0 8px">Parte I — Ansiedad Estado (cómo se sentía ahora mismo)</h3>
+        <table class="mini-t">
+          <thead><tr><th>Nº</th><th>Ítem</th><th class="c">Respuesta</th><th class="c">Valor</th><th class="c">Inv.</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Me siento calmado</td><td class="c">Algo</td><td class="val v2">2</td><td class="inv">↺</td></tr>
+            <tr><td>2</td><td>Me siento seguro</td><td class="c">Algo</td><td class="val v2">2</td><td class="inv">↺</td></tr>
+            <tr><td>3</td><td>Estoy tenso</td><td class="c">Bastante</td><td class="val v2">2</td><td class="c">—</td></tr>
+            <tr><td>4</td><td>Estoy contrariado</td><td class="c">Mucho</td><td class="val v3">3</td><td class="c">—</td></tr>
+            <tr><td>5</td><td>Me siento cómodo (estoy a gusto)</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>6</td><td>Me siento alterado</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>7</td><td>Estoy preocupado por posibles desgracias futuras</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>8</td><td>Me siento descansado</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>9</td><td>Me siento angustiado</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>10</td><td>Me siento confortable</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>11</td><td>Tengo confianza en mí mismo</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>12</td><td>Me siento nervioso</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>13</td><td>Estoy desasosegado</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>14</td><td>Me siento muy "atado" (oprimido)</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>15</td><td>Estoy relajado</td><td class="c">Nada</td><td class="val v3">3</td><td class="inv">↺</td></tr>
+            <tr><td>16</td><td>Me siento satisfecho</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>17</td><td>Estoy preocupado</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>18</td><td>Me siento aturdido y sobreexcitado</td><td class="c">Nada</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>19</td><td>Me siento alegre</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>20</td><td>En este momento me siento bien</td><td class="c">Mucho</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+          </tbody>
+        </table>
+
+        <h3 style="font-size:13px;font-weight:800;color:var(--violeta);margin:18px 0 8px">Parte II — Ansiedad Rasgo (cómo se siente generalmente)</h3>
+        <table class="mini-t">
+          <thead><tr><th>Nº</th><th>Ítem</th><th class="c">Respuesta</th><th class="c">Valor</th><th class="c">Inv.</th></tr></thead>
+          <tbody>
+            <tr><td>21</td><td>Me siento bien</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>22</td><td>Me canso rápidamente</td><td class="c">A veces</td><td class="val v1">1</td><td class="c">—</td></tr>
+            <tr><td>23</td><td>Siento ganas de llorar</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>24</td><td>Me gustaría ser tan feliz como otros</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>25</td><td>Pierdo oportunidades por no decidirme pronto</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>26</td><td>Me siento descansado</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>27</td><td>Soy una persona tranquila, serena y sosegada</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>28</td><td>Veo que las dificultades se amontonan y no puedo con ellas</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>29</td><td>Me preocupo demasiado por cosas sin importancia</td><td class="c">A veces</td><td class="val v1">1</td><td class="c">—</td></tr>
+            <tr><td>30</td><td>Soy feliz</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>31</td><td>Suelo tomar las cosas demasiado seriamente</td><td class="c">Casi siempre</td><td class="val v3">3</td><td class="c">—</td></tr>
+            <tr><td>32</td><td>Me falta confianza en mí mismo</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>33</td><td>Me siento seguro</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>34</td><td>No suelo afrontar las crisis o dificultades</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>35</td><td>Me siento triste (melancólico)</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>36</td><td>Estoy satisfecho</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>37</td><td>Me rondan y molestan pensamientos sin importancia</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>38</td><td>Me afectan tanto los desengaños que no puedo olvidarlos</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+            <tr><td>39</td><td>Soy una persona estable</td><td class="c">Casi siempre</td><td class="val v0">0</td><td class="inv">↺</td></tr>
+            <tr><td>40</td><td>Cuando pienso sobre asuntos y preocupaciones actuales, me pongo tenso y agitado</td><td class="c">Casi nunca</td><td class="val v0">0</td><td class="c">—</td></tr>
+          </tbody>
+        </table>
+        <p class="tx" style="font-size:12px;color:var(--muted);margin-top:8px">La columna "Valor" muestra la puntuación en dirección-ansiedad (0 = mínima, 3 = máxima). El símbolo ↺ indica ítem de puntuación invertida (frases que niegan la ansiedad).</p>
+        <div class="callout"><b>Sobre el STAI.</b> Creado por Spielberger, Gorsuch y Lushene; adaptación española de TEA Ediciones. Dos escalas de 20 ítems (0–3), con ítems directos e inversos para controlar la aquiescencia. Consistencia interna (KR-20) 0,84–0,93; baremos de adultos por sexo (N=1.109). Sus resultados deben interpretarse por un profesional en el contexto clínico global de la persona.</div>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Documento confidencial de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

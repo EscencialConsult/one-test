@@ -1,0 +1,32 @@
+{
+  "id": "eneagrama",
+  "nombre": "Eneagrama Profesional",
+  "codigo": "ENEA-54",
+  "descripcion": "Test de Eneagrama Profesional: 54 ítems Likert 1-5 que perfilan los 9 eneatipos (Reformador, Ayudador, Triunfador, Individualista, Investigador, Leal, Entusiasta, Desafiante, Pacificador). Determina eneatipo dominante, secundario y terciario, y un arquetipo de combinación dominante+ala.",
+  "categoria": "personalidad",
+  "version": "1.0",
+  "n_items": 54,
+  "tiempo_limite_min": null,
+  "_tiempo_nota": "El front no impone límite; muestra un cronómetro con tiempo estimado de 12 a 15 minutos (informativo).",
+  "tipo_respuesta": "likert_1_5",
+  "_tipo_respuesta_nota": "Escala 1 (Nunca) a 5 (Siempre). NO hay ítems inversos: todos suman directo al eneatipo asignado.",
+  "eneatipos": [
+    "1_reformador", "2_ayudador", "3_triunfador", "4_individualista",
+    "5_investigador", "6_leal", "7_entusiasta", "8_desafiante", "9_pacificador"
+  ],
+  "scoring": "scoring.py",
+  "salida": [
+    "eneatipos (puntaje, porcentaje, nombre)",
+    "dominante / secundario / terciario",
+    "ranking (todos, ordenado)",
+    "arquetipo (combinacion dominante-ala)"
+  ],
+  "archivos": {
+    "preguntas": "preguntas.json",
+    "baremos": "baremos.json",
+    "interpretaciones": "interpretaciones.json",
+    "informe": "informe.json",
+    "regresion": "regresion.json"
+  },
+  "estado": "completo"
+}

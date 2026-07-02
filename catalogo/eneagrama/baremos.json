@@ -1,0 +1,41 @@
+{
+  "_fuente": "Test9/script.gs · MAPEO_PREGUNTAS + calcularPuntajes · consistente con index.html · calculateResults",
+  "_descripcion": "El Eneagrama NO usa baremos poblacionales ni percentiles. El 'baremo' aquí es el esquema de puntaje crudo por eneatipo y las reglas de ranking. Cada eneatipo agrupa 6 ítems; puntaje crudo = suma de respuestas (rango 6-30). 'porcentaje' = round(suma/30*100). El máximo posible por eneatipo es 30 (6 ítems × 5).",
+  "items_por_eneatipo": 6,
+  "max_puntaje_por_eneatipo": 30,
+  "_porcentaje_nota": "porcentaje = Math.round((suma / 30) * 100). Replicado con half-up math.floor(x + 0.5). Denominador FIJO = 30 (no varía con ítems contestados).",
+  "denominador_porcentaje": 30,
+  "mapeo_eneatipo_indices": {
+    "_descripcion": "Índices base-0 de los ítems que suman a cada eneatipo (igual que MAPEO_PREGUNTAS del .gs). Para ids base-1 sumar 1 a cada índice.",
+    "1": [0, 9, 18, 27, 36, 45],
+    "2": [1, 10, 19, 28, 37, 46],
+    "3": [2, 11, 20, 29, 38, 47],
+    "4": [3, 12, 21, 30, 39, 48],
+    "5": [4, 13, 22, 31, 40, 49],
+    "6": [5, 14, 23, 32, 41, 50],
+    "7": [6, 15, 24, 33, 42, 51],
+    "8": [7, 16, 25, 34, 43, 52],
+    "9": [8, 17, 26, 35, 44, 53]
+  },
+  "nombres": {
+    "1": "El Reformador",
+    "2": "El Ayudador",
+    "3": "El Triunfador",
+    "4": "El Individualista",
+    "5": "El Investigador",
+    "6": "El Leal",
+    "7": "El Entusiasta",
+    "8": "El Desafiante",
+    "9": "El Pacificador"
+  },
+  "ranking": {
+    "_descripcion": "Orden descendente por puntaje crudo. dominante=1ro, secundario=2do, terciario=3ro.",
+    "criterio": "puntaje_descendente",
+    "_desempate_nota": "El .gs construye el ranking en orden de eneatipo (1..9) y aplica sort estable por 'b.puntaje - a.puntaje'. En empate se conserva el orden original => gana el eneatipo de MENOR número. El front (index.html) usa un bucle 1..9 con comparación estricta '>' para el dominante, coincidiendo con esta regla.",
+    "desempate": "menor_numero_de_eneatipo"
+  },
+  "arquetipo": {
+    "_descripcion": "Combinación dominante-secundario (ala). Regla del .gs: key = `${dom}-${sec}`; si no existe en DB_COMBINACIONES, probar `${sec}-${dom}`; si ninguna existe, usar arquetipo genérico 'LA FUSIÓN'.",
+    "regla_clave": "primero dom-sec, luego sec-dom, luego genérico"
+  }
+}

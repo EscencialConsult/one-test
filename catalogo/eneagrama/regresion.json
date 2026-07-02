@@ -1,0 +1,79 @@
+{
+  "_descripcion": "Casos de regresión para Eneagrama. Reproducen el algoritmo del legacy (Test9/script.gs calcularPuntajes + selección de arquetipo; consistente con index.html calculateResults). 'fill' = todas las respuestas con ese valor (54 ítems base-0). 'respuestas' = dict {indice_base_0: valor}; 'fill_resto' completa los índices no listados. Valores esperados derivados del algoritmo portado (los .gs no guardaban salidas históricas accesibles).",
+  "casos": [
+    {
+      "nombre": "Todo 3 (neutral) — empate global, dominante por menor número (tipo 1)",
+      "fill": 3,
+      "esperado": {
+        "dominante": { "tipo": 1, "puntaje": 18, "porcentaje": 60 },
+        "secundario": { "tipo": 2 },
+        "terciario": { "tipo": 3 },
+        "arquetipo": "EL DEFENSOR",
+        "puntajes": { "1": 18, "2": 18, "3": 18, "4": 18, "5": 18, "6": 18, "7": 18, "8": 18, "9": 18 }
+      }
+    },
+    {
+      "nombre": "Todo 1 — mínimos (6 por tipo), empate, dominante tipo 1",
+      "fill": 1,
+      "esperado": {
+        "dominante": { "tipo": 1, "puntaje": 6, "porcentaje": 20 },
+        "secundario": { "tipo": 2 },
+        "terciario": { "tipo": 3 },
+        "arquetipo": "EL DEFENSOR"
+      }
+    },
+    {
+      "nombre": "Tipo 5 al máximo — dominante 5, arquetipo genérico (5-1 no existe)",
+      "fill_resto": 3,
+      "respuestas": { "4": 5, "13": 5, "22": 5, "31": 5, "40": 5, "49": 5 },
+      "esperado": {
+        "dominante": { "tipo": 5, "puntaje": 30, "porcentaje": 100 },
+        "secundario": { "tipo": 1 },
+        "terciario": { "tipo": 2 },
+        "arquetipo": "LA FUSIÓN",
+        "puntajes": { "5": 30, "1": 18 }
+      }
+    },
+    {
+      "nombre": "Empate dom: tipo 3 vs tipo 8 (ambos 30) — gana menor número (3)",
+      "fill": 1,
+      "respuestas": {
+        "2": 5, "11": 5, "20": 5, "29": 5, "38": 5, "47": 5,
+        "7": 5, "16": 5, "25": 5, "34": 5, "43": 5, "52": 5
+      },
+      "esperado": {
+        "dominante": { "tipo": 3, "puntaje": 30 },
+        "secundario": { "tipo": 8, "puntaje": 30 },
+        "terciario": { "tipo": 1 },
+        "arquetipo": "LA FUSIÓN"
+      }
+    },
+    {
+      "nombre": "Arquetipo 7-8 (EL REALISTA) — dom 7 (30), sec 8 (24)",
+      "fill": 1,
+      "respuestas": {
+        "6": 5, "15": 5, "24": 5, "33": 5, "42": 5, "51": 5,
+        "7": 4, "16": 4, "25": 4, "34": 4, "43": 4, "52": 4
+      },
+      "esperado": {
+        "dominante": { "tipo": 7, "puntaje": 30, "porcentaje": 100 },
+        "secundario": { "tipo": 8, "puntaje": 24, "porcentaje": 80 },
+        "arquetipo": "EL REALISTA"
+      }
+    },
+    {
+      "nombre": "Redondeo half-up — tipo1=23 (76.67->77), tipo2=19 (63.33->63)",
+      "fill_resto": 3,
+      "respuestas": {
+        "0": 5, "9": 5, "18": 5, "27": 3, "36": 3, "45": 2,
+        "1": 5, "10": 3, "19": 3, "28": 3, "37": 3, "46": 2
+      },
+      "esperado": {
+        "dominante": { "tipo": 1, "puntaje": 23, "porcentaje": 77 },
+        "secundario": { "tipo": 2, "puntaje": 19, "porcentaje": 63 },
+        "terciario": { "tipo": 3 },
+        "arquetipo": "EL DEFENSOR"
+      }
+    }
+  ]
+}

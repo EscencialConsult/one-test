@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe DAT — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:840px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:30px;margin-bottom:6px}
+  .hcover .st{font-size:14px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:11px 12px;font-size:13px;border-bottom:1px solid var(--linea);vertical-align:top}
+  thead th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td .dn{font-weight:800;color:var(--violeta)}
+  td.c{text-align:center}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  /* barras por subtest */
+  .barlist{display:flex;flex-direction:column;gap:13px}
+  .arow{display:flex;align-items:center;gap:12px}
+  .arow .nm{flex:1;min-width:0}
+  .arow .nm .t{font-size:13.5px;font-weight:700}
+  .arow .track{height:12px;background:#eef0f6;border-radius:999px;overflow:hidden;margin-top:5px}
+  .arow .track i{display:block;height:100%;border-radius:999px}
+  .arow .pd{width:46px;text-align:right;font-weight:800;font-size:13.5px}
+  .arow .lvl{width:74px;text-align:center}
+  .lvl{font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:999px}
+  .lvl.ALTO{color:#178a8f;background:rgba(107,225,227,.2)}
+  .lvl.MEDIO{color:#9a7d1a;background:rgba(228,199,106,.28)}
+  .lvl.BAJO{color:#c0392b;background:rgba(192,57,43,.12)}
+  .fill.ALTO{background:var(--grad)}
+  .fill.MEDIO{background:linear-gradient(90deg,#e4c76a,#e8b34a)}
+  .fill.BAJO{background:#c6c9d7}
+  .leg{font-size:11px;color:var(--muted);margin-top:14px;display:flex;gap:14px;flex-wrap:wrap}
+  .leg span{display:flex;align-items:center;gap:6px}.leg i{width:12px;height:8px;border-radius:3px;display:inline-block}
+
+  /* competencia detalle */
+  .acard{border:1px solid var(--linea);border-radius:14px;padding:20px;margin-bottom:16px;break-inside:avoid}
+  .acard .ah{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .acard .ah b{font-size:16px}
+  .acard .estilo{font-size:13px;font-weight:700;color:var(--violeta);margin:6px 0 10px}
+  .acard p.d{font-size:13.5px;line-height:1.6;color:#3a3d4d;margin-bottom:10px}
+  .acard .sublbl{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin:10px 0 6px}
+  .acard ul{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+  .acard ul li{font-size:13px;line-height:1.45;display:flex;gap:8px}
+  .acard ul li::before{content:"✓";color:#178a8f;font-weight:800}
+  .reco{background:rgba(228,199,106,.14);border-left:3px solid var(--oro);border-radius:0 8px 8px 0;padding:11px 14px;font-size:13px;line-height:1.5;margin-top:10px}
+  .reco b{color:#9a7d1a}
+
+  /* estilo de trabajo */
+  .estilobox{border:1px solid var(--linea);border-radius:16px;padding:24px;background:linear-gradient(135deg,rgba(225,123,215,.06),rgba(107,225,227,.06))}
+  .estilobox .tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;color:#fff;background:var(--gradv);padding:7px 14px;border-radius:999px;margin-bottom:12px}
+  .estilobox h3{font-size:20px;margin-bottom:8px}
+  .estilobox p{font-size:13.5px;line-height:1.6;color:#3a3d4d;margin-bottom:10px}
+  .estilobox .riesgo{background:rgba(192,57,43,.07);border-left:3px solid #c0392b;border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;margin-bottom:10px}
+  .estilobox .rol{background:rgba(23,138,143,.08);border-left:3px solid #178a8f;border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px}
+  .potencial{margin-top:16px;text-align:center;font-size:14px}
+  .potencial .lbl{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+  .potencial .v{font-size:18px;font-weight:800;color:var(--violeta)}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}.footer .row{margin-top:6px}
+
+  @media print{body{background:#fff;padding:0}.toolbar{display:none}.doc{margin:0;max-width:100%;gap:0}.sheet{box-shadow:none;border-radius:0;break-after:page}.acard{break-inside:avoid}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top"><div class="clogo"><span class="b">EC</span> Escencial Consultora</div><span class="conf">Informe confidencial</span></div>
+        <h1>Informe de Evaluación Vocacional DAT</h1>
+        <div class="st">Test de Aptitudes Diferenciales · 6 módulos</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Estilo de trabajo</div><div class="v" style="color:var(--violeta)">Dinámico</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el modelo</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test DAT?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo DAT</b></li>
+          <li><span class="nn">3</span><b>Los 6 módulos</b></li>
+          <li><span class="nn">4</span><b>Qué NO es el Test DAT (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">5</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Perfil de aptitudes</li>
+          <li><span class="nn">1</span><b>Resumen de puntuaciones</b></li>
+          <li><span class="nn">2</span><b>Análisis por competencia</b></li>
+          <li><span class="nn">3</span><b>Estilo de trabajo</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el modelo DAT</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Comprendiendo el modelo</span><span>1 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test DAT?</h2>
+        <p class="tx">El Test DAT (Test Completo de Aptitudes) es una herramienta de evaluación psicométrica y vocacional diseñada para medir diversas dimensiones cognitivas y habilidades específicas de un individuo.</p>
+        <p class="tx">A diferencia de otras pruebas, esta evaluación se compone de <b>6 módulos o subtests</b> específicos: Rapidez y Exactitud Perceptiva, Razonamiento Verbal, Ortografía (que funciona como medidor de precisión), Razonamiento Numérico, Razonamiento Abstracto y Relaciones Espaciales.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Comprendiendo el modelo</span><span>2 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo DAT</h2>
+        <p class="tx">El modelo DAT se fundamenta en la evaluación desglosada de las competencias cognitivas, alejándose de la idea de medir la inteligencia como un factor único. Sus bases metodológicas incluyen:</p>
+        <p class="tx"><b>Puntuación por niveles:</b> el sistema procesa los resultados de cada módulo estableciendo puntuaciones porcentuales que se clasifican en tres umbrales de rendimiento: Alto (70% o superior), Medio (40%–69%) y Bajo (menor al 40%).</p>
+        <p class="tx"><b>Medición bajo presión de tiempo:</b> cada subtest cuenta con un límite de tiempo estricto, que varía desde los 3 minutos (agilidad en Rapidez Perceptiva) hasta los 30 minutos (problemas lógicos en Razonamiento Numérico).</p>
+        <p class="tx"><b>Cruce de variables para el "Estilo de Trabajo":</b> una innovación de esta versión es que cruza los resultados de Rapidez (velocidad y volumen de producción) con los de Ortografía (atención al detalle y precisión) para diagnosticar el perfil de trabajo, clasificándolo en cuatro estilos: Dinámico, Meticuloso, Eficiente o Estándar.</p>
+        <p class="tx"><b>Traducción pragmática:</b> el modelo transforma el dato numérico en información aplicable, definiendo para cada aptitud su implicancia laboral directa, las fortalezas comprobables y el tipo de rol donde el evaluado alcanzará su máximo potencial.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Comprendiendo el modelo</span><span>3 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Los 6 módulos</h2>
+        <table>
+          <thead><tr><th>Módulo</th><th>Qué mide</th><th>Tiempo</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dn">Rapidez y Exactitud Perceptiva</span></td><td>Agilidad y velocidad de procesamiento perceptivo.</td><td>3 + 3 min</td></tr>
+            <tr><td><span class="dn">Razonamiento Verbal</span></td><td>Comprensión y manejo de conceptos verbales.</td><td>25 min</td></tr>
+            <tr><td><span class="dn">Ortografía (precisión)</span></td><td>Atención al detalle y exactitud.</td><td>10 min</td></tr>
+            <tr><td><span class="dn">Razonamiento Numérico</span></td><td>Lógica y resolución de problemas con números.</td><td>30 min</td></tr>
+            <tr><td><span class="dn">Razonamiento Abstracto</span></td><td>Lógica deductiva con patrones y series.</td><td>25 min</td></tr>
+            <tr><td><span class="dn">Relaciones Espaciales</span></td><td>Visualización y manejo espacial.</td><td>25 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Comprendiendo el modelo</span><span>4 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Qué NO es el Test DAT (y cómo evitar malos usos)</h2>
+        <p class="tx">Para garantizar una interpretación ética y profesional de los resultados, es importante considerar:</p>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No es un indicador de defectos cognitivos</b>; los puntajes menores al 40% no se interpretan como "fallas", sino como <b>estilos cognitivos distintos</b>. Por ejemplo, un resultado bajo en Razonamiento Numérico se lee como un "Enfoque Cualitativo Predominante", que indica habilidades en áreas humanas o creativas.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No debe usarse para descartar candidatos sin evaluar el contexto del puesto</b>. Un estilo de trabajo "Dinámico" puede implicar riesgo de error en control de calidad, pero es un excelente motor de acción para ventas de volumen o gestión de crisis.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No es una prueba de conocimientos teóricos adquiridos</b>, sino de inteligencia fluida, capacidad de visualización, agilidad perceptiva y lógica deductiva.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Comprendiendo el modelo</span><span>5 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 5</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">Cada módulo produce un <b>porcentaje de rendimiento</b> que se clasifica en un nivel:</p>
+        <table>
+          <thead><tr><th>Porcentaje</th><th>Nivel</th></tr></thead>
+          <tbody>
+            <tr><td>70% o superior</td><td>Alto</td></tr>
+            <tr><td>40% – 69%</td><td>Medio</td></tr>
+            <tr><td>Menor al 40%</td><td>Bajo</td></tr>
+          </tbody>
+        </table>
+        <p class="tx" style="margin-top:14px">El <b>Estilo de Trabajo</b> surge de cruzar <b>Rapidez</b> (velocidad/volumen) con <b>Ortografía</b> (precisión/detalle):</p>
+        <table>
+          <thead><tr><th>Estilo</th><th>Rapidez</th><th>Precisión</th></tr></thead>
+          <tbody>
+            <tr><td><b>Dinámico</b> — motor de acción</td><td class="c">Alta</td><td class="c">Baja</td></tr>
+            <tr><td><b>Meticuloso</b> — detallista</td><td class="c">Baja</td><td class="c">Alta</td></tr>
+            <tr><td><b>Eficiente</b> — óptimo</td><td class="c">Alta</td><td class="c">Alta</td></tr>
+            <tr><td><b>Estándar</b> — equilibrado</td><td class="c">Media</td><td class="c">Media</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Cálculo exacto y sin IA.</b> Cada nivel describe un estilo cognitivo, no una capacidad superior o inferior.</div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Perfil de aptitudes</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Perfil</span><span>Resumen</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Resumen de puntuaciones</h2>
+        <div class="barlist">
+          <div class="arow"><div class="nm"><div class="t">Rapidez y Exactitud Perceptiva</div><div class="track"><i class="fill ALTO" style="width:72%"></i></div></div><div class="pd">72%</div><div class="lvl ALTO">ALTO</div></div>
+          <div class="arow"><div class="nm"><div class="t">Razonamiento Verbal</div><div class="track"><i class="fill BAJO" style="width:26%"></i></div></div><div class="pd">26%</div><div class="lvl BAJO">BAJO</div></div>
+          <div class="arow"><div class="nm"><div class="t">Precisión (Ortografía)</div><div class="track"><i class="fill BAJO" style="width:23%"></i></div></div><div class="pd">23%</div><div class="lvl BAJO">BAJO</div></div>
+          <div class="arow"><div class="nm"><div class="t">Razonamiento Numérico</div><div class="track"><i class="fill BAJO" style="width:20%"></i></div></div><div class="pd">20%</div><div class="lvl BAJO">BAJO</div></div>
+          <div class="arow"><div class="nm"><div class="t">Relaciones Espaciales</div><div class="track"><i class="fill BAJO" style="width:20%"></i></div></div><div class="pd">20%</div><div class="lvl BAJO">BAJO</div></div>
+          <div class="arow"><div class="nm"><div class="t">Razonamiento Abstracto</div><div class="track"><i class="fill BAJO" style="width:18%"></i></div></div><div class="pd">18%</div><div class="lvl BAJO">BAJO</div></div>
+        </div>
+        <div class="leg"><span><i class="fill ALTO"></i> Alto (≥70%)</span><span><i class="fill MEDIO"></i> Medio (40–69%)</span><span><i class="fill BAJO"></i> Bajo (&lt;40%)</span></div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Perfil</span><span>Análisis por competencia</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Análisis por competencia</h2>
+
+        <div class="acard">
+          <div class="ah"><b>Razonamiento Verbal</b><span class="lvl BAJO">26%</span></div>
+          <div class="estilo">Estilo Comunicativo Concreto — Ejecutor Práctico Orientado a la Acción</div>
+          <p class="d">El evaluado muestra un perfil de procesamiento verbal marcadamente concreto, tangible y pragmático. Su fortaleza radica en el manejo efectivo de información directa, observable y práctica, más que en el procesamiento de conceptos abstractos o lenguaje metafórico.</p>
+          <div class="sublbl">Implicancia laboral</div>
+          <p class="d">Brilla en la ejecución práctica hands-on, la implementación concreta de procedimientos establecidos y la operación de sistemas siguiendo secuencias definidas. Aprende mejor haciendo y observando que leyendo textos extensos.</p>
+          <div class="sublbl">Fortalezas</div>
+          <ul><li>Enfoque altamente práctico y orientado a la acción inmediata</li><li>Comunicación sencilla, directa y honesta</li><li>Preferencia marcada por hechos concretos y observables</li><li>Memoria procedimental sólida</li></ul>
+          <div class="reco"><b>Recomendación:</b> maximizar su potencial en roles técnicos, manuales u operativos donde la consistencia en la ejecución es clave. Proporcionar instrucciones con ayudas visuales y demostraciones prácticas.</div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Razonamiento Numérico</b><span class="lvl BAJO">20%</span></div>
+          <div class="estilo">Enfoque Cualitativo Predominante</div>
+          <p class="d">Su estilo cognitivo es marcadamente cualitativo, prefiriendo la información narrativa y relacional. El procesamiento sostenido de datos numéricos puede generarle fatiga.</p>
+          <div class="sublbl">Implicancia laboral</div>
+          <p class="d">Aporta valor excepcional en áreas donde las soft skills, la empatía o la creatividad son determinantes, como gestión humana o marketing creativo.</p>
+          <div class="sublbl">Fortalezas</div>
+          <ul><li>Enfoque centrado en aspectos humanos y relacionales</li><li>Toma de decisiones basada en intuición experimentada</li><li>Habilidades sobresalientes en áreas no matemáticas</li><li>Capacidad para conectar emocionalmente</li></ul>
+          <div class="reco"><b>Recomendación:</b> maximizar su valor en roles cualitativos. Automatizar los procesos numéricos que deba realizar.</div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Razonamiento Abstracto</b><span class="lvl BAJO">18%</span></div>
+          <div class="estilo">Estilo Cognitivo Concreto-Secuencial</div>
+          <p class="d">Prefiere trabajar con lo tangible y observable. Los conceptos abstractos le resultan difíciles de procesar sin referencias concretas.</p>
+          <div class="sublbl">Implicancia laboral</div>
+          <p class="d">Excelente ejecutor de tareas rutinarias y estandarizadas. Una vez domina un proceso, lo replica con consistencia.</p>
+          <div class="sublbl">Fortalezas</div>
+          <ul><li>Apego riguroso a normas y procedimientos</li><li>Ejecución fiel de tareas repetitivas</li><li>Estabilidad operativa</li><li>Retención precisa de procedimientos</li></ul>
+          <div class="reco"><b>Recomendación:</b> ideal para roles altamente estructurados. Proporcionar manuales detallados.</div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Relaciones Espaciales</b><span class="lvl BAJO">20%</span></div>
+          <div class="estilo">Preferencia por Procesamiento No-Espacial</div>
+          <p class="d">Prefiere información en formato textual o listas secuenciales. El procesamiento espacial complejo le resulta desafiante.</p>
+          <div class="sublbl">Implicancia laboral</div>
+          <p class="d">Conviene evitar tareas que dependan críticamente de visualización espacial o diseño físico.</p>
+          <div class="sublbl">Fortalezas</div>
+          <ul><li>Preferencia por procesamiento verbal/textual</li><li>Enfoque en procesos secuenciales lógicos</li><li>Capacidad para trabajar con datos abstractos no visuales</li></ul>
+          <div class="reco"><b>Recomendación:</b> maximizar su valor en roles donde lo espacial sea irrelevante.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DAT</b> · Perfil</span><span>Estilo de trabajo</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Estilo de trabajo</h2>
+        <div class="estilobox">
+          <span class="tag">PERFIL DINÁMICO — Motor de Acción</span>
+          <p>El evaluado es un motor de acción pura. Prioriza la velocidad de respuesta y el volumen de producción. Ataca las tareas con energía y urgencia.</p>
+          <div class="riesgo"><b>Riesgo:</b> tasa de error por precipitación. Puede pasar por alto detalles finos en su impulso por velocidad.</div>
+          <div class="rol"><b>Rol ideal:</b> excelente para ventas de volumen, gestión de crisis o roles transaccionales. Requiere control de calidad externo.</div>
+          <div class="potencial"><span class="lbl">Áreas de máximo potencial</span><span class="v">Soporte Operativo General</span></div>
+        </div>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Documento confidencial de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

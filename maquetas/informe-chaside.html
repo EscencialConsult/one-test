@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe CHASIDE — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:840px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:30px;margin-bottom:6px}
+  .hcover .st{font-size:14px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:11px 12px;font-size:13px;border-bottom:1px solid var(--linea);vertical-align:top}
+  thead th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td .dn{font-weight:800;color:var(--violeta)}
+  td.c{text-align:center}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  /* código de perfil */
+  .codebox{text-align:center;background:linear-gradient(135deg,rgba(77,36,143,.07),rgba(107,225,227,.07));border:1px solid var(--linea);border-radius:16px;padding:24px;margin-bottom:18px}
+  .codebox .lbl{font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+  .codebox .code{font-size:40px;font-weight:800;letter-spacing:2px;background:var(--gradv);-webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0}
+  .codebox .desc{font-size:13.5px;color:#3a3d4d;font-weight:600}
+
+  /* barras por área */
+  .barlist{display:flex;flex-direction:column;gap:12px}
+  .arow{display:flex;align-items:center;gap:12px}
+  .arow .let{width:30px;height:30px;border-radius:9px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;display:grid;place-items:center;flex:none;font-size:13px}
+  .arow .nm{flex:1;min-width:0}
+  .arow .nm .t{font-size:13.5px;font-weight:700}
+  .arow .track{height:12px;background:#eef0f6;border-radius:999px;overflow:hidden;margin-top:5px}
+  .arow .track i{display:block;height:100%;border-radius:999px}
+  .arow .pd{width:46px;text-align:right;font-weight:800;font-size:13.5px}
+  .arow .lvl{width:104px;text-align:center}
+  .lvl{font-size:10.5px;font-weight:800;padding:5px 9px;border-radius:999px}
+  .lvl.MUY_ALTO{color:#b5559f;background:rgba(225,123,215,.16)}
+  .lvl.ALTO{color:#178a8f;background:rgba(107,225,227,.2)}
+  .lvl.PROMEDIO{color:#9a7d1a;background:rgba(228,199,106,.28)}
+  .lvl.BAJO{color:#c98a1a;background:rgba(228,199,106,.18)}
+  .lvl.MUY_BAJO{color:#c0392b;background:rgba(192,57,43,.12)}
+  .fill.MUY_ALTO{background:linear-gradient(90deg,#4d248f,#e17bd7)}
+  .fill.ALTO{background:var(--grad)}
+  .fill.PROMEDIO{background:linear-gradient(90deg,#e4c76a,#e8b34a)}
+  .fill.BAJO,.fill.MUY_BAJO{background:#c6c9d7}
+  .leg{font-size:11px;color:var(--muted);margin-top:14px;display:flex;gap:14px;flex-wrap:wrap}
+  .leg span{display:flex;align-items:center;gap:6px}.leg i{width:12px;height:8px;border-radius:3px;display:inline-block}
+
+  /* área detalle */
+  .acard{border:1px solid var(--linea);border-radius:14px;padding:20px;margin-bottom:16px;break-inside:avoid}
+  .acard .ah{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+  .acard .ah b{font-size:16px}
+  .acard .sub{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:10px}
+  .acard p.d{font-size:13.5px;line-height:1.6;color:#3a3d4d;margin-bottom:12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .chips span{font-size:11.5px;background:rgba(107,225,227,.14);color:#178a8f;font-weight:600;padding:4px 10px;border-radius:999px}
+  .profs{font-size:13px;line-height:1.5}.profs b{color:var(--violeta)}
+  .comb{background:rgba(77,36,143,.05);border-left:3px solid var(--violeta);border-radius:0 8px 8px 0;padding:14px 18px}
+  .comb h4{font-size:13px;color:var(--violeta);margin-bottom:10px}
+  .comb ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .comb li{font-size:13.5px;display:flex;gap:9px}.comb li::before{content:"→";color:var(--rosa);font-weight:800}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}.footer .row{margin-top:6px}
+
+  @media print{body{background:#fff;padding:0}.toolbar{display:none}.doc{margin:0;max-width:100%;gap:0}.sheet{box-shadow:none;border-radius:0;break-after:page}.acard{break-inside:avoid}}
+  @media(max-width:720px){.arow .lvl{display:none}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top"><div class="clogo"><span class="b">EC</span> Escencial Consultora</div><span class="conf">Informe confidencial</span></div>
+        <h1>Informe de Orientación Vocacional</h1>
+        <div class="st">Test CHASIDE · 7 áreas</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Código de perfil</div><div class="v" style="color:var(--violeta)">H-S</div></div>
+        <div class="it"><div class="k">Respuestas</div><div class="v">56 Sí / 42 No</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el modelo</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test CHASIDE?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo CHASIDE</b></li>
+          <li><span class="nn">3</span><b>Las 7 áreas vocacionales</b></li>
+          <li><span class="nn">4</span><b>Qué NO es el Test CHASIDE (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">5</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Perfil vocacional</li>
+          <li><span class="nn">1</span><b>Código de perfil y resumen</b></li>
+          <li><span class="nn">2</span><b>Perfil por área</b></li>
+          <li><span class="nn">3</span><b>Áreas de interés preferente</b></li>
+          <li><span class="nn">4</span><b>Profesiones sugeridas</b></li>
+          <li><span class="nn">5</span><b>Desglose: intereses vs. aptitudes</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el modelo CHASIDE</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Comprendiendo el modelo</span><span>1 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test CHASIDE?</h2>
+        <p class="tx">El Test CHASIDE es una herramienta de evaluación psicométrica enfocada en la orientación vocacional, diseñada para ayudar a las personas a identificar sus áreas de mayor interés y preferencia profesional.</p>
+        <p class="tx">Su nombre es un acrónimo que representa las 7 áreas vocacionales que evalúa el instrumento: Administrativas y Contables (C), Humanísticas y Sociales (H), Artísticas (A), Medicina y Ciencias de la Salud (S), Ingeniería y Computación (I), Defensa y Seguridad (D), y Ciencias Exactas y Agrarias (E). A través de un cuestionario de 98 preguntas cerradas con opciones de respuesta SÍ/NO, el test permite revelar las inclinaciones del sujeto encuestado.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Comprendiendo el modelo</span><span>2 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo CHASIDE</h2>
+        <p class="tx">El método CHASIDE fundamenta su estructura en el análisis cuantitativo de respuestas afirmativas, utilizando una grilla de puntuación que asocia cada una de las 98 preguntas a un área vocacional específica.</p>
+        <p class="tx">Dentro de sus fundamentos técnicos, el modelo profundiza el análisis dividiendo cada área en dos sub-escalas complementarias: los <b>Intereses</b> (las actividades que atraen a la persona) y las <b>Aptitudes</b> (las capacidades que la persona percibe tener para ciertas tareas).</p>
+        <p class="tx">El cálculo de resultados otorga un puntaje directo máximo de 14 puntos por área, los cuales se procesan para calcular un percentil. Posteriormente, los resultados se clasifican en cinco niveles de interpretación: Muy Alto, Alto, Promedio, Bajo y Muy Bajo. Finalmente, el sistema aísla las dos áreas con mayor puntaje para construir un <b>Código de Perfil</b> (por ejemplo, "H-S"), que se utiliza para brindar una lista de profesiones sugeridas y combinadas que se ajustan a esa intersección vocacional.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Comprendiendo el modelo</span><span>3 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Las 7 áreas vocacionales</h2>
+        <table>
+          <thead><tr><th>Área</th><th>Qué evalúa</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dn">C — Administrativas y Contables</span></td><td>Organización, cálculo, orden y gestión administrativa y contable.</td></tr>
+            <tr><td><span class="dn">H — Humanísticas y Sociales</span></td><td>Justicia, comunicación, mediación y análisis social.</td></tr>
+            <tr><td><span class="dn">A — Artísticas</span></td><td>Expresión, creatividad, estética y sensibilidad.</td></tr>
+            <tr><td><span class="dn">S — Medicina y Ciencias de la Salud</span></td><td>Asistencia, cuidado de personas e investigación médica.</td></tr>
+            <tr><td><span class="dn">I — Ingeniería y Computación</span></td><td>Lógica, cálculo, tecnología y resolución técnica.</td></tr>
+            <tr><td><span class="dn">D — Defensa y Seguridad</span></td><td>Protección, orden, servicio y manejo del riesgo.</td></tr>
+            <tr><td><span class="dn">E — Ciencias Exactas y Agrarias</span></td><td>Investigación, análisis numérico y contacto con la naturaleza.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Comprendiendo el modelo</span><span>4 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Qué NO es el Test CHASIDE (y cómo evitar malos usos)</h2>
+        <p class="tx">Para asegurar la validez del uso de este instrumento, es vital comprender sus limitaciones y alcance:</p>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No mide habilidades objetivas, inteligencia ni conocimientos reales</b>; evalúa estrictamente intereses y aptitudes <b>autopercibidas</b> por el propio individuo.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No evalúa el desempeño</b> mediante respuestas correctas o incorrectas: las preguntas registran únicamente preferencias personales.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No es una sentencia ni un veredicto definitivo</b> sobre el futuro del evaluado; tiene un carácter puramente orientativo.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No debe emplearse como instrumento aislado</b>; los resultados deben ser interpretados por un profesional de la orientación vocacional y complementarse con otras herramientas.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Comprendiendo el modelo</span><span>5 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 5</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">Cada respuesta "Sí" suma un punto al área correspondiente, con un máximo de <b>14 puntos por área</b>. Dentro de cada área se distinguen las sub-escalas de <b>Intereses</b> y <b>Aptitudes</b>. Según el puntaje directo, cada área se clasifica en un nivel:</p>
+        <table>
+          <thead><tr><th>Puntaje (0–14)</th><th>Nivel</th><th>Lectura</th></tr></thead>
+          <tbody>
+            <tr><td>12–14</td><td>Muy Alto</td><td>Interés muy marcado y definido.</td></tr>
+            <tr><td>9–11</td><td>Alto</td><td>Interés significativo; posible campo de desarrollo.</td></tr>
+            <tr><td>5–8</td><td>Promedio</td><td>Interés dentro del rango esperado.</td></tr>
+            <tr><td>2–4</td><td>Bajo</td><td>Interés por debajo del promedio.</td></tr>
+            <tr><td>0–1</td><td>Muy Bajo</td><td>Escaso interés en el área.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Código de perfil:</b> se toman las dos áreas de mayor puntaje para formar el código (ej. "H-S"), base de las profesiones combinadas sugeridas. <b>Cálculo exacto y sin IA.</b></div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Perfil vocacional</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Perfil</span><span>Código y resumen</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Código de perfil y resumen</h2>
+        <div class="codebox">
+          <div class="lbl">Código de perfil vocacional</div>
+          <div class="code">H · S</div>
+          <div class="desc">Humanísticas y Sociales + Medicina y Ciencias de la Salud</div>
+        </div>
+        <p class="tx">El perfil vocacional muestra una inclinación predominante hacia las áreas <b>Humanísticas y Sociales</b> y <b>Medicina y Ciencias de la Salud</b>, ambas con puntaje alto (9/14). Le sigue de cerca <b>Ciencias Exactas y Agrarias</b> (9/14), configurando un perfil orientado al trabajo con personas, la asistencia y el análisis. Las áreas de Ingeniería, Defensa, Administrativas y Artísticas se ubican en el rango promedio.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Perfil</span><span>Perfil por área</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Perfil por área</h2>
+        <div class="barlist">
+          <div class="arow"><div class="let">H</div><div class="nm"><div class="t">Humanísticas y Sociales</div><div class="track"><i class="fill ALTO" style="width:64%"></i></div></div><div class="pd">9/14</div><div class="lvl ALTO">ALTO</div></div>
+          <div class="arow"><div class="let">S</div><div class="nm"><div class="t">Medicina y Ciencias de la Salud</div><div class="track"><i class="fill ALTO" style="width:64%"></i></div></div><div class="pd">9/14</div><div class="lvl ALTO">ALTO</div></div>
+          <div class="arow"><div class="let">E</div><div class="nm"><div class="t">Ciencias Exactas y Agrarias</div><div class="track"><i class="fill ALTO" style="width:64%"></i></div></div><div class="pd">9/14</div><div class="lvl ALTO">ALTO</div></div>
+          <div class="arow"><div class="let">I</div><div class="nm"><div class="t">Ingeniería y Computación</div><div class="track"><i class="fill PROMEDIO" style="width:57%"></i></div></div><div class="pd">8/14</div><div class="lvl PROMEDIO">PROMEDIO</div></div>
+          <div class="arow"><div class="let">D</div><div class="nm"><div class="t">Defensa y Seguridad</div><div class="track"><i class="fill PROMEDIO" style="width:57%"></i></div></div><div class="pd">8/14</div><div class="lvl PROMEDIO">PROMEDIO</div></div>
+          <div class="arow"><div class="let">C</div><div class="nm"><div class="t">Administrativas y Contables</div><div class="track"><i class="fill PROMEDIO" style="width:50%"></i></div></div><div class="pd">7/14</div><div class="lvl PROMEDIO">PROMEDIO</div></div>
+          <div class="arow"><div class="let">A</div><div class="nm"><div class="t">Artísticas</div><div class="track"><i class="fill PROMEDIO" style="width:43%"></i></div></div><div class="pd">6/14</div><div class="lvl PROMEDIO">PROMEDIO</div></div>
+        </div>
+        <div class="leg"><span><i class="fill ALTO"></i> Alto (9–11)</span><span><i class="fill PROMEDIO"></i> Promedio (5–8)</span><span><i style="background:#c6c9d7"></i> Bajo (0–4)</span></div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Perfil</span><span>Áreas preferentes</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Áreas de interés preferente</h2>
+
+        <div class="acard">
+          <div class="ah"><b>H — Humanísticas y Sociales</b><span class="lvl ALTO">ALTO · 9/14</span></div>
+          <div class="sub">Intereses: 1/2 · Aptitudes: 3/4</div>
+          <p class="d">Preferencia por actividades vinculadas a la justicia, la mediación, la expresión lingüística, el análisis social, la relación de hechos históricos y la comunicación.</p>
+          <div class="chips"><span>Lingüística</span><span>Orden</span><span>Justicia</span><span>Conciliador</span><span>Persuasivo</span><span>Sagaz</span><span>Imaginativo</span></div>
+          <p class="profs"><b>Profesiones:</b> Abogado · Lic. en Ciencias Políticas · Sociólogo · Psicólogo Social · Periodista · Lic. en Relaciones Internacionales · Trabajador Social</p>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>S — Medicina y Ciencias de la Salud</b><span class="lvl ALTO">ALTO · 9/14</span></div>
+          <div class="sub">Intereses: 1/2 · Aptitudes: 3/4</div>
+          <p class="d">Interés por actividades de asistencia, investigación médica, cuidado de personas, solidaridad y comprensión de las necesidades del otro.</p>
+          <div class="chips"><span>Asistir</span><span>Investigativo</span><span>Precisión</span><span>Analítico</span><span>Altruista</span><span>Solidario</span><span>Paciente</span><span>Comprensivo</span></div>
+          <p class="profs"><b>Profesiones:</b> Médico · Enfermero/a · Odontólogo · Farmacéutico · Kinesiólogo · Nutricionista</p>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>E — Ciencias Exactas y Agrarias</b><span class="lvl ALTO">ALTO · 9/14</span></div>
+          <div class="sub">Intereses: 0/2 · Aptitudes: 3/4</div>
+          <p class="d">Interés por la investigación, la observación metódica, el análisis numérico, la clasificación y el contacto con la naturaleza y los fenómenos naturales.</p>
+          <div class="chips"><span>Investigación</span><span>Orden</span><span>Análisis y Síntesis</span><span>Numérico</span><span>Metódico</span><span>Observador</span><span>Paciente</span></div>
+          <p class="profs"><b>Profesiones:</b> Ingeniero Agrónomo · Biólogo · Químico · Físico · Matemático · Geólogo</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Perfil</span><span>Profesiones sugeridas</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Profesiones sugeridas — Código H-S</h2>
+        <p class="tx">Combinación de <b>Humanísticas y Sociales</b> + <b>Medicina y Ciencias de la Salud</b>:</p>
+        <div class="comb">
+          <h4>Carreras en la intersección de ambas áreas</h4>
+          <ul>
+            <li>Psicólogo Clínico</li>
+            <li>Trabajador Social</li>
+            <li>Psicopedagogo</li>
+            <li>Mediador Familiar</li>
+            <li>Profesor de Educación Especial</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>CHASIDE</b> · Perfil</span><span>Desglose</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 5</span>
+        <h2 class="sec">Desglose: intereses vs. aptitudes</h2>
+        <table>
+          <thead><tr><th>Área</th><th class="c">Intereses</th><th class="c">Aptitudes</th><th class="c">Total</th></tr></thead>
+          <tbody>
+            <tr><td>H — Humanísticas y Sociales</td><td class="c">1 / 2</td><td class="c">3 / 4</td><td class="c"><b>9 / 14</b></td></tr>
+            <tr><td>S — Medicina y Ciencias de la Salud</td><td class="c">1 / 2</td><td class="c">3 / 4</td><td class="c"><b>9 / 14</b></td></tr>
+            <tr><td>E — Ciencias Exactas y Agrarias</td><td class="c">0 / 2</td><td class="c">3 / 4</td><td class="c"><b>9 / 14</b></td></tr>
+            <tr><td>I — Ingeniería y Computación</td><td class="c">2 / 2</td><td class="c">1 / 4</td><td class="c"><b>8 / 14</b></td></tr>
+            <tr><td>D — Defensa y Seguridad</td><td class="c">0 / 2</td><td class="c">2 / 4</td><td class="c"><b>8 / 14</b></td></tr>
+            <tr><td>C — Administrativas y Contables</td><td class="c">2 / 2</td><td class="c">3 / 4</td><td class="c"><b>7 / 14</b></td></tr>
+            <tr><td>A — Artísticas</td><td class="c">0 / 2</td><td class="c">4 / 4</td><td class="c"><b>6 / 14</b></td></tr>
+          </tbody>
+        </table>
+        <div class="callout">Una <b>aptitud alta con interés bajo</b> (o viceversa) puede indicar capacidades no exploradas o intereses aún sin desarrollar; son señales útiles para la orientación.</div>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Informe confidencial y de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,373 @@
+{
+  "_fuente": "Test9/script.gs · DB_TEXTOS (por eneatipo) + DB_COMBINACIONES (arquetipos de ala)",
+  "_descripcion": "Contenido aprobado, seleccionado por el eneatipo calculado, no generado por IA. 'por_eneatipo' = textos por tipo dominante/secundario/terciario. 'combinaciones' = arquetipo según dominante-ala (clave 'dom-sec', con fallback 'sec-dom' y genérico).",
+  "por_eneatipo": {
+    "1": {
+      "nombre": "EL REFORMADOR",
+      "general": "El Eneatipo 1 es el punto central de tu configuración de personalidad y actúa como la estructura base desde la cual percibes el mundo. Este tipo describe una mente profundamente orientada a la mejora, al orden y a la integridad. Eres alguien que busca hacer lo correcto, que se siente más cómodo explorando el funcionamiento interno de las cosas que sometiéndose a la exposición social sin preparación. Las personas con alta identificación con el tipo 1 se caracterizan por su extraordinaria capacidad para detectar errores y oportunidades de mejora.",
+      "motivacion": "Tu motor psicológico es la búsqueda de corrección, integridad y mejora continua. Necesitas sentir que estás haciendo lo correcto, que puedes anticipar errores, que tienes recursos internos suficientes para mantener el orden sin perderte a ti mismo.",
+      "miedo": "El temor fundamental del tipo 1 es ser malo, corrupto, defectuoso o cometer un error irreparable. Por eso gestionas cuidadosamente tus acciones, tus estándares, tu crítica interna y tus intercambios con el mundo.",
+      "rasgos": [
+        "Orientación hacia la excelencia y la mejora continua",
+        "Gran capacidad de autocrítica y autorregulación",
+        "Pensamiento estructurado, organizado y metódico",
+        "Tendencia a establecer estándares elevados",
+        "Uso eficiente de sistemas y procedimientos",
+        "Preferencia por entornos ordenados, predecibles y coherentes"
+      ],
+      "fortalezas": ["Claridad ética y moral", "Disciplina y autocontrol excepcionales", "Capacidad para organizar sistemas complejos", "Enfoque meticuloso y preciso", "Pensamiento crítico desarrollado"],
+      "areas": ["Aceptar la imperfección sin autocrítica destructiva", "Evitar la rigidez excesiva como control", "Confiar en relajar estándares sin perder integridad", "Equilibrar la autocrítica con la autocompasión"]
+    },
+    "2": {
+      "nombre": "EL AYUDADOR",
+      "general": "El Eneatipo 2 es el punto central de tu configuración y actúa como la estructura base orientada hacia las relaciones y el apoyo. Describe una mente que busca ser valiosa a través de la capacidad de ayudar. Las personas con alta identificación con el tipo 2 se caracterizan por su extraordinaria capacidad para sintonizar con las necesidades ajenas. No se quedan en la superficie, sino que se sumergen en la comprensión empática de lo que otros necesitan.",
+      "motivacion": "Tu motor psicológico es la búsqueda de amor, aprecio y ser necesitado. Necesitas sentir que eres valioso para otros, que puedes anticipar necesidades y que tienes recursos emocionales suficientes para sostener relaciones.",
+      "miedo": "El temor fundamental es no ser amado, no ser necesitado o descubrir que tu ayuda no es genuinamente valorada. Por eso gestionas cuidadosamente tus relaciones y tu disponibilidad.",
+      "rasgos": [
+        "Orientación hacia el cuidado y el apoyo a otros",
+        "Gran capacidad de empatía y sintonía emocional",
+        "Pensamiento relacional y centrado en conexiones",
+        "Tendencia a anticipar necesidades ajenas",
+        "Uso generoso de tiempo y recursos personales",
+        "Preferencia por entornos cálidos y colaborativos"
+      ],
+      "fortalezas": ["Empatía genuina y profunda", "Generosidad natural y espontánea", "Capacidad para construir vínculos sólidos", "Enfoque colaborativo", "Intuición interpersonal desarrollada"],
+      "areas": ["Reconocer y expresar tus propias necesidades", "Evitar el agotamiento por dar en exceso", "Confiar en que eres valioso sin necesidad de ayudar", "Establecer límites saludables sin culpa"]
+    },
+    "3": {
+      "nombre": "EL TRIUNFADOR",
+      "general": "El Eneatipo 3 es el punto central de tu configuración, describiendo una mente profundamente orientada al logro, la eficiencia y el éxito. Eres alguien que busca destacar a través de resultados tangibles. Las personas con alta identificación con el tipo 3 tienen una extraordinaria capacidad para alcanzar objetivos; no se quedan en la planificación, sino que se mueven con rapidez hacia la ejecución.",
+      "motivacion": "Tu motor psicológico es la búsqueda de logro, éxito y reconocimiento. Necesitas sentir que estás avanzando, que puedes alcanzar metas y que tienes recursos para destacar sin perderte en el proceso.",
+      "miedo": "El temor fundamental es ser un fracaso, no tener valor o ser considerado incompetente. Por eso gestionas cuidadosamente tus logros visibles, tu productividad y tu imagen.",
+      "rasgos": [
+        "Orientación hacia metas y resultados concretos",
+        "Gran capacidad de adaptación a diferentes contextos",
+        "Pensamiento pragmático y orientado a la eficiencia",
+        "Tendencia a medir el progreso constantemente",
+        "Uso estratégico de tiempo y energía",
+        "Preferencia por entornos dinámicos y competitivos"
+      ],
+      "fortalezas": ["Eficiencia y productividad excepcionales", "Adaptabilidad camaleónica", "Capacidad para inspirar con el ejemplo", "Enfoque orientado a resultados", "Carisma y presentación"],
+      "areas": ["Conectar con tu identidad más allá de logros", "Evitar la identificación excesiva con la imagen", "Confiar en tu valor inherente sin producir", "Reconocer y procesar emociones genuinas"]
+    },
+    "4": {
+      "nombre": "EL INDIVIDUALISTA",
+      "general": "El Eneatipo 4 es el punto central de tu personalidad, describiendo una mente orientada a la autenticidad, la profundidad emocional y la singularidad. Buscas comprender el significado detrás de las experiencias. Las personas con alta identificación con el tipo 4 tienen una extraordinaria capacidad para sentir con intensidad y sumergirse en la complejidad emocional y simbólica de la existencia.",
+      "motivacion": "Tu motor psicológico es la búsqueda de identidad, autenticidad y significado profundo. Necesitas sentir que eres único, que puedes expresar tu verdad interna y que tienes recursos emocionales para comprender la complejidad.",
+      "miedo": "El temor fundamental es no tener identidad, ser ordinario o carecer de significado especial. Por eso gestionas cuidadosamente tus expresión personal, tu mundo emocional y tu creatividad.",
+      "rasgos": [
+        "Orientación hacia la autenticidad y expresión personal",
+        "Gran capacidad de introspección emocional",
+        "Pensamiento simbólico, creativo y profundo",
+        "Tendencia a buscar significado en las experiencias",
+        "Uso creativo de recursos internos",
+        "Preferencia por entornos que permitan expresión auténtica"
+      ],
+      "fortalezas": ["Profundidad emocional genuina", "Creatividad y originalidad excepcionales", "Capacidad para transformar dolor en arte", "Enfoque auténtico sin artificios", "Sensibilidad estética"],
+      "areas": ["Aceptar lo ordinario sin sentirte disminuido", "Evitar la idealización excesiva de lo ausente", "Equilibrar la intensidad emocional con estabilidad", "Actuar sin esperar el estado emocional perfecto"]
+    },
+    "5": {
+      "nombre": "EL INVESTIGADOR",
+      "general": "El Eneatipo 5 es el punto central de tu configuración de personalidad y actúa como la estructura base desde la cual percibes, procesas y comprendes el mundo. Este tipo describe una mente profundamente orientada a la observación, al análisis y a la independencia intelectual. Eres alguien que busca comprender antes de participar, que se siente más cómodo explorando el funcionamiento interno de las cosas que sometiéndose a la exposición social o emocional sin preparación.",
+      "motivacion": "Tu motor psicológico es la búsqueda de competencia, conocimiento y comprensión profunda. Necesitas sentir que sabes, que puedes anticipar, que tienes recursos intelectuales suficientes para responder a las demandas externas sin perderte a ti mismo.",
+      "miedo": "El temor fundamental del tipo 5 es quedarte sin recursos internos, sentirte invadido o no tener suficiente energía para enfrentar la vida. Por eso gestionas cuidadosamente tus tiempos, tus límites, tu energía y tus intercambios emocionales.",
+      "rasgos": [
+        "Independencia mental y emocional",
+        "Gran capacidad de observación",
+        "Pensamiento profundo, analítico y sistemático",
+        "Tendencia a retirarte para recargar energía",
+        "Uso eficiente de recursos personales",
+        "Preferencia por entornos tranquilos, predecibles y controlados"
+      ],
+      "fortalezas": ["Claridad mental y objetividad", "Dominio conceptual avanzado", "Capacidad para sintetizar información compleja", "Enfoque reflexivo y analítico", "Pensamiento estratégico"],
+      "areas": ["Conectar emocionalmente con mayor apertura", "Evitar el aislamiento prolongado como protección", "Confiar en compartir tu mundo interno", "Equilibrar el análisis con la acción concreta"]
+    },
+    "6": {
+      "nombre": "EL LEAL",
+      "general": "El Eneatipo 6 es el punto central de tu configuración, describiendo una mente orientada a la seguridad, la lealtad y la preparación. Buscas anticipar riesgos antes de comprometerte. Las personas con alta identificación con el tipo 6 tienen una extraordinaria capacidad para prever problemas, sumergiéndose en el análisis de escenarios posibles para tener planes de respaldo.",
+      "motivacion": "Tu motor psicológico es la búsqueda de seguridad, soporte y orientación confiable. Necesitas sentir que estás preparado, que puedes anticipar problemas y que tienes alianzas para responder a las incertidumbres.",
+      "miedo": "El temor fundamental es quedarte sin soporte, enfrentar peligro sin preparación o tomar decisiones equivocadas. Por eso gestionas cuidadosamente tus compromisos, lealtades y planes de contingencia.",
+      "rasgos": [
+        "Orientación hacia la seguridad y la preparación",
+        "Gran capacidad de anticipación de riesgos",
+        "Pensamiento estratégico y preventivo",
+        "Tendencia a buscar orientación y confirmación",
+        "Uso cuidadoso de recursos y alianzas",
+        "Preferencia por entornos predecibles y confiables"
+      ],
+      "fortalezas": ["Lealtad inquebrantable", "Capacidad excepcional para anticipar problemas", "Pensamiento estratégico sobre riesgos", "Responsabilidad y cumplimiento", "Construcción de alianzas sólidas"],
+      "areas": ["Confiar en tu propio juicio sin validación externa", "Evitar la parálisis por análisis excesivo", "Actuar con decisión ante la incertidumbre", "Gestionar la ansiedad sin proyectar catástrofes"]
+    },
+    "7": {
+      "nombre": "EL ENTUSIASTA",
+      "general": "El Eneatipo 7 es el punto central de tu configuración, describiendo una mente orientada a las posibilidades, al optimismo y a la exploración. Buscas experimentar la amplitud de la vida. Las personas con alta identificación con el tipo 7 tienen una extraordinaria capacidad para ver oportunidades, moviéndose hacia lo positivo y estimulante en lugar de quedarse atrapadas en lo negativo.",
+      "motivacion": "Tu motor psicológico es la búsqueda de satisfacción, libertad y experiencias positivas. Necesitas sentir que tienes opciones, que puedes anticipar placeres y mantenerte estimulado sin caer en el aburrimiento.",
+      "miedo": "El temor fundamental es quedar atrapado en el dolor, la limitación o el aburrimiento. Por eso gestionas cuidadosamente tus opciones, tu estimulación y tu libertad de movimiento.",
+      "rasgos": [
+        "Orientación hacia las posibilidades y el optimismo",
+        "Gran capacidad de entusiasmo y energía positiva",
+        "Pensamiento rápido, creativo y multidireccional",
+        "Tendencia a buscar variedad y novedad",
+        "Uso versátil de recursos y oportunidades",
+        "Preferencia por entornos dinámicos y libres"
+      ],
+      "fortalezas": ["Optimismo contagioso", "Creatividad y generación de ideas", "Versatilidad excepcional", "Enfoque positivo ante desafíos", "Capacidad para inspirar y energizar"],
+      "areas": ["Profundizar en lugar de dispersarte constantemente", "Evitar la evitación del dolor mediante distracción", "Comprometerse con procesos a largo plazo", "Procesar emociones difíciles en lugar de escapar"]
+    },
+    "8": {
+      "nombre": "EL DESAFIANTE",
+      "general": "El Eneatipo 8 es el punto central de tu configuración, describiendo una mente orientada al poder, la autonomía y la protección. Buscas mantener el control de tu entorno e influir directamente. Las personas con alta identificación con el tipo 8 tienen una extraordinaria capacidad para tomar el control y actuar con decisión y fuerza ante las circunstancias.",
+      "motivacion": "Tu motor psicológico es la búsqueda de autonomía, fuerza y protección. Necesitas sentir que tienes control, que puedes defenderte y que tienes recursos para mantener tu poder sin volverte vulnerable.",
+      "miedo": "El temor fundamental es ser controlado, vulnerable o débil. Por eso gestionas cuidadosamente tus poder, tu independencia y tu capacidad de protección hacia los tuyos.",
+      "rasgos": [
+        "Orientación hacia el control y la autonomía",
+        "Gran capacidad de liderazgo y toma de decisiones",
+        "Pensamiento directo, estratégico y confrontativo",
+        "Tendencia a proteger y defender",
+        "Uso estratégico del poder personal",
+        "Preferencia por entornos donde ejercer influencia directa"
+      ],
+      "fortalezas": ["Liderazgo natural y decisivo", "Capacidad de protección excepcional", "Valentía ante desafíos", "Enfoque directo y sin rodeos", "Poder de acción inmediata"],
+      "areas": ["Permitir la vulnerabilidad sin sentirte débil", "Evitar la confrontación innecesaria", "Soltar el control sin perder poder", "Reconocer el impacto de tu intensidad en otros"]
+    },
+    "9": {
+      "nombre": "EL PACIFICADOR",
+      "general": "El Eneatipo 9 es el punto central de tu configuración, describiendo una mente orientada a la armonía, la paz y la estabilidad. Buscas mantener la calma en tu entorno. Las personas con alta identificación con el tipo 9 tienen una extraordinaria capacidad para ver múltiples perspectivas y comprender la validez de diferentes puntos de vista para preservar la conexión.",
+      "motivacion": "Tu motor psicológico es la búsqueda de paz interior, armonía y estabilidad. Necesitas sentir que hay calma, que puedes mantener la conexión sin conflicto y preservar la tranquilidad.",
+      "miedo": "El temor fundamental es el conflicto, la separación o la pérdida de armonía. Por eso gestionas cuidadosamente tus límites, opiniones y energía para no generar disrupción.",
+      "rasgos": [
+        "Orientación hacia la armonía y el consenso",
+        "Gran capacidad de mediación y comprensión múltiple",
+        "Pensamiento inclusivo y holístico",
+        "Tendencia a posponer conflictos difíciles",
+        "Uso equilibrado de energía personal",
+        "Preferencia por entornos estables y sin tensión"
+      ],
+      "fortalezas": ["Capacidad excepcional de mediación", "Empatía y comprensión de perspectivas", "Estabilidad emocional", "Enfoque inclusivo y no juzgador", "Construcción de consensos"],
+      "areas": ["Expresar tus propias necesidades y prioridades", "Evitar la postergación de decisiones importantes", "Confrontar sin miedo a perder la conexión", "Reconocer tu propio valor sin fusionarte"]
+    }
+  },
+  "combinaciones": {
+    "5-4": {
+      "arq": "EL ICONOCLASTA",
+      "desc": "Este arquetipo representa a quienes rompen moldes, desafían paradigmas y generan pensamiento original. No buscas repetir lo conocido: buscas innovar, resignificar y crear nuevas estructuras conceptuales o estéticas. Tu mente combina la profundidad analítica con la sensibilidad emocional de maneras únicas.",
+      "cualidad": "Cualidad Rara: El 5w4 combina la agudeza intelectual con la profundidad emocional, formando una identidad compleja, intensa y muy rica en matices.",
+      "fortalezas": [
+        "Un intelecto poderoso con un mundo emocional profundo",
+        "Capacidad para crear ideas y conceptos originales, innovadores y disruptivos",
+        "Integración entre pensamiento lógico y sensibilidad artística",
+        "Potencial para producir trabajos de alta complejidad conceptual y estética",
+        "Autonomía combinada con una identidad personal bien definida"
+      ]
+    },
+    "5-6": {
+      "arq": "EL SOLUCIONADOR",
+      "desc": "Este arquetipo combina análisis profundo con estrategia preventiva. Eres capaz de comprender sistemas complejos mientras anticipas riesgos. Tu mente analítica no solo observa, también prepara y planifica con extraordinaria precisión.",
+      "cualidad": "Cualidad Rara: Mente analítica pero también práctica, leal y confiable. El análisis se convierte en acción responsable.",
+      "fortalezas": [
+        "Análisis exhaustivo combinado con pensamiento estratégico",
+        "Capacidad para anticipar problemas antes de que ocurran",
+        "Integración entre conocimiento teórico y aplicación práctica",
+        "Potencial para crear sistemas robustos y confiables",
+        "Independencia intelectual con sentido de responsabilidad"
+      ]
+    },
+    "1-9": {
+      "arq": "EL IDEALISTA SERENO",
+      "desc": "Buscas la mejora con una aproximación calmada y receptiva. Combinas la búsqueda de lo correcto con la capacidad de aceptar el proceso sin imposición forzada. Tu perfeccionismo está templado por una visión amplia y paciente.",
+      "cualidad": "Cualidad Rara: Exigencia templada con paciencia y visión panorámica. Puedes mantener estándares altos sin perder la serenidad.",
+      "fortalezas": [
+        "Búsqueda de mejora sin rigidez excesiva",
+        "Capacidad para ver errores pero también el panorama completo",
+        "Integración entre estándares elevados y aceptación",
+        "Potencial para liderar cambios sin imposición",
+        "Perfeccionismo equilibrado con paciencia"
+      ]
+    },
+    "1-2": {
+      "arq": "EL DEFENSOR",
+      "desc": "Buscas la rectitud a través del servicio. No solo quieres mejorar las cosas, quieres ayudar activamente a las personas. Tu integridad se expresa en actos de apoyo concretos y significativos.",
+      "cualidad": "Cualidad Rara: Integridad principista combinada con calidez humana. Tus estándares incluyen la compasión.",
+      "fortalezas": [
+        "Compromiso con la mejora orientado hacia el bienestar de otros",
+        "Capacidad para corregir con empatía",
+        "Integración entre principios y conexión humana",
+        "Potencial para inspirar cambios desde el ejemplo y el apoyo",
+        "Exigencia templada con comprensión"
+      ]
+    },
+    "2-1": {
+      "arq": "EL SERVIDOR",
+      "desc": "Ayuda guiada por principios. Tu generosidad no es indiscriminada, sino estructurada por lo que es correcto y beneficioso. Combinas el corazón cálido con la cabeza clara.",
+      "cualidad": "Cualidad Rara: Empatía estructurada y ética del servicio. Tu generosidad tiene límites saludables.",
+      "fortalezas": [
+        "Ayuda estructurada y de alta calidad",
+        "Capacidad para dar con límites claros y saludables",
+        "Integración entre empatía y discernimiento",
+        "Potencial para servir sin sacrificarse excesivamente",
+        "Generosidad combinada con auto-cuidado"
+      ]
+    },
+    "2-3": {
+      "arq": "EL ANFITRIÓN",
+      "desc": "Calidez con capacidad de brillar. No solo cuidas, también conectas y te presentas efectivamente. Tu generosidad tiene impacto visible y atrae a las personas naturalmente.",
+      "cualidad": "Cualidad Rara: Generosidad combinada con carisma y eficiencia. Tu ayuda inspira y motiva.",
+      "fortalezas": [
+        "Ayuda efectiva que también inspira",
+        "Capacidad para conectar y también brillar",
+        "Integración entre empatía y presentación",
+        "Potencial para liderar desde el servicio",
+        "Generosidad combinada con eficiencia"
+      ]
+    },
+    "3-2": {
+      "arq": "EL ENCANTADOR",
+      "desc": "Logro con conexión genuina. No solo alcanzas metas, construyes relaciones auténticas en el proceso. Tu éxito no se construye sobre otros, sino con otros.",
+      "cualidad": "Cualidad Rara: Ambición exitosa que no sacrifica el contacto humano. Puedes ganar sin que otros pierdan.",
+      "fortalezas": [
+        "Éxito que no sacrifica relaciones",
+        "Capacidad para inspirar y conectar",
+        "Integración entre logro y empatía",
+        "Potencial para liderar con carisma auténtico",
+        "Productividad combinada con sensibilidad humana"
+      ]
+    },
+    "3-4": {
+      "arq": "EL PROFESIONAL",
+      "desc": "Éxito con autenticidad. Quieres que tus logros sean un reflejo de tu identidad única, no solo una imagen construida. Tu ambición busca significado profundo.",
+      "cualidad": "Cualidad Rara: Productividad combinada con profundidad artística. Puedes tener éxito siendo tú mismo.",
+      "fortalezas": [
+        "Éxito con sustancia y significado",
+        "Capacidad para destacar sin perder autenticidad",
+        "Integración entre logro externo e integridad interna",
+        "Potencial para crear trabajos originales y exitosos",
+        "Productividad combinada con expresión personal"
+      ]
+    },
+    "4-3": {
+      "arq": "EL ARISTÓCRATA",
+      "desc": "Creatividad que produce resultados tangibles. Tienes la profundidad del artista y el empuje del ejecutor. Tu sensibilidad no te paraliza, te impulsa a crear.",
+      "cualidad": "Cualidad Rara: Capacidad de materializar emociones complejas en obras tangibles. Tu arte tiene impacto.",
+      "fortalezas": [
+        "Creatividad que se materializa en resultados",
+        "Capacidad para expresar emoción con impacto",
+        "Integración entre autenticidad y efectividad",
+        "Potencial para crear obras originales y reconocidas",
+        "Profundidad combinada con acción"
+      ]
+    },
+    "4-5": {
+      "arq": "EL BOHEMIO",
+      "desc": "Introspección total. Combinas la profundidad emocional con el análisis intelectual riguroso. Tu mundo interior es rico, complejo y profundamente explorado.",
+      "cualidad": "Cualidad Rara: Comprensión intuitiva y lógica simultánea de la realidad. Sientes Y piensas con intensidad.",
+      "fortalezas": [
+        "Integración profunda de emoción e intelecto",
+        "Capacidad para comprender lo complejo desde múltiples ángulos",
+        "Originalidad conceptual y emocional",
+        "Potencial para crear trabajos de gran profundidad",
+        "Autonomía emocional e intelectual"
+      ]
+    },
+    "6-5": {
+      "arq": "EL GUARDIÁN",
+      "desc": "Lealtad analítica. Te comprometes, pero primero verificas todos los datos. Tu confianza se basa en comprensión profunda y evidencia sólida.",
+      "cualidad": "Cualidad Rara: Escepticismo saludable combinado con lealtad inquebrantable una vez convencido.",
+      "fortalezas": [
+        "Análisis minucioso antes de comprometerte",
+        "Lealtad fundamentada en conocimiento profundo",
+        "Capacidad para anticipar con base en datos",
+        "Confiabilidad sustentada en comprensión",
+        "Preparación exhaustiva y responsable"
+      ]
+    },
+    "6-7": {
+      "arq": "EL COMPAÑERO",
+      "desc": "Seguridad con diversión. Anticipas riesgos pero mantienes el optimismo y el humor. Tu responsabilidad no te impide disfrutar la vida.",
+      "cualidad": "Cualidad Rara: Responsabilidad que no pierde la chispa de la alegría. Puedes ser serio sin ser pesado.",
+      "fortalezas": [
+        "Preparación que no elimina la espontaneidad",
+        "Capacidad para mantener optimismo siendo realista",
+        "Lealtad con ligereza y humor",
+        "Anticipación de riesgos sin paranoia",
+        "Compromiso que permite flexibilidad"
+      ]
+    },
+    "7-6": {
+      "arq": "EL ENTRETENEDOR",
+      "desc": "Entusiasmo responsable. Buscas la novedad pero mantienes los pies en la tierra. Tu exploración tiene plan de seguridad.",
+      "cualidad": "Cualidad Rara: Exploración aventurera con un plan de seguridad. Eres audaz pero no imprudente.",
+      "fortalezas": [
+        "Optimismo fundamentado en preparación",
+        "Capacidad para explorar con responsabilidad",
+        "Versatilidad con compromiso",
+        "Creatividad aplicada estratégicamente",
+        "Entusiasmo que incluye planificación"
+      ]
+    },
+    "7-8": {
+      "arq": "EL REALISTA",
+      "desc": "Energía y poder. Vas tras lo que quieres con fuerza y optimismo. Tu visión positiva se combina con la determinación para hacerla realidad.",
+      "cualidad": "Cualidad Rara: Visión de posibilidades combinada con la fuerza para ejecutarlas. No solo sueñas, haces.",
+      "fortalezas": [
+        "Entusiasmo con determinación",
+        "Capacidad para perseguir posibilidades con poder",
+        "Optimismo que se traduce en acción decidida",
+        "Versatilidad con autonomía",
+        "Exploración sustentada en control personal"
+      ]
+    },
+    "8-7": {
+      "arq": "EL MAVERICK",
+      "desc": "Liderazgo expansivo. Tomas el control para abrir nuevas posibilidades. Tu poder se usa para crear libertad, no restricción.",
+      "cualidad": "Cualidad Rara: Autoridad natural con una visión optimista y enérgica. Lideras hacia la abundancia.",
+      "fortalezas": [
+        "Poder con entusiasmo",
+        "Liderazgo que abre posibilidades",
+        "Fuerza combinada con optimismo",
+        "Control que crea libertad",
+        "Determinación orientada a la expansión"
+      ]
+    },
+    "8-9": {
+      "arq": "EL OSO",
+      "desc": "Fuerza tranquila. Tienes un poder inmenso que ejerces con calma y estabilidad. Tu autoridad no necesita gritar para ser respetada.",
+      "cualidad": "Cualidad Rara: Liderazgo protector que no necesita ser agresivo para mandar. Tu fuerza es serena.",
+      "fortalezas": [
+        "Poder sin agresividad innecesaria",
+        "Liderazgo sin imposición",
+        "Fuerza combinada con serenidad",
+        "Protección sin dominación",
+        "Determinación templada con receptividad"
+      ]
+    },
+    "9-8": {
+      "arq": "EL ÁRBITRO",
+      "desc": "Paz con fuerza. Buscas la armonía, pero tienes la fuerza para imponerla cuando es absolutamente necesario. Tu naturaleza pacífica esconde una reserva de tenacidad.",
+      "cualidad": "Cualidad Rara: Naturaleza pacífica con una reserva oculta de tenacidad. Eres suave pero no débil.",
+      "fortalezas": [
+        "Serenidad con capacidad de acción firme",
+        "Mediación que puede tornarse decisiva",
+        "Paz sustentada en fuerza personal",
+        "Receptividad con límites claros",
+        "Armonía que no acepta abuso"
+      ]
+    },
+    "9-1": {
+      "arq": "EL SOÑADOR",
+      "desc": "Armonía idealista. Quieres un mundo pacífico y también correcto y ordenado. Tu visión de paz incluye justicia y estructura.",
+      "cualidad": "Cualidad Rara: Visión utópica sustentada en valores morales sólidos. Tu paz es principista.",
+      "fortalezas": [
+        "Serenidad con principios claros",
+        "Capacidad para mediar desde la integridad",
+        "Paz que incluye mejora",
+        "Receptividad con discernimiento",
+        "Calma sustentada en valores"
+      ]
+    }
+  },
+  "arquetipo_generico": {
+    "_descripcion": "Fallback del .gs cuando ni 'dom-sec' ni 'sec-dom' existen en combinaciones. 'cualidad' y 'fortalezas' se construyen dinámicamente: cualidad = 'Equilibrio entre ' + nombre_dominante + ' y ' + nombre_secundario; fortalezas = fortalezas del eneatipo secundario.",
+    "arq": "LA FUSIÓN",
+    "desc": "Una combinación única de tus energías principales."
+  }
+}

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe Big Five — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:840px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:30px;margin-bottom:6px}
+  .hcover .st{font-size:14px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:11px 12px;font-size:13px;border-bottom:1px solid var(--linea);vertical-align:top}
+  thead th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td .dn{font-weight:800;color:var(--violeta)}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  .profile-head{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,rgba(77,36,143,.08),rgba(107,225,227,.08));border:1px solid var(--linea);border-radius:14px;padding:18px 20px;margin-bottom:18px}
+  .profile-head .big{width:54px;height:54px;border-radius:15px;background:var(--gradv);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}
+  .profile-head h3{font-size:18px}.profile-head .tg{font-size:12.5px;color:var(--muted)}
+  .profile-head .chip{margin-left:auto;background:rgba(23,138,143,.14);color:#178a8f;font-weight:800;font-size:11px;padding:6px 12px;border-radius:999px}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+  .mini{border:1px solid var(--linea);border-radius:12px;padding:16px}
+  .mini h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+  .mini.dev h4{color:#178a8f}.mini.risk h4{color:#c98a1a}
+  .mini p{font-size:13px;line-height:1.6;color:#3a3d4d}
+
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  .ctitle{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;margin-bottom:8px;text-align:center}
+  svg .ring2{fill:none;stroke:var(--linea);stroke-width:1}svg .axis{stroke:var(--linea);stroke-width:1}svg .lab{fill:var(--muted);font-size:12px;font-weight:700}
+  .bars{display:flex;flex-direction:column;gap:13px}
+  .bar label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;font-weight:600}
+  .bar label b{font-weight:800}
+  .track{height:10px;background:#eef0f6;border-radius:999px;position:relative}
+  .track>i{position:absolute;left:0;top:0;height:100%;border-radius:999px;background:var(--grad)}
+  .track>u{position:absolute;top:-3px;width:2px;height:16px;background:var(--tinta);border-radius:2px}
+  .leg{font-size:11px;color:var(--muted);margin-top:14px;display:flex;gap:16px;justify-content:center}
+  .leg span{display:flex;align-items:center;gap:6px}
+
+  .dim{border:1px solid var(--linea);border-radius:14px;padding:20px;margin-bottom:16px;break-inside:avoid}
+  .dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+  .dh b{font-size:16px}
+  .dh .meta{font-size:12px;color:var(--muted);font-weight:600;width:100%}
+  .lvl{font-size:11px;font-weight:800;padding:5px 11px;border-radius:999px}
+  .lvl.muyAlto{color:#b5559f;background:rgba(225,123,215,.16)}.lvl.alto{color:#178a8f;background:rgba(107,225,227,.2)}
+  .lvl.moderadoAlto{color:#178a8f;background:rgba(107,225,227,.13)}.lvl.promedio{color:#9a7d1a;background:rgba(228,199,106,.28)}.lvl.bajo{color:#c98a1a;background:rgba(228,199,106,.22)}.lvl.muyBajo{color:#c0392b;background:rgba(192,57,43,.12)}
+  .dscore{height:7px;background:#eef0f6;border-radius:999px;margin:10px 0 14px;position:relative}
+  .dscore i{position:absolute;left:0;top:0;height:100%;border-radius:999px;background:var(--grad)}
+  .dim p.desc{font-size:13.5px;line-height:1.65;color:#3a3d4d;margin-bottom:14px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:12px}
+  .two h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:800;margin-bottom:8px}
+  .two ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .two li{font-size:13px;line-height:1.45;display:flex;gap:8px}
+  .two li .ico{width:15px;height:15px;flex:none;margin-top:2px}
+  .two.fort li .ico{color:#178a8f}.two.area li .ico{color:#c98a1a}
+  .prof{font-size:13px;line-height:1.5;background:rgba(77,36,143,.05);border-left:3px solid var(--violeta);padding:11px 14px;border-radius:0 8px 8px 0}
+  .prof b{color:var(--violeta)}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}
+  .footer .row{margin-top:6px}
+
+  @media print{
+    body{background:#fff;padding:0}.toolbar{display:none}
+    .doc{margin:0;max-width:100%;gap:0}
+    .sheet{box-shadow:none;border-radius:0;break-after:page}
+    .dim,.profile-head,.charts{break-inside:avoid}
+  }
+  @media(max-width:720px){.charts,.twocol,.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-check"><path d="M5 12.5l4.5 4.5L19 7"/></g>
+    <g id="i-dot"><circle cx="12" cy="12" r="3.4"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e17bd7"/><stop offset="1" stop-color="#6be1e3"/></linearGradient>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top">
+          <div class="clogo"><span class="b">EC</span> Escencial Consultora</div>
+          <span class="conf">Informe confidencial</span>
+        </div>
+        <h1>Tu Perfil de Personalidad</h1>
+        <div class="st">Test Big Five (IPIP-50)</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Rasgo dominante</div><div class="v" style="color:var(--violeta)">Responsabilidad · P81</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el modelo</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test Big Five (IPIP-50)?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo Big Five</b></li>
+          <li><span class="nn">3</span><b>Las cinco dimensiones</b></li>
+          <li><span class="nn">4</span><b>Qué NO es el Test Big Five (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">5</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Tu perfil personalizado</li>
+          <li><span class="nn">1</span><b>Resumen ejecutivo</b></li>
+          <li><span class="nn">2</span><b>Gráficos: radar y comparativa</b></li>
+          <li><span class="nn">3</span><b>Análisis por dimensión</b></li>
+          <li><span class="nn">4</span><b>Síntesis de fortalezas y desarrollo</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el modelo Big Five</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Comprendiendo el modelo</span><span>1 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test Big Five (IPIP-50)?</h2>
+        <p class="tx">El modelo Big Five es un inventario de personalidad que evalúa las tendencias conductuales y emocionales de un individuo a través de cinco dimensiones fundamentales: Apertura a la Experiencia, Responsabilidad, Extraversión, Amabilidad y Neuroticismo. Estas cinco dimensiones se consideran los pilares básicos de la personalidad humana y han demostrado ser consistentes a través de diferentes culturas e idiomas.</p>
+        <p class="tx">La herramienta se estructura mediante 50 preguntas (10 correspondientes a cada dimensión), las cuales se responden utilizando una escala Likert de 5 puntos, y los resultados finales se calculan y visualizan basándose en percentiles poblacionales.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Comprendiendo el modelo</span><span>2 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo Big Five</h2>
+        <p class="tx">El marco conceptual del Big Five es uno de los enfoques más validados científicamente en el estudio de la personalidad humana. Esta versión específica utiliza el IPIP-50 (International Personality Item Pool), un inventario de dominio público que ha sido implementado empíricamente en más de 1.000 estudios académicos publicados.</p>
+        <p class="tx">Entre sus fundamentos metodológicos, el test destaca por poseer una alta consistencia interna y precisión en sus mediciones, con un coeficiente de confiabilidad (Alfa de Cronbach) de entre 0.77 y 0.86 en sus cinco dimensiones. Para garantizar la objetividad y evitar sesgos de respuesta, el 50% de los ítems del cuestionario están formulados de manera invertida. Además, la plataforma utiliza un sistema de aleatorización por bloques, asegurando que el orden de las preguntas cambie en cada evaluación.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Comprendiendo el modelo</span><span>3 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Las cinco dimensiones</h2>
+        <p class="tx">Cada dimensión se interpreta como un continuo entre dos polos. Ninguno es “mejor”: cada extremo aporta fortalezas y desafíos según el rol y el contexto.</p>
+        <table>
+          <thead><tr><th>Dimensión</th><th>Puntuación alta</th><th>Puntuación baja</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dn">Extraversión</span></td><td>Sociable, enérgico/a, asertivo/a; disfruta la interacción.</td><td>Reservado/a, reflexivo/a; prefiere grupos pequeños y foco.</td></tr>
+            <tr><td><span class="dn">Amabilidad</span></td><td>Empático/a, cooperativo/a, confiable; cuida el vínculo.</td><td>Directo/a, objetivo/a, crítico/a; prioriza la tarea.</td></tr>
+            <tr><td><span class="dn">Responsabilidad</span></td><td>Organizado/a, disciplinado/a, orientado/a a objetivos.</td><td>Flexible, espontáneo/a; cómodo/a con la improvisación.</td></tr>
+            <tr><td><span class="dn">Neuroticismo</span></td><td>Sensible al estrés; emociones intensas y cambiantes.</td><td>Calmado/a, resiliente; estabilidad emocional alta.</td></tr>
+            <tr><td><span class="dn">Apertura</span></td><td>Curioso/a, creativo/a, abierto/a a lo nuevo.</td><td>Práctico/a, convencional; valora lo conocido.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Comprendiendo el modelo</span><span>4 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Qué NO es el Test Big Five (y cómo evitar malos usos)</h2>
+        <p class="tx">Para asegurar la correcta interpretación de esta herramienta, es fundamental tener en cuenta los siguientes lineamientos:</p>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No establece un juicio de valor</b> sobre la persona; no existen respuestas “buenas” o “malas”, ya que cada nivel percentil posee fortalezas y áreas de atención específicas según el contexto.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No es un diagnóstico clínico definitivo</b>; sus resultados pueden verse temporalmente influenciados por el estado emocional actual del evaluado o el contexto en que se realiza la prueba.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No debe utilizarse como un veredicto aislado</b>; es una evaluación estandarizada diseñada para integrarse en un proceso más amplio de autoconocimiento. Se recomienda complementarla con otras herramientas psicométricas y el análisis de un profesional cualificado.</span></li>
+        </ul>
+        <div class="callout"><b>En resumen:</b> usá este informe para comprender tendencias y potenciar el desarrollo, no como una etiqueta. Los percentiles describen posición relativa en la población, no capacidad ni valor personal.</div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Comprendiendo el modelo</span><span>5 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 5</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">Cada dimensión obtiene una <b>puntuación directa</b> (de 10 a 50) que se transforma en un <b>percentil</b> comparándola con una norma poblacional. El percentil indica qué porcentaje de la población obtiene una puntuación igual o menor.</p>
+        <table>
+          <thead><tr><th>Percentil</th><th>Nivel</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>90–100</td><td>Muy Alto</td><td>Superás a más del 90% de las personas.</td></tr>
+            <tr><td>75–89</td><td>Alto</td><td>Significativamente por encima del promedio.</td></tr>
+            <tr><td>50–74</td><td>Moderadamente Alto</td><td>Por encima del promedio poblacional.</td></tr>
+            <tr><td>40–49</td><td>Promedio</td><td>Rango típico de la población.</td></tr>
+            <tr><td>25–39</td><td>Bajo</td><td>Por debajo del promedio poblacional.</td></tr>
+            <tr><td>0–24</td><td>Muy Bajo</td><td>Significativamente por debajo del promedio.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Cálculo exacto y sin IA:</b> los puntajes y percentiles se calculan de forma determinista a partir de tus respuestas. La inteligencia artificial no interviene en ningún resultado.</div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Tu perfil personalizado</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Tu perfil</span><span>Resumen ejecutivo</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Resumen ejecutivo</h2>
+        <div class="profile-head">
+          <div class="big">MH</div>
+          <div><h3>Perfil orientado a la organización y el cumplimiento</h3><div class="tg">Rasgo dominante: Responsabilidad (P81)</div></div>
+          <span class="chip">Estilo reservado y metódico</span>
+        </div>
+        <p class="tx">El perfil de Marcela muestra la <b>Responsabilidad</b> como su característica más destacada (percentil 81): una persona organizada, trabajadora y confiable, que planifica y cumple sus compromisos. Combina esto con un estilo <b>reservado</b> (Extraversión baja) y <b>directo/objetivo</b> en lo interpersonal (Amabilidad baja), priorizando la tarea y el criterio propio. Su <b>Neuroticismo alto</b> (P75) indica sensibilidad al estrés y conciencia emocional, mientras que su <b>Apertura</b> se ubica en un nivel bajo, con preferencia por lo conocido y lo práctico.</p>
+        <div class="twocol">
+          <div class="mini dev"><h4>Valor principal que aporta</h4><p>Confiabilidad y foco: cumple plazos, cuida los detalles y sostiene la productividad. Aporta criterio objetivo y trabajo autónomo de alta calidad.</p></div>
+          <div class="mini risk"><h4>Puntos de atención</h4><p>Puede beneficiarse de mayor flexibilidad y apertura al cambio, de cultivar vínculos colaborativos y de incorporar técnicas de manejo del estrés.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Tu perfil</span><span>Gráficos</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Gráficos: radar y comparativa</h2>
+        <div class="charts">
+          <div>
+            <div class="ctitle">Mapa de rasgos</div>
+            <svg viewBox="0 0 400 380" width="100%">
+              <polygon class="ring2" points="200,40 342.7,143.6 288.2,311.4 111.8,311.4 57.3,143.6"/>
+              <polygon class="ring2" points="200,90 295.1,159.1 258.8,270.9 141.2,270.9 104.9,159.1"/>
+              <polygon class="ring2" points="200,140 247.6,174.5 229.4,230.5 170.6,230.5 152.4,174.5"/>
+              <line class="axis" x1="200" y1="190" x2="200" y2="40"/><line class="axis" x1="200" y1="190" x2="342.7" y2="143.6"/>
+              <line class="axis" x1="200" y1="190" x2="288.2" y2="311.4"/><line class="axis" x1="200" y1="190" x2="111.8" y2="311.4"/>
+              <line class="axis" x1="200" y1="190" x2="57.3" y2="143.6"/>
+              <polygon points="200,115 291.3,160.3 275.8,294.4 138.3,274.9 100.1,157.5" fill="rgba(225,123,215,.25)" stroke="url(#g)" stroke-width="2.5"/>
+              <circle cx="200" cy="115" r="4.5" fill="#e17bd7"/><circle cx="291.3" cy="160.3" r="4.5" fill="#e17bd7"/><circle cx="275.8" cy="294.4" r="4.5" fill="#e17bd7"/><circle cx="138.3" cy="274.9" r="4.5" fill="#e17bd7"/><circle cx="100.1" cy="157.5" r="4.5" fill="#e17bd7"/>
+              <text class="lab" x="200" y="26" text-anchor="middle">Extraversión</text><text class="lab" x="352" y="138" text-anchor="start">Amabilidad</text>
+              <text class="lab" x="300" y="336" text-anchor="middle">Responsabilidad</text><text class="lab" x="100" y="336" text-anchor="middle">Neuroticismo</text>
+              <text class="lab" x="48" y="138" text-anchor="end">Apertura</text>
+            </svg>
+          </div>
+          <div>
+            <div class="ctitle">Puntuación vs. promedio poblacional</div>
+            <div class="bars">
+              <div class="bar"><label>Extraversión <b>25</b></label><div class="track"><i style="width:50%"></i><u style="left:66%"></u></div></div>
+              <div class="bar"><label>Amabilidad <b>32</b></label><div class="track"><i style="width:64%"></i><u style="left:76%"></u></div></div>
+              <div class="bar"><label>Responsabilidad <b>43</b></label><div class="track"><i style="width:86%"></i><u style="left:70%"></u></div></div>
+              <div class="bar"><label>Neuroticismo <b>35</b></label><div class="track"><i style="width:70%"></i><u style="left:56%"></u></div></div>
+              <div class="bar"><label>Apertura <b>35</b></label><div class="track"><i style="width:70%"></i><u style="left:76%"></u></div></div>
+            </div>
+            <div class="leg"><span><i style="width:14px;height:9px;border-radius:3px;background:var(--grad);display:inline-block"></i> Marcela</span><span><i style="width:2px;height:15px;background:var(--tinta);display:inline-block"></i> Promedio</span></div>
+          </div>
+        </div>
+        <p class="tx" style="margin-top:18px">El radar muestra la forma general del perfil; las barras comparan cada puntuación con el promedio poblacional (la línea vertical marca ese promedio).</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Tu perfil</span><span>Análisis por dimensión</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Análisis por dimensión</h2>
+
+        <div class="dim">
+          <div class="dh"><b>Responsabilidad</b><span class="lvl alto">ALTO</span></div>
+          <div class="dh meta">Percentil 81 · Puntuación 43 / 50</div>
+          <div class="dscore"><i style="width:86%"></i></div>
+          <p class="desc">Eres muy organizado/a y trabajador/a. Planificas con anticipación y cumples consistentemente con tus compromisos.</p>
+          <div class="two fort"><div><h4>Fortalezas</h4><ul><li><svg class="ico"><use href="#i-check"/></svg> Cumplimiento consistente de compromisos</li><li><svg class="ico"><use href="#i-check"/></svg> Gestión efectiva del tiempo</li><li><svg class="ico"><use href="#i-check"/></svg> Atención a detalles importantes</li><li><svg class="ico"><use href="#i-check"/></svg> Productividad sostenida</li></ul></div>
+            <div class="area"><h4>Áreas de atención</h4><ul><li><svg class="ico"><use href="#i-dot"/></svg> Permitir flexibilidad ocasional</li><li><svg class="ico"><use href="#i-dot"/></svg> Evitar sobre-compromiso</li><li><svg class="ico"><use href="#i-dot"/></svg> Balance con espontaneidad</li><li><svg class="ico"><use href="#i-dot"/></svg> Prevención de rigidez</li></ul></div></div>
+          <div class="prof"><b>Implicaciones profesionales:</b> Gestión de operaciones, planificación estratégica, administración de programas, contabilidad, gestión de cumplimiento.</div>
+        </div>
+
+        <div class="dim">
+          <div class="dh"><b>Neuroticismo</b><span class="lvl alto">ALTO</span></div>
+          <div class="dh meta">Percentil 75 · Puntuación 35 / 50</div>
+          <div class="dscore"><i style="width:70%"></i></div>
+          <p class="desc">Tiendes a experimentar preocupación y ansiedad con frecuencia. Te beneficiarías de técnicas de gestión del estrés.</p>
+          <div class="two fort"><div><h4>Fortalezas</h4><ul><li><svg class="ico"><use href="#i-check"/></svg> Conciencia emocional desarrollada</li><li><svg class="ico"><use href="#i-check"/></svg> Anticipación de riesgos</li><li><svg class="ico"><use href="#i-check"/></svg> Motivación por preocupación</li><li><svg class="ico"><use href="#i-check"/></svg> Sensibilidad interpersonal</li></ul></div>
+            <div class="area"><h4>Áreas de atención</h4><ul><li><svg class="ico"><use href="#i-dot"/></svg> Gestión proactiva del estrés</li><li><svg class="ico"><use href="#i-dot"/></svg> Desarrollo de resiliencia</li><li><svg class="ico"><use href="#i-dot"/></svg> Técnicas de afrontamiento</li><li><svg class="ico"><use href="#i-dot"/></svg> Prevención de espirales ansiosas</li></ul></div></div>
+          <div class="prof"><b>Implicaciones profesionales:</b> Entornos de apoyo, roles con claridad de expectativas, organizaciones con balance vida-trabajo, equipos colaborativos.</div>
+        </div>
+
+        <div class="dim">
+          <div class="dh"><b>Apertura a la Experiencia</b><span class="lvl bajo">BAJO</span></div>
+          <div class="dh meta">Percentil 35 · Puntuación 35 / 50</div>
+          <div class="dscore"><i style="width:70%"></i></div>
+          <p class="desc">Prefieres lo familiar y práctico sobre lo abstracto. Valoras la tradición y las rutinas establecidas.</p>
+          <div class="two fort"><div><h4>Fortalezas</h4><ul><li><svg class="ico"><use href="#i-check"/></svg> Consistencia operacional</li><li><svg class="ico"><use href="#i-check"/></svg> Dominio de lo establecido</li><li><svg class="ico"><use href="#i-check"/></svg> Estabilidad</li><li><svg class="ico"><use href="#i-check"/></svg> Confiabilidad rutinaria</li></ul></div>
+            <div class="area"><h4>Áreas de atención</h4><ul><li><svg class="ico"><use href="#i-dot"/></svg> Riesgo de obsolescencia profesional</li><li><svg class="ico"><use href="#i-dot"/></svg> Dificultad con el cambio organizacional</li><li><svg class="ico"><use href="#i-dot"/></svg> Desarrollo de flexibilidad cognitiva</li></ul></div></div>
+          <div class="prof"><b>Implicaciones profesionales:</b> Operaciones repetitivas, roles tradicionales estables, manufactura especializada.</div>
+        </div>
+
+        <div class="dim">
+          <div class="dh"><b>Extraversión</b><span class="lvl muyBajo">MUY BAJO</span></div>
+          <div class="dh meta">Percentil 23 · Puntuación 25 / 50</div>
+          <div class="dscore"><i style="width:50%"></i></div>
+          <p class="desc">Prefieres claramente ambientes tranquilos y contacto social limitado. Te recargas con tiempo a solas y disfrutas de actividades solitarias.</p>
+          <div class="two fort"><div><h4>Fortalezas</h4><ul><li><svg class="ico"><use href="#i-check"/></svg> Capacidad excepcional de concentración sostenida</li><li><svg class="ico"><use href="#i-check"/></svg> Trabajo autónomo de altísima calidad</li><li><svg class="ico"><use href="#i-check"/></svg> Pensamiento profundo y original</li><li><svg class="ico"><use href="#i-check"/></svg> Independencia laboral máxima</li></ul></div>
+            <div class="area"><h4>Áreas de atención</h4><ul><li><svg class="ico"><use href="#i-dot"/></svg> Evitar el aislamiento social excesivo</li><li><svg class="ico"><use href="#i-dot"/></svg> Desarrollar una red de apoyo pequeña pero sólida</li><li><svg class="ico"><use href="#i-dot"/></svg> Estrategias de comunicación (especialmente escritas)</li><li><svg class="ico"><use href="#i-dot"/></svg> Identificar situaciones sociales manejables</li></ul></div></div>
+          <div class="prof"><b>Implicaciones profesionales:</b> Investigación, análisis cuantitativo, desarrollo técnico, roles especializados con trabajo independiente.</div>
+        </div>
+
+        <div class="dim">
+          <div class="dh"><b>Amabilidad</b><span class="lvl muyBajo">MUY BAJO</span></div>
+          <div class="dh meta">Percentil 22 · Puntuación 32 / 50</div>
+          <div class="dscore"><i style="width:64%"></i></div>
+          <p class="desc">Eres muy directo/a y escéptico/a. Priorizas claramente tus intereses y valoras la franqueza sobre la armonía social.</p>
+          <div class="two fort"><div><h4>Fortalezas</h4><ul><li><svg class="ico"><use href="#i-check"/></svg> Resistencia a la manipulación</li><li><svg class="ico"><use href="#i-check"/></svg> Decisiones objetivas</li><li><svg class="ico"><use href="#i-check"/></svg> Protección de los propios intereses</li><li><svg class="ico"><use href="#i-check"/></svg> Pensamiento estratégico</li></ul></div>
+            <div class="area"><h4>Áreas de atención</h4><ul><li><svg class="ico"><use href="#i-dot"/></svg> Cuidar el riesgo de distancia social</li><li><svg class="ico"><use href="#i-dot"/></svg> Desarrollar habilidades interpersonales</li><li><svg class="ico"><use href="#i-dot"/></svg> Reconocer el valor de la colaboración</li><li><svg class="ico"><use href="#i-dot"/></svg> Practicar la empatía estratégica</li></ul></div></div>
+          <div class="prof"><b>Implicaciones profesionales:</b> Roles competitivos (con equipo complementario), negociación, toma de decisiones difíciles.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>BIG FIVE</b> · Tu perfil</span><span>Síntesis</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Síntesis de fortalezas y desarrollo</h2>
+        <div class="two">
+          <div><h4 style="color:#178a8f;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Principales fortalezas</h4>
+            <ul class="nolist">
+              <li><svg class="ico" style="color:#178a8f"><use href="#i-check"/></svg><span>Organización, foco y cumplimiento (Responsabilidad alta).</span></li>
+              <li><svg class="ico" style="color:#178a8f"><use href="#i-check"/></svg><span>Concentración profunda y trabajo autónomo de calidad.</span></li>
+              <li><svg class="ico" style="color:#178a8f"><use href="#i-check"/></svg><span>Criterio objetivo y resistencia a la manipulación.</span></li>
+              <li><svg class="ico" style="color:#178a8f"><use href="#i-check"/></svg><span>Conciencia emocional y anticipación de riesgos.</span></li>
+            </ul>
+          </div>
+          <div><h4 style="color:#c98a1a;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Oportunidades de desarrollo</h4>
+            <ul class="nolist">
+              <li><svg class="ico" style="color:#c98a1a"><use href="#i-dot"/></svg><span>Incorporar técnicas de manejo del estrés.</span></li>
+              <li><svg class="ico" style="color:#c98a1a"><use href="#i-dot"/></svg><span>Cultivar vínculos colaborativos y comunicación interpersonal.</span></li>
+              <li><svg class="ico" style="color:#c98a1a"><use href="#i-dot"/></svg><span>Mayor apertura al cambio y a nuevos enfoques.</span></li>
+              <li><svg class="ico" style="color:#c98a1a"><use href="#i-dot"/></svg><span>Flexibilidad para equilibrar la estructura con la espontaneidad.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:18px"><b>Nota importante:</b> este informe es una evaluación estandarizada que debe interpretarse como parte de un proceso más amplio de autoconocimiento. Los resultados pueden verse influenciados por el estado emocional y el contexto al momento del test. Para una evaluación integral, se recomienda complementarlo con otras herramientas y la guía de un profesional cualificado.</div>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Informe confidencial y de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

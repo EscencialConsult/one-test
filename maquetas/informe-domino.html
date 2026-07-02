@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe Dominó D-48 — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:840px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:30px;margin-bottom:6px}
+  .hcover .st{font-size:14px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:11px 12px;font-size:13px;border-bottom:1px solid var(--linea);vertical-align:top}
+  thead th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td .dn{font-weight:800;color:var(--violeta)}
+  td.c{text-align:center}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .warn{background:rgba(228,199,106,.14);border:1px solid rgba(228,199,106,.5);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .warn b{color:#9a7d1a}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+  .yeslist{list-style:none;display:flex;flex-direction:column;gap:10px;margin:8px 0}
+  .yeslist li{display:flex;gap:10px;font-size:13.8px;line-height:1.5;align-items:flex-start}
+  .yeslist li::before{content:"✓";color:#0f9d6b;font-weight:800}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  /* stats globales */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  .stat{border:1px solid var(--linea);border-radius:14px;padding:20px 14px;text-align:center}
+  .stat .v{font-size:36px;font-weight:800;color:var(--violeta);line-height:1}
+  .stat .sub{font-size:12px;color:var(--muted);margin-top:6px}
+  .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;margin-bottom:10px}
+  .clasif{display:flex;align-items:center;gap:16px;border-radius:14px;padding:18px 22px;background:rgba(192,57,43,.07);border:1px solid rgba(192,57,43,.28)}
+  .clasif .tag{font-size:15px;font-weight:800;letter-spacing:1px;color:#fff;background:#c0392b;padding:8px 16px;border-radius:999px;white-space:nowrap}
+  .clasif .d{font-size:13.5px;color:#3a3d4d;line-height:1.5}
+
+  /* barras tipologías */
+  .barlist{display:flex;flex-direction:column;gap:14px}
+  .arow{display:flex;align-items:center;gap:12px}
+  .arow .nm{flex:1;min-width:0}
+  .arow .nm .t{font-size:13.5px;font-weight:700}
+  .arow .nm .d{font-size:12px;color:var(--muted);margin-top:2px}
+  .arow .track{height:11px;background:#eef0f6;border-radius:999px;overflow:hidden;margin-top:6px}
+  .arow .track i{display:block;height:100%;border-radius:999px;background:var(--grad)}
+  .arow .track i.zero{background:#d7dae6}
+  .arow .pd{width:78px;text-align:right;font-weight:700;font-size:12.5px;color:#3a3d4d}
+  .arow .pd b{color:var(--violeta)}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}.footer .row{margin-top:6px}
+
+  @media print{body{background:#fff;padding:0}.toolbar{display:none}.doc{margin:0;max-width:100%;gap:0}.sheet{box-shadow:none;border-radius:0;break-after:page}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top"><div class="clogo"><span class="b">EC</span> Escencial Consultora</div><span class="conf">Informe confidencial</span></div>
+        <h1>Informe Test de Dominó D-48</h1>
+        <div class="st">Inteligencia No Verbal y Razonamiento Abstracto</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Clasificación</div><div class="v" style="color:#c0392b">Deficiente · P2</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el test</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test de Dominó D-48?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo</b></li>
+          <li><span class="nn">3</span><b>Las 7 tipologías de patrones</b></li>
+          <li><span class="nn">4</span><b>Qué NO es el test (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">5</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Resultados de la evaluación</li>
+          <li><span class="nn">1</span><b>Resultados globales e interpretación</b></li>
+          <li><span class="nn">2</span><b>Análisis por tipo de patrón</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el test</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Comprendiendo el test</span><span>1 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test de Dominó D-48?</h2>
+        <p class="tx">El Test de Dominó D-48 es una evaluación psicométrica centrada en la medición de la <b>inteligencia no verbal y el razonamiento abstracto</b>.</p>
+        <p class="tx">Se compone de <b>48 problemas visuales</b> que utilizan fichas de dominó. La tarea del evaluado consiste en descubrir la regla subyacente en cada secuencia visual y seleccionar, entre un grupo de opciones, la ficha exacta que completa el patrón correctamente. Su objetivo principal es medir la capacidad de razonamiento lógico-abstracto, la detección de patrones, la inducción, la abstracción y la flexibilidad cognitiva del individuo sin depender del lenguaje.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Comprendiendo el test</span><span>2 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo</h2>
+        <p class="tx">Este instrumento fue creado en <b>1955</b> por el psicólogo <b>Edgar Anstey</b>, con el propósito específico de medir el <b>Factor G</b> de inteligencia postulado por la teoría de Charles Spearman. Sus fundamentos metodológicos y de diseño incluyen:</p>
+        <p class="tx"><b>Progresión de complejidad:</b> la prueba se estructura con dificultad creciente, dividiendo los problemas en <b>siete tipologías</b> de patrones lógicos: Progresiones Simples, Progresiones con Ciclos, Alternancia y Pares, Progresiones Múltiples, Intercalación Compleja, Series Especiales y Patrones de Máxima Complejidad.</p>
+        <p class="tx"><b>Baremos de rendimiento:</b> el sistema computa la cantidad de respuestas correctas (sobre un máximo de 48) y las traduce a un percentil poblacional, ubicando al evaluado en uno de cinco niveles diagnósticos.</p>
+        <p class="tx"><b>Factor de presión:</b> la prueba cuenta con un límite de tiempo estricto, evaluando también la agilidad en el procesamiento de información nueva.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Comprendiendo el test</span><span>3 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Las 7 tipologías de patrones</h2>
+        <table>
+          <thead><tr><th>Tipo</th><th>Qué mide</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dn">A · Progresiones Simples</span></td><td>Identificación de secuencias lineales y patrones predecibles.</td></tr>
+            <tr><td><span class="dn">B · Progresiones con Ciclos</span></td><td>Comprensión de sistemas cíclicos y patrones que se reinician.</td></tr>
+            <tr><td><span class="dn">C · Alternancia y Pares</span></td><td>Flexibilidad cognitiva para detectar patrones no lineales.</td></tr>
+            <tr><td><span class="dn">D · Progresiones Múltiples</span></td><td>Razonamiento aritmético avanzado con operaciones complejas.</td></tr>
+            <tr><td><span class="dn">E · Intercalación Compleja</span></td><td>Separar y analizar múltiples secuencias entrelazadas.</td></tr>
+            <tr><td><span class="dn">F · Series Especiales</span></td><td>Pensamiento recursivo y memoria de trabajo avanzada.</td></tr>
+            <tr><td><span class="dn">G · Máxima Complejidad</span></td><td>Combinación de múltiples operaciones lógicas de alto nivel.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Comprendiendo el test</span><span>4 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Qué NO es el test (y cómo evitar malos usos)</h2>
+        <p class="tx">Para asegurar la validez ética y profesional en el uso de esta herramienta, se deben considerar estas directrices:</p>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No es una prueba de conocimientos teóricos o académicos.</b> Su diseño es transcultural y libre de la barrera del idioma, garantizando una medición puramente lógica y visual.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>Un resultado "Deficiente" o "Inferior al Término Medio" NO debe usarse como una etiqueta cognitiva inamovible</b> ni como una sentencia de incapacidad intelectual. El propio modelo advierte que ese puntaje señala dificultades significativas, pero exige considerar factores externos que pudieron afectar el rendimiento (falta de comprensión de las instrucciones, estrés ante el límite de tiempo, estado emocional) y recomienda siempre una <b>evaluación complementaria más detallada</b>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Comprendiendo el test</span><span>5 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 5</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">El puntaje crudo es la <b>cantidad de respuestas correctas</b> (0–48). Ese puntaje se traduce a un percentil poblacional y a un nivel diagnóstico:</p>
+        <table>
+          <thead><tr><th>Nivel</th><th>Percentil</th></tr></thead>
+          <tbody>
+            <tr><td>Superior</td><td>90–99</td></tr>
+            <tr><td>Superior al Término Medio</td><td>65–80</td></tr>
+            <tr><td>Término Medio</td><td>40–50</td></tr>
+            <tr><td>Inferior al Término Medio</td><td>15–30</td></tr>
+            <tr><td>Deficiente</td><td>menor a 6</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Cálculo exacto y sin IA.</b> Acierto = la ficha elegida coincide con la correcta en ambos pips. El percentil y el nivel surgen de una tabla de baremos fija; no interviene ninguna interpretación automática.</div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Resultados de la evaluación</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Resultados</span><span>Global</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Resultados globales</h2>
+        <div class="stats">
+          <div class="stat"><div class="k">Respuestas correctas</div><div class="v">2</div><div class="sub">de 48 preguntas</div></div>
+          <div class="stat"><div class="k">Porcentaje</div><div class="v">4%</div><div class="sub">de aciertos</div></div>
+          <div class="stat"><div class="k">Percentil</div><div class="v">2</div><div class="sub">población general</div></div>
+        </div>
+        <div class="clasif">
+          <span class="tag">DEFICIENTE</span>
+          <span class="d"><b>Requiere evaluación adicional.</b></span>
+        </div>
+
+        <h3 style="font-size:14px;margin:22px 0 8px;color:var(--violeta)">Interpretación</h3>
+        <p class="tx">El resultado sugiere dificultades significativas con el tipo de razonamiento evaluado. Es importante considerar factores como la comprensión de las instrucciones, el tiempo disponible, el estado emocional y el contexto de la evaluación. Se recomienda una <b>evaluación complementaria más detallada</b> antes de extraer conclusiones.</p>
+
+        <h3 style="font-size:14px;margin:22px 0 8px;color:#0f9d6b">Fortalezas identificadas</h3>
+        <ul class="yeslist">
+          <li>Capacidad para mejorar con entrenamiento dirigido.</li>
+          <li>Potencial en otras áreas cognitivas no evaluadas aquí.</li>
+        </ul>
+        <div class="warn"><b>Lectura responsable.</b> Este puntaje no es una etiqueta fija. El bajo rendimiento global, junto con la posible influencia de factores externos, hace recomendable confirmar el resultado con una evaluación complementaria.</div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>D-48</b> · Resultados</span><span>Por tipo de patrón</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Análisis por tipo de patrón</h2>
+        <div class="barlist">
+          <div class="arow"><div class="nm"><div class="t">A · Progresiones Simples</div><div class="d">Secuencias lineales y patrones predecibles.</div><div class="track"><i class="zero" style="width:3%"></i></div></div><div class="pd"><b>0%</b> · 0/6</div></div>
+          <div class="arow"><div class="nm"><div class="t">B · Progresiones con Ciclos</div><div class="d">Sistemas cíclicos y patrones que se reinician.</div><div class="track"><i class="zero" style="width:3%"></i></div></div><div class="pd"><b>0%</b> · 0/4</div></div>
+          <div class="arow"><div class="nm"><div class="t">C · Alternancia y Pares</div><div class="d">Patrones no lineales.</div><div class="track"><i class="zero" style="width:3%"></i></div></div><div class="pd"><b>0%</b> · 0/9</div></div>
+          <div class="arow"><div class="nm"><div class="t">D · Progresiones Múltiples</div><div class="d">Razonamiento aritmético avanzado.</div><div class="track"><i class="zero" style="width:3%"></i></div></div><div class="pd"><b>0%</b> · 0/9</div></div>
+          <div class="arow"><div class="nm"><div class="t">E · Intercalación Compleja</div><div class="d">Múltiples secuencias entrelazadas.</div><div class="track"><i style="width:17%"></i></div></div><div class="pd"><b>17%</b> · 1/6</div></div>
+          <div class="arow"><div class="nm"><div class="t">F · Series Especiales</div><div class="d">Pensamiento recursivo y memoria de trabajo.</div><div class="track"><i style="width:17%"></i></div></div><div class="pd"><b>17%</b> · 1/6</div></div>
+          <div class="arow"><div class="nm"><div class="t">G · Máxima Complejidad</div><div class="d">Operaciones lógicas de alto nivel.</div><div class="track"><i class="zero" style="width:3%"></i></div></div><div class="pd"><b>0%</b> · 0/6</div></div>
+        </div>
+        <div class="callout" style="margin-top:18px"><b>Sobre el test.</b> El D-48 (Edgar Anstey, 1955) mide el Factor G de inteligencia según Spearman mediante 48 problemas de dominó de dificultad creciente, sin depender del lenguaje ni la cultura. Evalúa razonamiento lógico-abstracto, detección de patrones, inducción, abstracción y flexibilidad cognitiva.</div>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Documento confidencial de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

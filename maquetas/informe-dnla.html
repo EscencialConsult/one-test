@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Informe DNLA Personal Insight — Marcela Herrera</title>
+<style>
+  :root{
+    --negro:#000;--tinta:#1a181d;--blanco:#fff;
+    --rosa:#e17bd7;--cian:#6be1e3;--oro:#e4c76a;--violeta:#4d248f;
+    --muted:#7e8295;--linea:#e3e5ee;
+    --grad:linear-gradient(135deg,#e17bd7,#6be1e3);
+    --gradv:linear-gradient(135deg,#4d248f,#e17bd7 70%,#6be1e3 130%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(--tinta);background:#eef0f5;padding-bottom:50px}
+  .ico{width:22px;height:22px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .toolbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between;padding:13px 26px}
+  .back{display:inline-flex;align-items:center;gap:8px;color:var(--violeta);font-weight:700;font-size:13.5px;text-decoration:none;cursor:pointer}
+  .btn{border:0;cursor:pointer;font-weight:700;font-size:14px;padding:12px 20px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;background:var(--violeta);color:#fff}
+  .btn .ico{width:18px;height:18px}
+
+  .doc{max-width:840px;margin:24px auto;display:flex;flex-direction:column;gap:22px}
+  .sheet{background:#fff;border-radius:12px;box-shadow:0 20px 50px -26px rgba(26,24,29,.38);overflow:hidden}
+  .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 30px;border-bottom:1px solid var(--linea);font-size:11.5px;color:var(--muted)}
+  .rh b{color:var(--violeta);font-weight:800;letter-spacing:.5px}
+  .pad{padding:34px 40px}
+  h2.sec{font-size:23px;letter-spacing:-.3px;margin-bottom:6px;padding-bottom:12px;border-bottom:3px solid;border-image:var(--grad) 1}
+  p.tx{font-size:14px;line-height:1.75;color:#3a3d4d;margin-bottom:12px}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta);margin-bottom:6px}
+
+  .hcover{background:var(--gradv);color:#fff;padding:32px 40px}
+  .hcover .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .hcover .clogo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700}
+  .hcover .clogo .b{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);display:grid;place-items:center;font-weight:800}
+  .hcover .conf{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:999px}
+  .hcover h1{font-size:30px;margin-bottom:6px}
+  .hcover .st{font-size:14px;opacity:.9}
+  .whobar{display:flex;flex-wrap:wrap;gap:26px;padding:20px 40px;border-bottom:1px solid var(--linea);background:#faf9fc}
+  .whobar .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .whobar .v{font-size:15px;font-weight:700;margin-top:3px}
+
+  .toc{list-style:none}
+  .toc li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--linea);font-size:14px}
+  .toc li .nn{width:24px;height:24px;border-radius:7px;background:rgba(77,36,143,.1);color:var(--violeta);font-weight:800;font-size:12px;display:grid;place-items:center;flex:none}
+  .toc .part{margin:18px 0 6px;font-size:11px;font-weight:800;letter-spacing:1.5px;color:#1b9aa0;text-transform:uppercase;border:0}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 6px}
+  th,td{text-align:left;padding:11px 12px;font-size:13px;border-bottom:1px solid var(--linea);vertical-align:top}
+  thead th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#fff;background:var(--violeta)}
+  thead th:first-child{border-radius:8px 0 0 0}thead th:last-child{border-radius:0 8px 0 0}
+  td .dn{font-weight:800;color:var(--violeta)}
+  td.c{text-align:center}
+
+  .callout{background:rgba(107,225,227,.1);border:1px solid rgba(107,225,227,.35);border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13.5px;line-height:1.6}
+  .callout b{color:#178a8f}
+  .nolist{list-style:none;display:flex;flex-direction:column;gap:11px;margin:8px 0}
+  .nolist li{display:flex;gap:11px;font-size:13.8px;line-height:1.55}
+  .nolist .ico{width:18px;height:18px;flex:none;margin-top:2px;color:#c0392b}
+
+  .divider{background:var(--gradv);color:#fff;text-align:center;padding:46px}
+  .divider .eb{font-size:12px;letter-spacing:3px;opacity:.9;font-weight:700}
+  .divider h1{font-size:30px;margin:10px 0 4px}
+
+  /* puntuación global */
+  .globalbox{text-align:center;border:1px solid var(--linea);border-radius:18px;padding:30px;background:linear-gradient(135deg,rgba(225,123,215,.06),rgba(107,225,227,.06))}
+  .globalbox .lbl{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--violeta)}
+  .globalbox .num{font-size:64px;font-weight:800;line-height:1;margin:6px 0;background:var(--gradv);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .globalbox .badge{display:inline-block;font-size:13px;font-weight:800;letter-spacing:1px;color:#fff;background:var(--gradv);padding:7px 18px;border-radius:999px;margin-bottom:10px}
+  .globalbox p{font-size:14px;color:#3a3d4d}
+
+  /* barras dimensiones */
+  .barlist{display:flex;flex-direction:column;gap:13px}
+  .arow{display:flex;align-items:center;gap:12px}
+  .arow .nm{flex:1;min-width:0}
+  .arow .nm .t{font-size:13.5px;font-weight:700}
+  .arow .track{height:12px;background:#eef0f6;border-radius:999px;overflow:hidden;margin-top:5px}
+  .arow .track i{display:block;height:100%;border-radius:999px}
+  .arow .pd{width:54px;text-align:right;font-weight:800;font-size:13.5px;color:var(--violeta)}
+  .fill.hi{background:var(--grad)}
+  .fill.mid{background:linear-gradient(90deg,#e4c76a,#e8b34a)}
+  .fill.lo{background:#c6c9d7}
+  .leg{font-size:11px;color:var(--muted);margin-top:14px;display:flex;gap:14px;flex-wrap:wrap}
+  .leg span{display:flex;align-items:center;gap:6px}.leg i{width:12px;height:8px;border-radius:3px;display:inline-block}
+
+  /* dimensión detalle */
+  .acard{border:1px solid var(--linea);border-radius:14px;padding:20px;margin-bottom:16px;break-inside:avoid}
+  .acard .ah{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+  .acard .ah b{font-size:16px}
+  .acard .score{font-size:13px;font-weight:800;color:var(--violeta);background:rgba(77,36,143,.08);padding:5px 11px;border-radius:999px}
+  .acard .estilo{font-size:13px;font-weight:700;color:#1b9aa0;margin:6px 0 10px}
+  .acard p.d{font-size:13.5px;line-height:1.6;color:#3a3d4d;margin-bottom:12px}
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pill{border-radius:10px;padding:11px 13px;font-size:12.5px;line-height:1.45}
+  .pill .pl{display:block;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+  .pill.f{background:rgba(107,225,227,.12)}.pill.f .pl{color:#178a8f}
+  .pill.o{background:rgba(228,199,106,.16)}.pill.o .pl{color:#9a7d1a}
+  .pill.h{background:rgba(225,123,215,.1)}.pill.h .pl{color:#b5559f}
+  .pill.k{background:rgba(77,36,143,.07)}.pill.k .pl{color:var(--violeta)}
+
+  /* patrones / plan */
+  .pcard{border:1px solid var(--linea);border-left:3px solid var(--cian);border-radius:0 12px 12px 0;padding:15px 18px;margin-bottom:12px}
+  .pcard b{display:block;font-size:14.5px;margin-bottom:4px;color:var(--violeta)}
+  .pcard p{font-size:13.3px;line-height:1.55;color:#3a3d4d}
+  .plan .pcard{border-left-color:var(--oro)}
+  .sintesis{text-align:center;font-style:italic;font-size:15px;line-height:1.7;color:#3a3d4d;padding:10px 20px;max-width:620px;margin:8px auto 0}
+
+  .footer{padding:24px 40px;background:#0f2236;color:#cdd6e2;font-size:12px;text-align:center;line-height:1.8}
+  .footer b{color:#fff;font-size:14px}.footer .row{margin-top:6px}
+
+  @media print{body{background:#fff;padding:0}.toolbar{display:none}.doc{margin:0;max-width:100%;gap:0}.sheet{box-shadow:none;border-radius:0;break-after:page}.acard{break-inside:avoid}}
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <g id="i-back"><path d="M14 6l-6 6 6 6"/></g>
+    <g id="i-down"><path d="M12 5v11"/><path d="M7 12l5 5 5-5"/><path d="M5 19h14"/></g>
+    <g id="i-x"><path d="M6 6l12 12M18 6L6 18"/></g>
+  </defs></svg>
+
+  <div class="toolbar">
+    <a class="back" onclick="history.back()"><svg class="ico"><use href="#i-back"/></svg> Volver al legajo</a>
+    <button class="btn" onclick="window.print()"><svg class="ico"><use href="#i-down"/></svg> Descargar PDF</button>
+  </div>
+
+  <div class="doc">
+    <!-- ENCABEZADO -->
+    <div class="sheet">
+      <div class="hcover">
+        <div class="top"><div class="clogo"><span class="b">EC</span> Escencial Consultora</div><span class="conf">Informe confidencial</span></div>
+        <h1>Informe Personal Insight — DNLA</h1>
+        <div class="st">Evaluación de Bienestar y Desarrollo Personal · 6 dimensiones</div>
+      </div>
+      <div class="whobar">
+        <div class="it"><div class="k">Evaluada</div><div class="v">Marcela Herrera</div></div>
+        <div class="it"><div class="k">Fecha</div><div class="v">29/06/2026</div></div>
+        <div class="it"><div class="k">Perfil global</div><div class="v" style="color:var(--violeta)">Sólido · 4.58</div></div>
+      </div>
+    </div>
+
+    <!-- ÍNDICE -->
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Informe Profesional</span><span>Marcela Herrera</span></div>
+      <div class="pad">
+        <h2 class="sec">Índice</h2>
+        <ul class="toc">
+          <li class="part">Parte I — Comprendiendo el modelo</li>
+          <li><span class="nn">1</span><b>¿Qué es el Test DNLA Personal Insight Profile?</b></li>
+          <li><span class="nn">2</span><b>Historia y fundamentos del modelo</b></li>
+          <li><span class="nn">3</span><b>Las 6 dimensiones</b></li>
+          <li><span class="nn">4</span><b>Qué NO es el test (y cómo evitar malos usos)</b></li>
+          <li><span class="nn">5</span><b>Cómo se calcula el resultado</b></li>
+          <li class="part">Parte II — Perfil de bienestar</li>
+          <li><span class="nn">1</span><b>Puntuación global y resumen ejecutivo</b></li>
+          <li><span class="nn">2</span><b>Análisis por dimensión</b></li>
+          <li><span class="nn">3</span><b>Patrones identificados</b></li>
+          <li><span class="nn">4</span><b>Plan de acción</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PARTE I -->
+    <div class="sheet divider"><div class="eb">PARTE I</div><h1>Comprendiendo el modelo DNLA</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Comprendiendo el modelo</span><span>1 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">¿Qué es el Test DNLA Personal Insight Profile?</h2>
+        <p class="tx">El DNLA (Personal Insight Profile) es una herramienta de evaluación enfocada en medir el <b>bienestar integral y el desarrollo personal</b> de un individuo.</p>
+        <p class="tx">A través de un cuestionario ágil de <b>24 preguntas</b>, la herramienta invita a la autorreflexión evaluando las respuestas mediante una escala Likert de 5 puntos (desde "Siempre" hasta "Nunca"). Su objetivo es mapear los recursos psicológicos del evaluado dividiéndolos en seis dimensiones clave: Autopercepción y Autoestima, Motivación y Propósito, Adaptabilidad Emocional, Relaciones y Empatía, Bienestar y Equilibrio, y Crecimiento Personal.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Comprendiendo el modelo</span><span>2 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Historia y fundamentos del modelo</h2>
+        <p class="tx">El sistema de análisis del DNLA se fundamenta en la cuantificación de las percepciones personales para identificar tanto las fortalezas consolidadas como los factores de fricción o desgaste. Sus bases metodológicas incluyen:</p>
+        <p class="tx"><b>Puntuación por dimensiones:</b> las 24 preguntas se dividen en bloques de 4 ítems para cada una de las 6 dimensiones, con un puntaje máximo de 5.0 por área.</p>
+        <p class="tx"><b>Clasificación de perfil global:</b> el algoritmo calcula un promedio global que clasifica el estado actual de la persona en distintos umbrales: Perfil Sobresaliente (≥ 4.6), Sólido (&gt; 3.8), En Desarrollo (&gt; 3.0), o perfiles de Atención Requerida y Riesgo de Desgaste si los puntajes son críticos.</p>
+        <p class="tx"><b>Análisis de patrones transversales:</b> el modelo cruza respuestas específicas para detectar patrones psicológicos subyacentes. Por ejemplo, el "Triángulo del Bienestar Sólido" (coherencia entre balance, reconocimiento de necesidades y acción de autocuidado), un "Motor de Logro Activado" (alta autoconfianza vinculada a metas ambiciosas) o "La Paradoja del Cuidador" (alto apoyo emocional a terceros pero bajo autocuidado personal).</p>
+        <p class="tx"><b>Estructura de feedback accionable:</b> los resultados se traducen en cuatro pilares: <b>Lo que funciona</b> (fortalezas), <b>Oportunidad</b> (áreas de mejora), <b>Herramienta</b> (técnicas aplicables) y un <b>Indicador / KPI</b> para medir el progreso.</p>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Comprendiendo el modelo</span><span>3 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Las 6 dimensiones</h2>
+        <table>
+          <thead><tr><th>Dimensión</th><th>Qué evalúa</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dn">Autopercepción y Autoestima</span></td><td>Reconocimiento de talentos y aceptación de las propias áreas de mejora.</td></tr>
+            <tr><td><span class="dn">Motivación y Propósito</span></td><td>Sentido vital, metas y persistencia ante obstáculos.</td></tr>
+            <tr><td><span class="dn">Adaptabilidad Emocional</span></td><td>Calma bajo presión y recuperación ante la adversidad.</td></tr>
+            <tr><td><span class="dn">Relaciones y Empatía</span></td><td>Escucha, comprensión de otros y vínculos saludables.</td></tr>
+            <tr><td><span class="dn">Bienestar y Equilibrio</span></td><td>Autocuidado, descanso y balance vida-responsabilidades.</td></tr>
+            <tr><td><span class="dn">Crecimiento Personal</span></td><td>Aprendizaje continuo, reflexión y apertura al feedback.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Comprendiendo el modelo</span><span>4 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 4</span>
+        <h2 class="sec">Qué NO es el test (y cómo evitar malos usos)</h2>
+        <p class="tx">Para asegurar la correcta interpretación de esta herramienta, es indispensable considerar:</p>
+        <ul class="nolist">
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No es un diagnóstico clínico o médico</b>; los resultados funcionan como un "mapa" para navegar la siguiente etapa de crecimiento personal con intención, no como etiquetas patológicas.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>No evalúa el desempeño con respuestas correctas o incorrectas</b>, ya que se basa en la percepción honesta del propio individuo sobre su estado actual.</span></li>
+          <li><svg class="ico"><use href="#i-x"/></svg> <span><b>Las alertas del sistema</b> (como "Riesgo de Burnout" o "Síndrome del Impostor Potencial") no son sentencias definitivas, sino llamadas a la acción preventivas que sugieren ajustar límites, implementar protocolos de recarga o buscar acompañamiento profesional si fuese necesario.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Comprendiendo el modelo</span><span>5 / 5</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 5</span>
+        <h2 class="sec">Cómo se calcula el resultado</h2>
+        <p class="tx">Cada dimensión promedia sus 4 ítems (máximo 5.0). El <b>promedio global</b> es la media de las 6 dimensiones y determina el perfil:</p>
+        <table>
+          <thead><tr><th>Promedio global</th><th>Perfil</th></tr></thead>
+          <tbody>
+            <tr><td>≥ 4.6</td><td>Sobresaliente</td></tr>
+            <tr><td>&gt; 3.8</td><td>Sólido</td></tr>
+            <tr><td>&gt; 3.0</td><td>En Desarrollo</td></tr>
+            <tr><td>&lt; 3.0</td><td>Atención Requerida / Riesgo de Desgaste</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Cálculo exacto y sin IA.</b> No hay ítems inversos: todas las respuestas se promedian de forma directa. Los patrones y alertas surgen de condiciones deterministas sobre las respuestas, no de interpretación automática.</div>
+      </div>
+    </div>
+
+    <!-- PARTE II -->
+    <div class="sheet divider"><div class="eb">PARTE II</div><h1>Perfil de bienestar</h1></div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Perfil</span><span>Resumen</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 1</span>
+        <h2 class="sec">Puntuación global y resumen ejecutivo</h2>
+        <div class="globalbox">
+          <div class="lbl">Puntuación global</div>
+          <div class="num">4.58</div>
+          <div class="badge">PERFIL SÓLIDO</div>
+          <p>El perfil indica un alto nivel de recursos personales y bienestar.</p>
+        </div>
+        <div style="margin-top:22px">
+          <p class="tx">El análisis del perfil DNLA revela un <b>Perfil Sólido</b>. La persona evaluada cuenta con fortalezas claras y un buen nivel de funcionamiento general, con áreas específicas para pulir.</p>
+          <p class="tx"><b>Sus pilares más sólidos son:</b> Autopercepción y Autoestima, Motivación y Propósito y Adaptabilidad Emocional. Estas áreas representan recursos psicológicos ya consolidados que utiliza de manera natural para navegar desafíos.</p>
+          <p class="tx">No se detectan áreas críticas de riesgo, lo que permite enfocar el desarrollo en la optimización y la excelencia, en lugar de la corrección de déficits.</p>
+        </div>
+        <h3 style="font-size:14px;margin:18px 0 10px;color:var(--violeta)">Promedio por dimensión</h3>
+        <div class="barlist">
+          <div class="arow"><div class="nm"><div class="t">Bienestar y Equilibrio</div><div class="track"><i class="fill hi" style="width:100%"></i></div></div><div class="pd">5.00</div></div>
+          <div class="arow"><div class="nm"><div class="t">Autopercepción y Autoestima</div><div class="track"><i class="fill hi" style="width:95%"></i></div></div><div class="pd">4.75</div></div>
+          <div class="arow"><div class="nm"><div class="t">Adaptabilidad Emocional</div><div class="track"><i class="fill hi" style="width:95%"></i></div></div><div class="pd">4.75</div></div>
+          <div class="arow"><div class="nm"><div class="t">Crecimiento Personal</div><div class="track"><i class="fill hi" style="width:95%"></i></div></div><div class="pd">4.75</div></div>
+          <div class="arow"><div class="nm"><div class="t">Motivación y Propósito</div><div class="track"><i class="fill hi" style="width:90%"></i></div></div><div class="pd">4.50</div></div>
+          <div class="arow"><div class="nm"><div class="t">Relaciones y Empatía</div><div class="track"><i class="fill mid" style="width:75%"></i></div></div><div class="pd">3.75</div></div>
+        </div>
+        <div class="leg"><span><i class="fill hi"></i> Fortaleza (≥4.0)</span><span><i class="fill mid"></i> En desarrollo (3.0–3.9)</span><span><i class="fill lo"></i> A reforzar (&lt;3.0)</span></div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Perfil</span><span>Análisis por dimensión</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 2</span>
+        <h2 class="sec">Análisis por dimensión</h2>
+
+        <div class="acard">
+          <div class="ah"><b>Autopercepción y Autoestima</b><span class="score">4.75 / 5.0</span></div>
+          <div class="estilo">Autopercepción Equilibrada</div>
+          <p class="d">Presenta un patrón de Autopercepción Equilibrada. Posee la madurez psicológica para reconocer sus talentos naturales sin caer en la arrogancia y, al mismo tiempo, acepta sus áreas de mejora sin que ello disminuya su valor personal. Esta base sólida le permite navegar la crítica externa con resiliencia.</p>
+          <div class="pillars">
+            <div class="pill f"><span class="pl">Lo que funciona</span>Integra éxitos y fracasos en una autoimagen coherente.</div>
+            <div class="pill o"><span class="pl">Oportunidad</span>Usar esta seguridad para asumir riesgos calculados mayores.</div>
+            <div class="pill h"><span class="pl">Herramienta</span>Mentoring inverso (enseñar a otros para reforzar el propio valor).</div>
+            <div class="pill k"><span class="pl">Indicador</span>Nivel de ansiedad ante nuevos desafíos.</div>
+          </div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Motivación y Propósito</b><span class="score">4.50 / 5.0</span></div>
+          <div class="estilo">Motivación Intrínseca Sostenida</div>
+          <p class="d">Exhibe una Motivación Intrínseca Sostenida. Su motor no es el aplauso externo ni la recompensa económica inmediata, sino el disfrute genuino del aprendizaje y la conexión con un sentido profundo. Es el tipo de motivación más resiliente ante las crisis.</p>
+          <div class="pillars">
+            <div class="pill f"><span class="pl">Lo que funciona</span>Energía autónoma y curiosidad intelectual.</div>
+            <div class="pill o"><span class="pl">Oportunidad</span>Canalizar la energía hacia proyectos de alto impacto social o personal.</div>
+            <div class="pill h"><span class="pl">Herramienta</span>Diseño de Misión Personal.</div>
+            <div class="pill k"><span class="pl">Indicador</span>Nivel de "Flow" experimentado semanalmente.</div>
+          </div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Adaptabilidad Emocional</b><span class="score">4.75 / 5.0</span></div>
+          <div class="estilo">Resiliencia Integral</div>
+          <p class="d">Muestra una Resiliencia Integral. Tiene la capacidad de mantener la calma bajo presión y adaptarse a cambios imprevistos sin perder su centro. Constituye un ancla emocional para su entorno.</p>
+          <div class="pillars">
+            <div class="pill f"><span class="pl">Lo que funciona</span>Gestión de crisis y estabilidad bajo presión.</div>
+            <div class="pill o"><span class="pl">Oportunidad</span>Afinar la regulación nerviosa.</div>
+            <div class="pill h"><span class="pl">Herramienta</span>Respiración 4-7-8.</div>
+            <div class="pill k"><span class="pl">Indicador</span>Tiempo de vuelta a la calma.</div>
+          </div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Relaciones y Empatía</b><span class="score">3.75 / 5.0</span></div>
+          <div class="estilo">Empático y Conectado</div>
+          <p class="d">Su estilo relacional es Empático y Conectado. Presenta facilidad para leer las emociones ajenas y sostener una funcionalidad social adecuada.</p>
+          <div class="pillars">
+            <div class="pill f"><span class="pl">Lo que funciona</span>Funcionalidad social y lectura emocional.</div>
+            <div class="pill o"><span class="pl">Oportunidad</span>Profundizar vínculos más allá de lo funcional.</div>
+            <div class="pill h"><span class="pl">Herramienta</span>Escucha Activa.</div>
+            <div class="pill k"><span class="pl">Indicador</span>Calidad de las conversaciones.</div>
+          </div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Bienestar y Equilibrio</b><span class="score">5.00 / 5.0</span></div>
+          <div class="estilo">Bienestar Integral</div>
+          <p class="d">Mantiene un nivel de Bienestar Integral. Ha integrado el autocuidado como parte de su productividad, sosteniendo un equilibrio saludable entre vida personal y responsabilidades.</p>
+          <div class="pillars">
+            <div class="pill f"><span class="pl">Lo que funciona</span>Intención y práctica consistente de autocuidado.</div>
+            <div class="pill o"><span class="pl">Oportunidad</span>Hacer del descanso una prioridad no negociable.</div>
+            <div class="pill h"><span class="pl">Herramienta</span>Bloques de tiempo personal.</div>
+            <div class="pill k"><span class="pl">Indicador</span>Nivel de energía al final del día.</div>
+          </div>
+        </div>
+
+        <div class="acard">
+          <div class="ah"><b>Crecimiento Personal</b><span class="score">4.75 / 5.0</span></div>
+          <div class="estilo">Mentalidad de Crecimiento (Growth Mindset)</div>
+          <p class="d">Posee una Mentalidad de Crecimiento. Percibe los errores como datos, no como fracasos, y busca activamente el feedback para seguir desarrollándose.</p>
+          <div class="pillars">
+            <div class="pill f"><span class="pl">Lo que funciona</span>Alto potencial de aprendizaje.</div>
+            <div class="pill o"><span class="pl">Oportunidad</span>Perder por completo el miedo al error.</div>
+            <div class="pill h"><span class="pl">Herramienta</span>Reflexión Semanal Estructurada.</div>
+            <div class="pill k"><span class="pl">Indicador</span>Nuevas habilidades adquiridas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="rh"><span><b>DNLA</b> · Perfil</span><span>Patrones y plan</span></div>
+      <div class="pad">
+        <span class="eyebrow">Sección 3</span>
+        <h2 class="sec">Patrones identificados</h2>
+        <div class="pcard"><b>Triángulo del Bienestar Sólido</b><p>Existe una coherencia poderosa entre el balance (P17), el reconocimiento de necesidades (P19) y la acción de autocuidado (P20). Es la base de una salud mental sostenible.</p></div>
+        <div class="pcard"><b>Motor de Logro Activado</b><p>La alta autoconfianza (P2) alimenta directamente la capacidad para fijar metas ambiciosas (P6). Se trata de una persona que "cree y crea".</p></div>
+
+        <span class="eyebrow" style="margin-top:24px">Sección 4</span>
+        <h2 class="sec">Plan de acción</h2>
+        <div class="plan">
+          <div class="pcard"><b>Proyecto Reto</b><p>Dado el buen equilibrio, es momento de buscar un desafío que la saque de la zona de confort (zona de aprendizaje).</p></div>
+          <div class="pcard"><b>Mentoring</b><p>Sus fortalezas la posicionan para guiar a otros. Acompañar a un "mentee" reforzará su propia autoconfianza.</p></div>
+          <div class="pcard"><b>Revisión Trimestral</b><p>El crecimiento no es lineal. Se recomienda revisar este informe en 3 meses para medir la evolución.</p></div>
+        </div>
+
+        <h2 class="sec" style="margin-top:24px">Síntesis final</h2>
+        <p class="sintesis">La evaluada cuenta con una base sólida y herramientas poderosas. Este informe no es un diagnóstico, es un mapa: una guía para navegar su siguiente etapa de crecimiento con intención.</p>
+      </div>
+      <div class="footer">
+        <b>Escencial Consultora</b>
+        <div class="row">Catamarca 873 — San Miguel de Tucumán, Argentina · +54 9 3816 22-1565</div>
+        <div class="row">© 2026 Escencial Consultora — Documento confidencial de uso exclusivo para Marcela Herrera</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
