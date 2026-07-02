@@ -9,12 +9,11 @@
   publish = "dist"           # relativo a `base` → frontend/dist
 
 # ── Proxy de la API ───────────────────────────────────────────────────────────
-# Reenvía /api/* al backend. Así el frontend sigue usando rutas /api relativas
-# y el navegador nunca ve otro dominio → NO hay problema de CORS.
-# IMPORTANTE: reemplazá la URL por la de TU backend (ej. Render).
+# Reenvía /api/* al backend en Render. Así el frontend sigue usando rutas /api
+# relativas y el navegador nunca ve otro dominio → NO hay problema de CORS.
 [[redirects]]
   from = "/api/*"
-  to = "https://TU-BACKEND.onrender.com/api/:splat"
+  to = "https://one-test-0cw2.onrender.com/api/:splat"
   status = 200
   force = true
 
