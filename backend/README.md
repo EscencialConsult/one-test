@@ -1,4 +1,4 @@
-# Backend — Plataforma ONE (PACK ONE MATCH)
+# Backend — Plataforma ONE (ONE Core Analytics)
 
 API en **FastAPI + PostgreSQL (Render)**, multi-tenant. Esta es la base (fundamentos):
 configuración, conexión a BD, modelo de datos, autenticación (JWT) y migraciones.

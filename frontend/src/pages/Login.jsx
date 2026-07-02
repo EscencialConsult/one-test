@@ -36,7 +36,7 @@ export default function Login() {
         <form className="card login-card" onSubmit={enviar}>
           <Link to="/" className="login-brand"><span className="logo">O<b>NE</b></span></Link>
           <h1 className="login-h">Iniciar sesión</h1>
-          <p className="login-sub">Accedé a tu panel de PACK ONE MATCH.</p>
+          <p className="login-sub">Accedé a tu panel de ONE Core Analytics.</p>
 
           <label className="login-lbl">Email</label>
           <input

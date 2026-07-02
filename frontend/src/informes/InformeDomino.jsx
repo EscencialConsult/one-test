@@ -124,7 +124,7 @@ export default function InformeDomino({ data }) {
         </div>
         <div className="inf-callout" style={{ marginTop: 18 }}><b>Sobre el test.</b> El D-48 (Edgar Anstey, 1955) mide el Factor G mediante 48 problemas de dominó de dificultad creciente, sin depender del lenguaje ni la cultura.</div>
       </div>
-        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por PACK ONE MATCH</div></div>
+        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por ONE Core Analytics</div></div>
       </div>
     </div>
   )

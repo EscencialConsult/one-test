@@ -111,7 +111,7 @@ export default function InformeGds15({ data }) {
         )}
         <div className="inf-callout"><b>Sobre el GDS-15.</b> Instrumento de cribado de depresión geriátrica (Yesavage et al., 1983; abreviado por Sheikh y Yesavage, 1986). Sensibilidad 81%, especificidad 78%, fiabilidad 0,85. Debe interpretarlo un profesional de la salud en el contexto clínico global; no reemplaza el diagnóstico especializado.</div>
       </div>
-        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por PACK ONE MATCH</div></div>
+        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por ONE Core Analytics</div></div>
       </div>
     </div>
   )

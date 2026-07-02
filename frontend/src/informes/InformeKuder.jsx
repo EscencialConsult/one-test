@@ -116,7 +116,7 @@ export default function InformeKuder({ data }) {
           <h2 className="inf-sec">Profesiones sugeridas — {d.codigoPerfil}</h2>
           <ul className="inf-list">{d.profesionesCombinadas.map((p, i) => <li key={i}>{p}</li>)}</ul>
         </div>
-          <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por PACK ONE MATCH</div></div>
+          <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por ONE Core Analytics</div></div>
         </div>
       )}
     </div>

@@ -3,7 +3,7 @@ import Plexus from '../Plexus.jsx'
 import './landing.css'
 
 // Nombre del producto (a definir; el logo ONE queda fijo). Cambiar solo acá.
-const PRODUCTO = 'PACK ONE MATCH'
+const PRODUCTO = 'ONE Core Analytics'
 const EMPRESA = 'Escencial Consultora'
 
 const Ico = ({ id, className = 'lp-ico' }) => (

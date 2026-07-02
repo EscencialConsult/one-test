@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
     SMTP_FROM: str = ""            # remitente (ej. no-reply@escencial.com); si vacío usa SMTP_USER
-    SMTP_FROM_NAME: str = "PACK ONE MATCH"
+    SMTP_FROM_NAME: str = "ONE Core Analytics"
     SMTP_STARTTLS: bool = True     # True para puerto 587; False + SMTP_SSL para 465
 
     # ── URLs de la app (para los links de los correos) ────────────────────────

@@ -155,7 +155,7 @@ export default function InformeDnla({ data }) {
         <h2 className="inf-sec">Síntesis final</h2>
         {d.sintesis_final && <p className="inf-tx" style={{ fontStyle: 'italic' }}>{d.sintesis_final}</p>}
       </div>
-        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por PACK ONE MATCH</div></div>
+        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por ONE Core Analytics</div></div>
       </div>
     </div>
   )

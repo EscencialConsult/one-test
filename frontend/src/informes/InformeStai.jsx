@@ -122,7 +122,7 @@ export default function InformeStai({ data }) {
         </div>
         <div className="inf-callout" style={{ marginTop: 14 }}>En los factores afirmativos (EA, RA) lo esperable es <b>bajo</b>; en los negativos (EN, RN), <b>alto</b> (mayor bienestar). Los porcentajes altos en afirmativos indican mayor ansiedad.</div>
       </div>
-        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por PACK ONE MATCH</div></div>
+        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por ONE Core Analytics</div></div>
       </div>
     </div>
   )

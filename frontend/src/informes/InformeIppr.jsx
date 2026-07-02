@@ -135,7 +135,7 @@ export default function InformeIppr({ data }) {
         <p className="inf-tx">Los resultados del IPP-R son el <b>punto de partida</b> de un proceso de orientación, no su conclusión. Conviene complementarlos con entrevistas individuales, exploración directa de las áreas de interés y, cuando sea pertinente, evaluación de aptitudes.</p>
         <div className="inf-callout"><b>Nota técnica.</b> IPP-R (M.ª Victoria de la Cruz López, TEA Ediciones, 2004/2010). Niveles en PD sobre 36 por campo; baremos ESO–Bachillerato (N=1.256). No evalúa aptitudes ni probabilidad de éxito; debe interpretarlo un profesional.</div>
       </div>
-        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por PACK ONE MATCH</div></div>
+        <div className="inf-foot"><b>{marca?.razon_social || 'ONE'}</b><div>Informe confidencial · generado por ONE Core Analytics</div></div>
       </div>
     </div>
   )

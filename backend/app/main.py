@@ -1,4 +1,4 @@
-"""Punto de entrada de la API de Plataforma ONE (PACK ONE MATCH)."""
+"""Punto de entrada de la API de Plataforma ONE (ONE Core Analytics)."""
 from __future__ import annotations
 
 from fastapi import FastAPI
@@ -24,7 +24,7 @@ from app.core.config import settings
 
 app = FastAPI(
     title="Plataforma ONE — API",
-    description="Backend de PACK ONE MATCH: evaluaciones psicométricas multi-tenant.",
+    description="Backend de ONE Core Analytics: evaluaciones psicométricas multi-tenant.",
     version="0.1.0",
 )
 

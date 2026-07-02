@@ -58,7 +58,7 @@ async def enviar_email(to: str, subject: str, html: str, from_name: str | None =
 
 # ── Plantilla base ────────────────────────────────────────────────────────────
 def _plantilla(marca: dict, titulo: str, cuerpo_html: str, cta_texto: str, cta_link: str) -> str:
-    razon = escape(marca.get("razon_social") or "PACK ONE MATCH")
+    razon = escape(marca.get("razon_social") or "ONE Core Analytics")
     c1 = marca.get("color_acento") or "#4d248f"
     c2 = marca.get("color_secundario") or "#6be1e3"
     logo = marca.get("logo_url") or ""
@@ -83,7 +83,7 @@ def _plantilla(marca: dict, titulo: str, cuerpo_html: str, cta_texto: str, cta_l
         <p style="font-size:12px;color:#8a8f9c;margin-top:18px;line-height:1.5;">Si el botón no funciona, copiá y pegá este enlace en tu navegador:<br><span style="color:{c1};word-break:break-all;">{escape(cta_link)}</span></p>
       </div>
     </div>
-    <p style="text-align:center;font-size:11.5px;color:#a4a8c0;margin-top:16px;">Enviado por {razon} · PACK ONE MATCH</p>
+    <p style="text-align:center;font-size:11.5px;color:#a4a8c0;margin-top:16px;">Enviado por {razon} · ONE Core Analytics</p>
   </div>
 </body></html>"""
 
@@ -102,14 +102,14 @@ async def enviar_bienvenida_empresa(marca: dict, email: str, password: str, link
     c1 = marca.get("color_acento") or "#4d248f"
     razon = escape(marca.get("razon_social") or "tu empresa")
     cuerpo = (
-        f'<p style="font-size:14.5px;line-height:1.6;">Se creó el espacio de evaluación de <b>{razon}</b> en PACK ONE MATCH. '
+        f'<p style="font-size:14.5px;line-height:1.6;">Se creó el espacio de evaluación de <b>{razon}</b> en ONE Core Analytics. '
         'Como administrador/a, desde acá vas a poder cargar evaluados, asignarles pruebas y ver sus informes.</p>'
         f'{_caja_credenciales(c1, email, password, "Tus datos de acceso:")}'
         '<p style="font-size:12.5px;color:#8a8f9c;margin-top:10px;">Te recomendamos cambiar la contraseña después del primer ingreso.</p>'
     )
     html = _plantilla(marca, f"Bienvenido/a a {razon}", cuerpo, "Ingresar al panel", link)
     remitente = marca.get("razon_social") or settings.SMTP_FROM_NAME
-    return await enviar_email(email, f"Acceso a tu panel · {marca.get('razon_social') or 'PACK ONE MATCH'}", html, from_name=remitente)
+    return await enviar_email(email, f"Acceso a tu panel · {marca.get('razon_social') or 'ONE Core Analytics'}", html, from_name=remitente)
 
 
 async def enviar_invitacion_evaluado(marca: dict, nombre: str, email: str, password: str, link: str) -> bool:
@@ -122,7 +122,7 @@ async def enviar_invitacion_evaluado(marca: dict, nombre: str, email: str, passw
     )
     html = _plantilla(marca, "Tenés una evaluación pendiente", cuerpo, "Comenzar la evaluación", link)
     remitente = marca.get("razon_social") or settings.SMTP_FROM_NAME
-    return await enviar_email(email, f"Invitación a tu evaluación · {marca.get('razon_social') or 'PACK ONE MATCH'}", html, from_name=remitente)
+    return await enviar_email(email, f"Invitación a tu evaluación · {marca.get('razon_social') or 'ONE Core Analytics'}", html, from_name=remitente)
 
 
 async def enviar_invitacion_evaluador360(
@@ -138,5 +138,5 @@ async def enviar_invitacion_evaluador360(
     html = _plantilla(marca, "Te invitaron a una evaluación", cuerpo, "Responder la evaluación", link)
     remitente = marca.get("razon_social") or settings.SMTP_FROM_NAME
     return await enviar_email(
-        email, f"Invitación a una evaluación · {marca.get('razon_social') or 'PACK ONE MATCH'}", html, from_name=remitente,
+        email, f"Invitación a una evaluación · {marca.get('razon_social') or 'ONE Core Analytics'}", html, from_name=remitente,
     )

@@ -108,7 +108,7 @@ export default function InformeBaronEQi({ data }) {
       </div>
         <div className="inf-foot">
           <b>{marca?.razon_social || 'ONE'}</b>
-          <div>Informe confidencial — uso exclusivo de la empresa · generado por PACK ONE MATCH</div>
+          <div>Informe confidencial — uso exclusivo de la empresa · generado por ONE Core Analytics</div>
         </div>
       </div>
     </div>
