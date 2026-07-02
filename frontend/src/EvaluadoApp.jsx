@@ -90,7 +90,7 @@ export default function EvaluadoApp() {
     <div className="app" style={theme}>
       <Plexus />
       <nav className="pe-nav">
-        {emp?.logo_url ? <img className="pe-logoimg" src={emp.logo_url} alt={emp.razon_social} /> : <span className="pe-logo">O<b>NE</b></span>}
+        {emp?.logo_url ? <img className="pe-logoimg" src={emp.logo_url} alt={emp.razon_social} /> : <span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" /><span className="one-sub">Core Analytics</span></span>}
         <div className="pe-user">
           <span className="pe-pill"><span className="av">{me ? sigla(`${me.nombre} ${me.apellido}`) : '—'}</span>{me ? `${me.nombre} ${me.apellido}` : 'Evaluado'}</span>
           <button className="pe-out" onClick={logout}>Salir</button>

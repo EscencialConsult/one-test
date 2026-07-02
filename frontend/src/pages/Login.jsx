@@ -34,7 +34,7 @@ export default function Login() {
       <Plexus />
       <div className="login-wrap">
         <form className="card login-card" onSubmit={enviar}>
-          <Link to="/" className="login-brand"><span className="logo">O<b>NE</b></span></Link>
+          <Link to="/" className="login-brand"><span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" /><span className="one-sub">Core Analytics</span></span></Link>
           <h1 className="login-h">Iniciar sesión</h1>
           <p className="login-sub">Accedé a tu panel de ONE Core Analytics.</p>
 

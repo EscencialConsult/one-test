@@ -45,7 +45,7 @@ export default function Landing() {
 
       {/* NAV */}
       <nav className="lp-nav"><div className="lp-wrap lp-navin">
-        <div className="lp-brand"><span className="lp-logo">O<b>NE</b></span></div>
+        <div className="lp-brand"><span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" /><span className="one-sub">Core Analytics</span></span></div>
         <div className="lp-links">
           <a href="#plataforma">Plataforma</a><a href="#evaluaciones">Evaluaciones</a>
           <a href="#como">Cómo funciona</a><a href="#contacto">Contacto</a>
@@ -201,7 +201,7 @@ export default function Landing() {
             <a href="tel:+5491150061604">Teléfono: +54 9 11 5006-1604</a>
           </div>
         </div>
-        <div className="lp-copy"><span className="lp-logo" style={{ fontSize: 16 }}>O<b>NE</b></span> · © 2026 {EMPRESA} · {PRODUCTO}. Todos los derechos reservados.</div>
+        <div className="lp-copy"><img className="one-logo" src="/logo.png" alt="ONE" style={{ height: 18, verticalAlign: 'middle', marginRight: 8 }} />© 2026 {EMPRESA} · {PRODUCTO}. Todos los derechos reservados.</div>
       </div></footer>
     </div>
   )
