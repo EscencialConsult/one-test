@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Plexus from './Plexus.jsx'
 import TestRunner from './TestRunner.jsx'
 import DominoRunner from './DominoRunner.jsx'
@@ -226,6 +226,7 @@ function LoginEvaluado({ onLogged, brand }) {
           <button className="btn prim" type="submit" disabled={cargando} style={{ width: '100%', marginTop: 8 }}>
             {cargando ? 'Ingresando…' : 'Ingresar →'}
           </button>
+          {!brand && <Link to="/" className="login-volver">← Volver al inicio</Link>}
         </form>
       </div>
     </div>
