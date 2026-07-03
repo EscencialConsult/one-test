@@ -61,6 +61,20 @@
 .lp-checks li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; font-weight: 600; }
 .lp-checks .lp-ico { width: 22px; height: 22px; color: #1b9aa0; flex: none; margin-top: 1px; }
 .lp-aboutart { padding: 30px; }
+
+/* Dona interactiva */
+.lp-donut { padding: 22px; display: grid; grid-template-columns: 200px 1fr; gap: 18px; align-items: center; }
+.lp-donut-graf svg { width: 100%; display: block; }
+.lp-seg { cursor: pointer; opacity: .5; transition: opacity .25s ease, transform .25s ease; transform-box: view-box; transform-origin: 130px 130px; }
+.lp-seg:hover, .lp-seg.on { opacity: 1; transform: scale(1.07); }
+.lp-donut-n { font-size: 42px; font-weight: 800; letter-spacing: -1px; }
+.lp-donut-l { font-size: 12.5px; fill: var(--muted); font-weight: 700; }
+.lp-donut-legend { display: flex; flex-direction: column; gap: 4px; }
+.lp-legrow { display: flex; gap: 12px; align-items: flex-start; padding: 11px 12px; border-radius: 12px; cursor: pointer; transition: background .2s; }
+.lp-legrow.on { background: rgba(77,36,143,.06); }
+.lp-legrow .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; margin-top: 4px; box-shadow: 0 0 0 3px rgba(255,255,255,.6); }
+.lp-legrow b { font-size: 14px; } .lp-legrow p { font-size: 12.5px; color: var(--tinta); opacity: .7; line-height: 1.45; margin-top: 2px; }
+@media (max-width: 620px) { .lp-donut { grid-template-columns: 1fr; text-align: center; } .lp-donut-graf { max-width: 220px; margin: 0 auto; } .lp-legrow { text-align: left; } }
 .lp-stat { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--linea); }
 .lp-stat:last-child { border-bottom: 0; }
 .lp-stat .n { font-size: 30px; font-weight: 800; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; min-width: 84px; }

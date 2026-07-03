@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
 import './landing.css'
@@ -114,11 +115,7 @@ export default function Landing() {
             <li><Ico id="i-check" /> Informes profesionales con gráficos, listos para descargar.</li>
           </ul>
         </div>
-        <div className="lp-card lp-aboutart">
-          <div className="lp-stat"><span className="n">18+</span><span className="t">Tests validados: psicotécnicos, psicométricos, psicolaborales y vocacionales.</span></div>
-          <div className="lp-stat"><span className="n">100%</span><span className="t">Cálculo determinista, sin IA en el resultado individual.</span></div>
-          <div className="lp-stat"><span className="n">360°</span><span className="t">Evaluaciones de desempeño con feedback multi-fuente.</span></div>
-        </div>
+        <StatDonut />
       </div></section>
 
       {/* EVALUACIONES */}
@@ -203,6 +200,60 @@ export default function Landing() {
         </div>
         <div className="lp-copy"><img className="one-logo" src="/logo.png" alt="ONE" style={{ height: 22, verticalAlign: 'middle', marginRight: 8 }} />© 2026 {EMPRESA} · {PRODUCTO}. Todos los derechos reservados.</div>
       </div></footer>
+    </div>
+  )
+}
+
+// ── Dona interactiva de la sección "La plataforma" ────────────────────────────
+const STATS = [
+  { big: '18+', label: 'Tests validados', desc: 'Psicotécnicos, psicométricos, psicolaborales y vocacionales.', color: '#e17bd7' },
+  { big: '100%', label: 'Cálculo determinista', desc: 'Sin IA en el resultado individual; puntajes exactos y reproducibles.', color: '#6be1e3' },
+  { big: '360°', label: 'Evaluación multi-fuente', desc: 'Desempeño con feedback de pares, líderes y reportes directos.', color: '#4d248f' },
+]
+
+function donutSeg(cx, cy, ro, ri, a1, a2) {
+  const pt = (r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)]
+  const [x1, y1] = pt(ro, a1), [x2, y2] = pt(ro, a2)
+  const [x3, y3] = pt(ri, a2), [x4, y4] = pt(ri, a1)
+  const large = a2 - a1 > Math.PI ? 1 : 0
+  return `M${x1} ${y1} A${ro} ${ro} 0 ${large} 1 ${x2} ${y2} L${x3} ${y3} A${ri} ${ri} 0 ${large} 0 ${x4} ${y4} Z`
+}
+
+function StatDonut() {
+  const [act, setAct] = useState(0)
+  const seg = (2 * Math.PI) / STATS.length
+  const start = -Math.PI / 2
+  const gap = 0.05
+  const cur = STATS[act]
+  return (
+    <div className="lp-card lp-donut">
+      <div className="lp-donut-graf">
+        <svg viewBox="0 0 260 260">
+          {STATS.map((s, i) => {
+            const a1 = start + i * seg + gap
+            const a2 = start + (i + 1) * seg - gap
+            return (
+              <path
+                key={i}
+                d={donutSeg(130, 130, 118, 74, a1, a2)}
+                fill={s.color}
+                className={'lp-seg' + (act === i ? ' on' : '')}
+                onMouseEnter={() => setAct(i)}
+              />
+            )
+          })}
+          <text x="130" y="126" textAnchor="middle" className="lp-donut-n" fill={cur.color}>{cur.big}</text>
+          <text x="130" y="150" textAnchor="middle" className="lp-donut-l">{cur.label}</text>
+        </svg>
+      </div>
+      <div className="lp-donut-legend">
+        {STATS.map((s, i) => (
+          <div key={i} className={'lp-legrow' + (act === i ? ' on' : '')} onMouseEnter={() => setAct(i)}>
+            <span className="dot" style={{ background: s.color }} />
+            <div><b>{s.big} · {s.label}</b><p>{s.desc}</p></div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
