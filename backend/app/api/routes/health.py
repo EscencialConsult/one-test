@@ -43,21 +43,45 @@ async def health_email() -> dict:
 
 @router.get("/health/email/test")
 async def health_email_test(
-    to: str = Query(...), key: str = Query(...)
+    to: str = Query(...), key: str = Query(...),
+    port: int | None = Query(None), mode: str = Query("starttls"),
 ) -> dict:
     """Intenta un envío real desde este servidor y devuelve el error exacto si falla.
 
     Protegido con SECRET_KEY. Temporal: para diagnosticar el envío en producción.
+    port/mode permiten probar puertos alternativos (2525, 465 con mode=ssl).
     """
     if key != settings.SECRET_KEY:
         raise HTTPException(403, "Clave inválida")
     if not settings.email_habilitado:
         return {"ok": False, "error": "SMTP no configurado (email_habilitado=False)"}
+
+    import smtplib
+    import ssl as _ssl
+    from email.message import EmailMessage
+
+    p = port or settings.SMTP_PORT
+
+    def _send() -> None:
+        msg = EmailMessage()
+        msg["Subject"] = f"Prueba ONE (Render :{p}/{mode})"
+        msg["From"] = f"ONE Core Analytics <{settings.SMTP_FROM or settings.SMTP_USER}>"
+        msg["To"] = to
+        msg.set_content("Prueba de envío desde Render.")
+        msg.add_alternative("<p>Prueba de envío <b>desde Render</b>.</p>", subtype="html")
+        ctx = _ssl.create_default_context()
+        if mode == "ssl":
+            with smtplib.SMTP_SSL(settings.SMTP_HOST, p, timeout=20, context=ctx) as s:
+                s.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                s.send_message(msg)
+        else:
+            with smtplib.SMTP(settings.SMTP_HOST, p, timeout=20) as s:
+                s.starttls(context=ctx)
+                s.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                s.send_message(msg)
+
     try:
-        await asyncio.to_thread(
-            _send_sync, to, "Prueba de envío ONE (producción)",
-            "<p>Prueba de envío <b>desde Render</b>.</p>", "ONE Core Analytics",
-        )
-        return {"ok": True, "detalle": f"Enviado a {to} (encolado por el SMTP)"}
+        await asyncio.to_thread(_send)
+        return {"ok": True, "detalle": f"Enviado a {to} por :{p}/{mode}"}
     except Exception as e:  # noqa: BLE001
-        return {"ok": False, "error": f"{type(e).__name__}: {e}"}
+        return {"ok": False, "port": p, "mode": mode, "error": f"{type(e).__name__}: {e}"}
