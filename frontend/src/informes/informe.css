@@ -79,6 +79,19 @@
 .inf-foot b { color: #fff; font-size: 14px; }
 
 @media (max-width: 620px) { .inf-two { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .inf-toolbar { padding: 11px 16px; }
+  .inf-print { padding: 10px 14px; font-size: 13px; }
+  .inf-doc { margin: 14px auto; gap: 16px; }
+  .inf-pad { padding: 22px 18px; }
+  .inf-cover { padding: 24px 18px; }
+  .inf-cover h1 { font-size: 22px; }
+  .inf-foot { padding: 18px 18px; }
+  .inf-table th, .inf-table td { padding: 8px 9px; font-size: 12px; }
+  .inf-codebox .code { font-size: 34px; letter-spacing: 3px; }
+  .inf-global .num, .inf-scorebox .v { font-size: 40px; }
+  .inf-divider { padding: 30px 20px; }
+}
 
 /* ---- Parte I educativa (tablas / callout / listas) ---- */
 .inf-table { width: 100%; border-collapse: collapse; margin: 8px 0 6px; }

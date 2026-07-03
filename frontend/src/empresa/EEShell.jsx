@@ -32,9 +32,11 @@ export default function EEShell() {
   const [empresa, setEmpresa] = useState(null)
   const [bell, setBell] = useState(false)
   const [notis, setNotis] = useState({ no_leidas: 0, items: [] })
+  const [navOpen, setNavOpen] = useState(false)
   const bellRef = useRef(null)
 
   useEffect(() => { api('/empresa/me').then(setEmpresa).catch(() => {}) }, [])
+  useEffect(() => { setNavOpen(false) }, [pathname]) // cerrar menú móvil al navegar
 
   async function cargarNotis() {
     try { setNotis(await api('/empresa/notificaciones')) } catch { /* ignora */ }
@@ -82,7 +84,8 @@ export default function EEShell() {
   return (
     <>
       <Plexus />
-      <div className={'sa-app' + (empresa ? ' ee-theme' : '')} style={theme}>
+      <div className={'sa-app' + (empresa ? ' ee-theme' : '') + (navOpen ? ' nav-open' : '')} style={theme}>
+        <div className="sa-backdrop" onClick={() => setNavOpen(false)} />
         <aside className="sa-side">
           <div className="ee-brand2">
             <div className="ee-clogo" style={{ background: empresa?.logo_url ? '#fff' : `linear-gradient(135deg, ${acento}, ${secundario})`, padding: empresa?.logo_url ? 4 : 0 }}>
@@ -106,7 +109,10 @@ export default function EEShell() {
 
         <div className="sa-main">
           <div className="sa-topbar">
-            <h1>{tituloDe(pathname)}</h1>
+            <div className="sa-tbleft">
+              <button className="sa-burger" aria-label="Menú" onClick={() => setNavOpen((o) => !o)}><Icon name="menu" /></button>
+              <h1>{tituloDe(pathname)}</h1>
+            </div>
             <div className="sa-tools" ref={bellRef}>
               <div className="sa-search">
                 <Icon name="search" />

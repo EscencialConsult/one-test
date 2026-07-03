@@ -115,7 +115,24 @@ svg .lab{fill:var(--tinta);font-size:12px;font-weight:700}
 .tc-meta{font-size:12px;color:var(--muted);font-weight:700;margin:6px 0 16px}
 .tc-bd .btn{width:100%}
 
-@media(max-width:760px){.runrow{flex-direction:column}.navp{width:100%}.qgrid{grid-template-columns:repeat(8,1fr)}}
+@media(max-width:760px){.runrow{flex-direction:column}.navp{width:100%}.qgrid{grid-template-columns:repeat(6,1fr)}}
+/* Teléfono: reducir paddings fijos y evitar que el botón/opciones se recorten al rendir tests */
+@media(max-width:560px){
+  .topnav{padding:12px 16px}
+  .wrap{padding:22px 14px 60px}
+  .pad{padding:20px}
+  .hero{padding:30px 20px}
+  .hero h1{font-size:26px}
+  .sub{font-size:14.5px}
+  .btn.big{min-width:0;width:100%}
+  .runhead{padding:18px 18px}
+  .runhead h2{font-size:20px}
+  .qcard{padding:22px 18px}
+  .qtext{font-size:20px;margin-bottom:22px}
+  .qgrid{grid-template-columns:repeat(6,1fr)}
+  .qn{min-height:38px;font-size:12.5px}
+  .opt{padding:14px 15px;font-size:14.5px}
+}
 
 /* ===== Dominó D-48 ===== */
 .timerbox{font-weight:800;font-size:15px;color:var(--violeta);background:rgba(77,36,143,.08);border:1px solid rgba(77,36,143,.2);padding:6px 14px;border-radius:999px}

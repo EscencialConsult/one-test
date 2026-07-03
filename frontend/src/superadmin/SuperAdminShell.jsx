@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
 import { useAuth } from '../auth/AuthContext.jsx'
@@ -23,6 +24,10 @@ export default function SuperAdminShell() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const [navOpen, setNavOpen] = useState(false)
+
+  // Cerrar el menú móvil al navegar a otra sección.
+  useEffect(() => { setNavOpen(false) }, [pathname])
 
   function salir() {
     logout()
@@ -36,7 +41,8 @@ export default function SuperAdminShell() {
   return (
     <>
       <Plexus />
-      <div className="sa-app">
+      <div className={'sa-app' + (navOpen ? ' nav-open' : '')}>
+        <div className="sa-backdrop" onClick={() => setNavOpen(false)} />
         <aside className="sa-side">
           <div className="sa-brand">
             <span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" style={{ height: 34 }} /><span className="one-sub" style={{ fontSize: 15 }}>Core Analytics</span></span>
@@ -57,7 +63,10 @@ export default function SuperAdminShell() {
 
         <div className="sa-main">
           <div className="sa-topbar">
-            <h1>{tituloDe(pathname)}</h1>
+            <div className="sa-tbleft">
+              <button className="sa-burger" aria-label="Menú" onClick={() => setNavOpen((o) => !o)}><Icon name="menu" /></button>
+              <h1>{tituloDe(pathname)}</h1>
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span className="userpill" style={{ fontSize: 13, color: 'var(--muted)' }}>{user?.email}</span>
             </div>
