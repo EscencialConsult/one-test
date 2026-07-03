@@ -156,7 +156,7 @@ async def borrar_informe(
     informe_id: uuid.UUID,
     tenant_id: uuid.UUID = Depends(get_current_tenant_id),
     db: AsyncSession = Depends(get_db),
-) -> None:
+):
     inf = await db.get(InformeIntegral, informe_id)
     if inf is None or inf.tenant_id != tenant_id:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Informe no encontrado")
