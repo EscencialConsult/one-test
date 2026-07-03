@@ -20,3 +20,19 @@ async def health() -> dict:
 async def health_db(db: AsyncSession = Depends(get_db)) -> dict:
     await db.execute(text("SELECT 1"))
     return {"status": "ok", "db": "ok"}
+
+
+@router.get("/health/email")
+async def health_email() -> dict:
+    """Diagnóstico de la config de correo (sin exponer la contraseña)."""
+    return {
+        "habilitado": settings.email_habilitado,
+        "host": settings.SMTP_HOST or "(vacío)",
+        "port": settings.SMTP_PORT,
+        "starttls": settings.SMTP_STARTTLS,
+        "user_set": bool(settings.SMTP_USER),
+        "password_set": bool(settings.SMTP_PASSWORD),
+        "from": settings.SMTP_FROM or settings.SMTP_USER or "(vacío)",
+        "from_name": settings.SMTP_FROM_NAME,
+        "public_base_url": settings.PUBLIC_BASE_URL,
+    }
