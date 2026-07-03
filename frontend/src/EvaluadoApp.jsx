@@ -5,6 +5,7 @@ import TestRunner from './TestRunner.jsx'
 import DominoRunner from './DominoRunner.jsx'
 import KuderRunner from './KuderRunner.jsx'
 import StaiRunner from './StaiRunner.jsx'
+import ExcelRunner from './ExcelRunner.jsx'
 import './evaluado/pe.css'
 
 const EVAL_KEY = 'one_eval_token'
@@ -27,12 +28,14 @@ async function apiEval(path, opts = {}) {
 const RUNNABLE = new Set([
   'big-five', 'chaside', 'dnla-percepcion-personal', 'baron-eqi',
   'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai',
+  'excel-inicial', 'excel-intermedio', 'excel-avanzado',
 ])
 
 function runnerFor(slug) {
   if (slug === 'domino-48') return DominoRunner
   if (slug === 'kuder') return KuderRunner
   if (slug === 'stai') return StaiRunner
+  if (slug.startsWith('excel-')) return ExcelRunner
   return TestRunner
 }
 

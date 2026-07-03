@@ -32,6 +32,17 @@ async def obtener_preguntas(slug: str) -> dict:
 
     items_raw = data.get("items", [])
 
+    # Tests de CONOCIMIENTO (quiz): ítems con opciones y respuesta correcta. Se sirven N al
+    # azar del pool y se OCULTA la clave (correct/explanation) para no filtrar las respuestas.
+    if items_raw and "correct" in items_raw[0]:
+        n = data.get("preguntas_por_intento", 20)
+        seleccion = random.sample(items_raw, min(int(n), len(items_raw)))
+        items = [
+            {"id": it["id"], "question": it["question"], "options": it["options"], "category": it.get("category")}
+            for it in seleccion
+        ]
+        return {"slug": slug, "tipo": "quiz", "nivel": data.get("nivel"), "items": items, "total": len(items)}
+
     # Tests de selección de ficha (Dominó): cada ítem es una secuencia + 6 opciones (pares de pips).
     if items_raw and "secuencia" in items_raw[0]:
         items = []

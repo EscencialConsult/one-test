@@ -11,6 +11,7 @@ import InformeIppr from '../informes/InformeIppr.jsx'
 import InformeKuder from '../informes/InformeKuder.jsx'
 import InformeGds15 from '../informes/InformeGds15.jsx'
 import InformeStai from '../informes/InformeStai.jsx'
+import InformeExcel from '../informes/InformeExcel.jsx'
 import '../informes/informe.css'
 
 // Mapa slug -> componente de informe.
@@ -24,6 +25,9 @@ const INFORMES = {
   'kuder': InformeKuder,
   'gds-15': InformeGds15,
   'stai': InformeStai,
+  'excel-inicial': InformeExcel,
+  'excel-intermedio': InformeExcel,
+  'excel-avanzado': InformeExcel,
 }
 
 export default function InformeView() {
