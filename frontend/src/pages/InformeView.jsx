@@ -12,6 +12,7 @@ import InformeKuder from '../informes/InformeKuder.jsx'
 import InformeGds15 from '../informes/InformeGds15.jsx'
 import InformeStai from '../informes/InformeStai.jsx'
 import InformeExcel from '../informes/InformeExcel.jsx'
+import InformeEneagrama from '../informes/InformeEneagrama.jsx'
 import '../informes/informe.css'
 
 // Mapa slug -> componente de informe.
@@ -28,6 +29,7 @@ const INFORMES = {
   'excel-inicial': InformeExcel,
   'excel-intermedio': InformeExcel,
   'excel-avanzado': InformeExcel,
+  'eneagrama': InformeEneagrama,
 }
 
 export default function InformeView() {

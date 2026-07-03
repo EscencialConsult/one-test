@@ -67,6 +67,18 @@ const META = {
     ],
     dimNames: {},
   },
+  eneagrama: {
+    nombre: 'Eneagrama Profesional',
+    subtitulo: '9 eneatipos',
+    intro: 'Un mapa de tu personalidad según los 9 eneatipos. No hay respuestas correctas ni incorrectas: respondé según con qué frecuencia te identificás con cada afirmación.',
+    escalaLabel: 'escala 1–5 (Nunca → Siempre)',
+    instrucciones: [
+      'Indicá con qué frecuencia te identificás con cada afirmación (de Nunca a Siempre).',
+      'Respondé con sinceridad y espontaneidad; no hay respuestas correctas.',
+      'Son 54 afirmaciones; no te detengas demasiado en cada una.',
+    ],
+    dimNames: {},
+  },
 }
 
 export default function TestRunner({ slug, onExit, onSubmit }) {
