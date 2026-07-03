@@ -47,6 +47,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
+          {/* Login brandeado por empresa (link de acceso propio): /acceso/<subdominio> */}
+          <Route path="/acceso/:sub" element={<Login />} />
           <Route path="/admin" element={<Protected rol="superadmin"><SuperAdminShell /></Protected>}>
             <Route index element={<SADashboard />} />
             <Route path="empresas" element={<SAEmpresas />} />

@@ -1,18 +1,30 @@
-import { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
 import { useAuth, homeFor } from '../auth/AuthContext.jsx'
 
 export default function Login() {
   const { login, user } = useAuth()
+  const { sub } = useParams() // /acceso/:sub → marca de esa empresa
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [cargando, setCargando] = useState(false)
+  const [brand, setBrand] = useState(null)
+
+  // Si se entró por /acceso/:sub, traemos la marca de esa empresa para el login.
+  useEffect(() => {
+    if (!sub) { setBrand(null); return }
+    let vivo = true
+    fetch(`/api/publico/marca/${encodeURIComponent(sub)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((b) => { if (vivo) setBrand(b) })
+      .catch(() => {})
+    return () => { vivo = false }
+  }, [sub])
 
   // Si ya hay sesión, ir directo al portal correspondiente.
-  // (Se hace con <Navigate>, no con navigate() en render, que dejaba la pantalla en blanco.)
   if (user) return <Navigate to={homeFor(user)} replace />
 
   async function enviar(e) {
@@ -29,14 +41,24 @@ export default function Login() {
     }
   }
 
+  const theme = brand ? { '--violeta': brand.color_acento, '--grad': brand.color_acento, '--rosa': brand.color_secundario || '#6be1e3' } : undefined
+
   return (
-    <div className="app">
+    <div className="app" style={theme}>
       <Plexus />
       <div className="login-wrap">
         <form className="card login-card" onSubmit={enviar}>
-          <Link to="/" className="login-brand"><span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" /><span className="one-sub">Core Analytics</span></span></Link>
+          {brand ? (
+            <span className="login-brand">
+              {brand.logo_url
+                ? <img className="one-logo" src={brand.logo_url} alt={brand.razon_social} style={{ height: 42, maxWidth: 220 }} />
+                : <span className="one-sub" style={{ fontSize: 20, fontWeight: 800 }}>{brand.razon_social}</span>}
+            </span>
+          ) : (
+            <Link to="/" className="login-brand"><span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" /><span className="one-sub">Core Analytics</span></span></Link>
+          )}
           <h1 className="login-h">Iniciar sesión</h1>
-          <p className="login-sub">Accedé a tu panel de ONE Core Analytics.</p>
+          <p className="login-sub">{brand ? `Accedé al panel de ${brand.razon_social}.` : 'Accedé a tu panel de ONE Core Analytics.'}</p>
 
           <label className="login-lbl">Email</label>
           <input
@@ -65,7 +87,7 @@ export default function Login() {
           <button className="btn prim" type="submit" disabled={cargando} style={{ width: '100%', marginTop: 8 }}>
             {cargando ? 'Ingresando…' : 'Ingresar →'}
           </button>
-          <Link to="/" className="login-volver">← Volver al inicio</Link>
+          {!brand && <Link to="/" className="login-volver">← Volver al inicio</Link>}
         </form>
       </div>
     </div>
