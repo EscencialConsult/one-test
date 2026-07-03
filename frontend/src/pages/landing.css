@@ -65,12 +65,21 @@
 /* Dona interactiva */
 .lp-donut { padding: 22px; display: grid; grid-template-columns: 200px 1fr; gap: 18px; align-items: center; }
 .lp-donut-graf svg { width: 100%; display: block; }
-.lp-seg { cursor: pointer; opacity: .5; transition: opacity .25s ease, transform .25s ease; transform-box: view-box; transform-origin: 130px 130px; }
-.lp-seg:hover, .lp-seg.on { opacity: 1; transform: scale(1.07); }
+.lp-ring { animation: lpSpin 9s linear infinite; transform-box: view-box; transform-origin: 130px 130px; }
+.lp-ring.paused { animation-play-state: paused; }
+@keyframes lpSpin { to { transform: rotate(360deg); } }
+.lp-seg { transition: opacity .25s ease, transform .25s ease; transform-box: view-box; transform-origin: 130px 130px; }
+.lp-seg.interactive { cursor: pointer; opacity: .5; }
+.lp-seg.interactive.on { opacity: 1; transform: scale(1.08); }
 .lp-donut-n { font-size: 42px; font-weight: 800; letter-spacing: -1px; }
 .lp-donut-l { font-size: 12.5px; fill: var(--muted); font-weight: 700; }
 .lp-fade { animation: lpFade .45s ease; }
 @keyframes lpFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Aparición al hacer scroll */
+.lp-reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
+.lp-reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .lp-reveal { opacity: 1; transform: none; transition: none; } .lp-ring { animation: none; } }
 .lp-donut-legend { display: flex; flex-direction: column; gap: 4px; }
 .lp-legrow { display: flex; gap: 12px; align-items: flex-start; padding: 11px 12px; border-radius: 12px; cursor: pointer; transition: background .2s; }
 .lp-legrow.on { background: rgba(77,36,143,.06); }

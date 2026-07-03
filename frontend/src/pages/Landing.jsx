@@ -17,6 +17,16 @@ export default function Landing() {
   const irEvaluado = () => navigate('/evaluado')
   const irAcceso = () => document.getElementById('acceso')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 
+  // Aparición suave de las secciones al hacer scroll.
+  useEffect(() => {
+    const els = document.querySelectorAll('.lp-reveal')
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } })
+    }, { threshold: 0.12 })
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+
   return (
     <div className="lp">
       {/* Fondo */}
@@ -122,7 +132,7 @@ export default function Landing() {
       <section className="lp-sec" id="evaluaciones"><div className="lp-wrap">
         <div className="lp-sech"><span className="eb">Evaluaciones</span><h2>Una batería completa</h2>
           <p>Seleccioná las pruebas según el perfil y el objetivo de cada proceso.</p></div>
-        <div className="lp-grid4">
+        <div className="lp-grid4 lp-reveal">
           <div className="lp-card lp-feat"><div className="lp-featic r"><Ico id="i-clip" /></div><h3>Psicotécnicas</h3><p>Aptitudes y razonamiento: lógica, atención, capacidad espacial y numérica.</p></div>
           <div className="lp-card lp-feat"><div className="lp-featic c"><Ico id="i-spark" /></div><h3>Psicométricas</h3><p>Personalidad e inteligencia emocional con baremos e interpretación por dimensión.</p></div>
           <div className="lp-card lp-feat"><div className="lp-featic v"><Ico id="i-brief" /></div><h3>Psicolaborales</h3><p>Competencias y perfiles orientados al desempeño y la selección.</p></div>
@@ -133,7 +143,7 @@ export default function Landing() {
       {/* CÓMO FUNCIONA */}
       <section className="lp-sec" id="como"><div className="lp-wrap">
         <div className="lp-sech"><span className="eb">Cómo funciona</span><h2>Del alta al informe, en 4 pasos</h2></div>
-        <div className="lp-steps">
+        <div className="lp-steps lp-reveal">
           <div className="lp-card lp-step"><div className="num">1</div><Ico id="i-pencil" /><h3>Creación y asignación</h3><p>Desde tu panel de administrador, creá nuevos usuarios en segundos y asigná los tests específicos que necesitás que realicen.</p></div>
           <div className="lp-card lp-step"><div className="num">2</div><Ico id="i-send" /><h3>Automatización segura</h3><p>El sistema se encarga del resto: envía automáticamente las credenciales de acceso seguras y el link exclusivo de tu empresa al correo del evaluado.</p></div>
           <div className="lp-card lp-step"><div className="num">3</div><Ico id="i-target" /><h3>Monitoreo en tiempo real</h3><p>Recibí notificaciones directas en tu panel. Visualizá al instante qué evaluaciones están pendientes, en curso y completadas.</p></div>
@@ -145,7 +155,7 @@ export default function Landing() {
       <section className="lp-sec" id="modulos"><div className="lp-wrap">
         <div className="lp-sech"><span className="eb">Módulos estratégicos</span><h2>Más que tests: decisiones</h2>
           <p>Herramientas premium para leer a tu organización de forma integral.</p></div>
-        <div className="lp-grid2">
+        <div className="lp-grid2 lp-reveal">
           <div className="lp-card lp-feat"><div className="lp-featic r"><Ico id="i-spark" /></div>
             <h3>Informes gerenciales consolidados</h3>
             <p>¿El evaluado realizó múltiples pruebas? Seleccioná los tests que ya completó y nuestro sistema consolida los datos en un único informe gerencial. Una visión panorámica y estratégica para facilitar tus decisiones.</p>
@@ -160,7 +170,7 @@ export default function Landing() {
       {/* BENEFICIOS */}
       <section className="lp-sec"><div className="lp-wrap">
         <div className="lp-sech"><span className="eb">Por qué elegirnos</span><h2>Precisión, claridad y seguridad</h2></div>
-        <div className="lp-grid4">
+        <div className="lp-grid4 lp-reveal">
           <div className="lp-card lp-feat"><div className="lp-featic v"><Ico id="i-chart" /></div><h3>Cálculo automático</h3><p>Resultados deterministas: los mismos datos siempre dan el mismo resultado, sin cálculos manuales.</p></div>
           <div className="lp-card lp-feat"><div className="lp-featic r"><Ico id="i-shield" /></div><h3>Confidencial</h3><p>Datos aislados por empresa y resguardados con altos estándares.</p></div>
           <div className="lp-card lp-feat"><div className="lp-featic c"><Ico id="i-doc" /></div><h3>Informes claros</h3><p>Gráficos e interpretaciones profesionales, listos para usar.</p></div>
@@ -169,7 +179,7 @@ export default function Landing() {
       </div></section>
 
       {/* CTA */}
-      <section className="lp-sec" style={{ paddingTop: 10 }}><div className="lp-wrap"><div className="lp-cta">
+      <section className="lp-sec" style={{ paddingTop: 10 }}><div className="lp-wrap"><div className="lp-cta lp-reveal">
         <h2>¿Listo para evaluar con precisión?</h2>
         <p>Accedé a tu espacio o solicitá una demostración para tu empresa.</p>
         <button className="lp-btn" onClick={irLogin}>Acceder al panel <Ico id="i-arrow" className="lp-ico" /></button>
@@ -227,10 +237,10 @@ function StatDonut() {
   const gap = 0.05
   const cur = STATS[act]
 
-  // Rota el resaltado solo; se pausa cuando el mouse está encima.
+  // El centro va cambiando de dato; se pausa cuando el mouse está encima.
   useEffect(() => {
     if (paused) return
-    const t = setInterval(() => setAct((a) => (a + 1) % STATS.length), 2500)
+    const t = setInterval(() => setAct((a) => (a + 1) % STATS.length), 1600)
     return () => clearInterval(t)
   }, [paused])
 
@@ -238,19 +248,21 @@ function StatDonut() {
     <div className="lp-card lp-donut" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="lp-donut-graf">
         <svg viewBox="0 0 260 260">
-          {STATS.map((s, i) => {
-            const a1 = start + i * seg + gap
-            const a2 = start + (i + 1) * seg - gap
-            return (
-              <path
-                key={i}
-                d={donutSeg(130, 130, 118, 74, a1, a2)}
-                fill={s.color}
-                className={'lp-seg' + (act === i ? ' on' : '')}
-                onMouseEnter={() => setAct(i)}
-              />
-            )
-          })}
+          <g className={'lp-ring' + (paused ? ' paused' : '')}>
+            {STATS.map((s, i) => {
+              const a1 = start + i * seg + gap
+              const a2 = start + (i + 1) * seg - gap
+              return (
+                <path
+                  key={i}
+                  d={donutSeg(130, 130, 118, 74, a1, a2)}
+                  fill={s.color}
+                  className={'lp-seg' + (paused ? ' interactive' : '') + (paused && act === i ? ' on' : '')}
+                  onMouseEnter={() => setAct(i)}
+                />
+              )
+            })}
+          </g>
           <text key={'n' + act} x="130" y="126" textAnchor="middle" className="lp-donut-n lp-fade" fill={cur.color}>{cur.big}</text>
           <text key={'l' + act} x="130" y="150" textAnchor="middle" className="lp-donut-l lp-fade">{cur.label}</text>
         </svg>
