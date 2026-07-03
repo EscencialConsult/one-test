@@ -14,6 +14,7 @@ export default function SAEmpresaDetail() {
   const [addOpen, setAddOpen] = useState(false)
   const [q, setQ] = useState('')
   const [edit, setEdit] = useState(false)
+  const [copiado, setCopiado] = useState(false)
   const addRef = useRef(null)
 
   async function cargar() {
@@ -63,6 +64,11 @@ export default function SAEmpresaDetail() {
   const fuera = tests.filter((t) => !t.en_alcance && t.nombre.toLowerCase().includes(q.toLowerCase()))
   const activos = enAlcance.filter((t) => t.habilitado).length
 
+  const accesoUrl = `${window.location.origin}/acceso/${empresa.subdominio}`
+  async function copiarAcceso() {
+    try { await navigator.clipboard.writeText(accesoUrl); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch { /* noop */ }
+  }
+
   return (
     <>
       <button className="sa-backlink" onClick={() => navigate('/admin/empresas')}><Icon name="chevL" /> Volver a Empresas</button>
@@ -70,9 +76,14 @@ export default function SAEmpresaDetail() {
 
       <div className="sa-card sa-emp-head">
         <div className="lg2">{sigla(empresa.razon_social)}</div>
-        <div>
+        <div style={{ minWidth: 0 }}>
           <h2>{empresa.razon_social}</h2>
           <div className="meta"><span className="sa-subd">{empresa.subdominio}</span> · <span>{empresa.email_admin}</span></div>
+          <div className="meta" style={{ marginTop: 8 }}>
+            <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Link de acceso:</b>
+            <span className="sa-subd" style={{ maxWidth: 320, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoUrl}>{accesoUrl}</span>
+            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={copiarAcceso}><Icon name="doc" /> {copiado ? '¡Copiado!' : 'Copiar'}</button>
+          </div>
         </div>
         <div className="right">
           <div className="estado">
