@@ -71,12 +71,18 @@ export default function EEShell() {
   const acento = empresa?.color_acento || 'var(--violeta)'
   const secundario = empresa?.color_secundario || '#6be1e3'
   const iniciales = user ? `${(user.nombre || '')[0] || ''}${(user.apellido || '')[0] || ''}`.toUpperCase() || 'AE' : 'AE'
-  const theme = empresa ? { '--violeta': empresa.color_acento, '--grad': `linear-gradient(135deg, ${empresa.color_acento}, ${secundario})` } : undefined
+  // Tema white-label PLANO: un color primario sólido (sin degradé) + secundario para detalles.
+  const theme = empresa ? {
+    '--violeta': empresa.color_acento,
+    '--grad': empresa.color_acento,   // sólido (antes era degradé)
+    '--acento2': secundario,
+    '--rosa': secundario,             // detalles: foco de inputs, acentos
+  } : undefined
 
   return (
     <>
       <Plexus />
-      <div className="sa-app" style={theme}>
+      <div className={'sa-app' + (empresa ? ' ee-theme' : '')} style={theme}>
         <aside className="sa-side">
           <div className="ee-brand2">
             <div className="ee-clogo" style={{ background: empresa?.logo_url ? '#fff' : `linear-gradient(135deg, ${acento}, ${secundario})`, padding: empresa?.logo_url ? 4 : 0 }}>

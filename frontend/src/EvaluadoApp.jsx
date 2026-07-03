@@ -84,7 +84,7 @@ export default function EvaluadoApp() {
   const completadas = (asigs || []).filter((a) => a.estado === 'completado').length
   const pendientes = total - completadas
   const emp = me?.empresa
-  const theme = emp ? { '--violeta': emp.color_acento, '--grad': `linear-gradient(135deg, ${emp.color_acento}, ${emp.color_secundario || '#6be1e3'})` } : undefined
+  const theme = emp ? { '--violeta': emp.color_acento, '--grad': emp.color_acento, '--acento2': emp.color_secundario || '#6be1e3', '--rosa': emp.color_secundario || '#6be1e3' } : undefined
 
   return (
     <div className="app" style={theme}>

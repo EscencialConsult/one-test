@@ -71,3 +71,12 @@
 .ee-combo-list .opt { padding: 10px 12px; border-radius: 9px; cursor: pointer; font-size: 13.5px; }
 .ee-combo-list .opt:hover, .ee-combo-list .opt.on { background: rgba(77,36,143,.06); }
 .ee-combo-list .empty { padding: 10px 12px; color: var(--muted); font-size: 13px; }
+
+/* ── Tema white-label PLANO (color primario sólido + secundario para detalles) ── */
+/* Iconos de los KPI: todos con el color PRIMARIO sólido (antes tenían degradés de ONE). */
+.sa-app.ee-theme .sa-kpi .ic { background: var(--violeta); }
+/* Detalle con el color SECUNDARIO: línea superior de cada tarjeta KPI. */
+.sa-app.ee-theme .sa-kpi { border-top: 3px solid var(--acento2); }
+/* Sombras neutras (las originales eran rosas y desentonan con otro color). */
+.ee-theme .sa-btn.prim { box-shadow: 0 10px 24px -12px rgba(0,0,0,.28); }
+.ee-theme .sa-nav a.on { box-shadow: 0 8px 20px -10px rgba(0,0,0,.25); }
