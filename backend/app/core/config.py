@@ -29,6 +29,13 @@ class Settings(BaseSettings):
     SMTP_FROM_NAME: str = "ONE Core Analytics"
     SMTP_STARTTLS: bool = True     # True para puerto 587; False + SMTP_SSL para 465
 
+    # ── IA (OpenAI) — informes gerenciales consolidados (Módulo 05) ───────────
+    # La IA solo REDACTA sobre resultados ya calculados; nunca calcula resultados.
+    # Si OPENAI_API_KEY está vacío, la generación queda deshabilitada (no rompe nada).
+    OPENAI_API_KEY: str = ""
+    OPENAI_MODEL: str = "gpt-4o"
+    OPENAI_MAX_TOKENS: int = 3500
+
     # ── URLs de la app (para los links de los correos) ────────────────────────
     PUBLIC_BASE_URL: str = "http://localhost:5173"  # URL principal del frontend
     TENANT_DOMAIN: str = ""       # ej. "one.com" → links tipo https://techsur.one.com (cuando el subdominio esté activo)
@@ -40,6 +47,10 @@ class Settings(BaseSettings):
     @property
     def email_habilitado(self) -> bool:
         return bool(self.SMTP_HOST.strip())
+
+    @property
+    def ia_habilitada(self) -> bool:
+        return bool(self.OPENAI_API_KEY.strip())
 
     def url_empresa(self, subdominio: str) -> str:
         """Link de acceso brandeado del admin de una empresa (subdominio si está activo)."""

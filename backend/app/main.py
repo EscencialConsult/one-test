@@ -15,6 +15,7 @@ from app.api.routes import (
     evaluaciones,
     evaluados,
     health,
+    informes_ia,
     perfiles,
     publico,
     resultados,
@@ -49,6 +50,7 @@ app.include_router(areas.router, prefix="/api")
 app.include_router(evaluados.router, prefix="/api")
 app.include_router(asignaciones.router, prefix="/api")
 app.include_router(resultados.router, prefix="/api")
+app.include_router(informes_ia.router, prefix="/api")
 app.include_router(evaluaciones.router_admin, prefix="/api")
 app.include_router(evaluaciones.router_emp, prefix="/api")
 app.include_router(evaluaciones.router_pub, prefix="/api")

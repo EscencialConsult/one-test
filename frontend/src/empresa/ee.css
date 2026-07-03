@@ -80,3 +80,37 @@
 /* Sombras neutras (las originales eran rosas y desentonan con otro color). */
 .ee-theme .sa-btn.prim { box-shadow: 0 10px 24px -12px rgba(0,0,0,.28); }
 .ee-theme .sa-nav a.on { box-shadow: 0 8px 20px -10px rgba(0,0,0,.25); }
+
+/* ── Informe gerencial integral (IA) ── */
+.ee-inflist { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--linea); }
+.ee-inflist:first-of-type { border-top: 0; }
+.ee-inflist .ee-lnk { font-weight: 700; }
+.ee-inflist small { color: var(--muted); font-size: 12px; margin-left: auto; }
+.ee-inflist .sa-trash { flex: none; }
+
+.inf-modal { max-width: 760px; width: 94vw; max-height: 92vh; display: flex; flex-direction: column; padding: 0; }
+.inf-doc { overflow: auto; padding: 30px 34px 8px; }
+.inf-head { border-bottom: 2px solid var(--violeta); padding-bottom: 16px; margin-bottom: 20px; }
+.inf-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--violeta); background: rgba(77,36,143,.08); padding: 4px 10px; border-radius: 999px; }
+.inf-head h2 { font-size: 22px; margin: 10px 0 4px; color: var(--tinta); }
+.inf-meta { font-size: 12.5px; color: var(--muted); }
+.inf-tests { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.inf-chip { font-size: 11.5px; font-weight: 600; color: var(--violeta); background: rgba(77,36,143,.07); border: 1px solid rgba(77,36,143,.15); border-radius: 999px; padding: 3px 10px; }
+.inf-sec { margin-bottom: 20px; }
+.inf-sec h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--violeta); margin: 0 0 8px; }
+.inf-sec p { font-size: 14px; line-height: 1.65; color: #2a2730; margin: 0 0 9px; }
+.inf-sec ul { margin: 0; padding-left: 20px; }
+.inf-sec li { font-size: 14px; line-height: 1.6; color: #2a2730; margin-bottom: 6px; }
+.inf-test { margin-bottom: 14px; }
+.inf-test b { display: block; font-size: 14px; color: var(--tinta); margin-bottom: 3px; }
+.inf-foot { font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--linea); padding-top: 12px; margin-top: 6px; font-style: italic; }
+.inf-actions { padding: 14px 24px; border-top: 1px solid var(--linea); }
+
+@media print {
+  body * { visibility: hidden; }
+  .inf-modal, .inf-modal * { visibility: visible; }
+  .sa-overlay { position: static; background: none; }
+  .inf-modal { position: absolute; left: 0; top: 0; box-shadow: none; max-width: 100%; width: 100%; max-height: none; }
+  .inf-modal .x, .inf-actions { display: none; }
+  .inf-doc { overflow: visible; }
+}

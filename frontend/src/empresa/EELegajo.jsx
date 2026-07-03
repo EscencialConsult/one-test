@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import Icon from '../superadmin/Icons.jsx'
+import EEInformeIntegral from './EEInformeIntegral.jsx'
 
 export default function EELegajo() {
   const { id } = useParams()
@@ -51,8 +52,6 @@ export default function EELegajo() {
   if (error && !ev) return <div className="sa-err">{error}</div>
   if (!ev || !asig) return <div className="sa-card sa-panel">Cargando…</div>
 
-  const completadas = asig.filter((a) => a.estado === 'completado')
-
   return (
     <>
       <button className="sa-backlink" onClick={() => navigate('/empresa/evaluados')}><Icon name="chevL" /> Volver a Evaluados</button>
@@ -93,15 +92,11 @@ export default function EELegajo() {
         })}
       </div>
 
-      <div className="ee-sectitle">Informe consolidado</div>
-      <div className="ee-ia">
-        <div className="iah"><div className="ic"><Icon name="spark" /></div><h3>Generar informe consolidado con IA <span className="sa-soon">Próximamente</span></h3></div>
-        <p className="d">Cruza las métricas de las pruebas finalizadas en una devolución ejecutiva. La IA solo redacta sobre puntajes ya calculados — nunca genera resultados.</p>
-        <div style={{ marginLeft: 52, fontSize: 13, color: 'var(--muted)' }}>
-          {completadas.length === 0 ? 'Cuando el evaluado complete al menos una prueba, vas a poder generar el consolidado.'
-            : `Pruebas listas para consolidar: ${completadas.map((a) => nombreTest(a.test_slug)).join(', ')}.`}
-        </div>
-      </div>
+      <EEInformeIntegral
+        evaluadoId={id}
+        evaluadoNombre={`${ev.nombre} ${ev.apellido}`}
+        resultados={resultados.map((r) => ({ id: r.id, test_slug: r.test_slug, nombre: nombreTest(r.test_slug) }))}
+      />
 
       {modal && (
         <ModalAsignar

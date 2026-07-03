@@ -8,6 +8,7 @@ from app.models.evaluado import Evaluado
 from app.models.empresa_test import EmpresaTest
 from app.models.asignacion import Asignacion
 from app.models.resultado import Resultado
+from app.models.informe_integral import InformeIntegral
 from app.models.notificacion import Notificacion
 from app.models.evaluacion import (
     EvalCampania,
@@ -19,6 +20,6 @@ from app.models.evaluacion import (
 
 __all__ = [
     "Base", "Empresa", "Usuario", "Perfil", "Area", "Evaluado",
-    "EmpresaTest", "Asignacion", "Resultado", "Notificacion",
+    "EmpresaTest", "Asignacion", "Resultado", "InformeIntegral", "Notificacion",
     "EvalFormulario", "EvalCompetencia", "EvalPregunta", "EvalCampania", "EvalEvaluador",
 ]
