@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Plexus from './Plexus.jsx'
 import TestRunner from './TestRunner.jsx'
 import DominoRunner from './DominoRunner.jsx'
@@ -40,11 +41,24 @@ const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s)
 const sigla = (n) => (n || '?').split(/\s+/).slice(0, 2).map((p) => p[0]).join('').toUpperCase()
 
 export default function EvaluadoApp() {
+  const { sub } = useParams() // /acceso/:sub/evaluado → marca de esa empresa
   const [token, setToken] = useState(() => localStorage.getItem(EVAL_KEY))
   const [me, setMe] = useState(null)
   const [asigs, setAsigs] = useState(null)
   const [error, setError] = useState(null)
   const [activo, setActivo] = useState(null) // slug del test en curso
+  const [brand, setBrand] = useState(null)
+
+  // Si se entró por /acceso/:sub/evaluado, traemos la marca para el login.
+  useEffect(() => {
+    if (!sub) { setBrand(null); return }
+    let vivo = true
+    fetch(`/api/publico/marca/${encodeURIComponent(sub)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((b) => { if (vivo) setBrand(b) })
+      .catch(() => {})
+    return () => { vivo = false }
+  }, [sub])
 
   async function cargar() {
     setError(null)
@@ -65,7 +79,7 @@ export default function EvaluadoApp() {
   }
 
   // ----- Sin sesión: login del evaluado -----
-  if (!token) return <LoginEvaluado onLogged={(t) => { localStorage.setItem(EVAL_KEY, t); setToken(t) }} />
+  if (!token) return <LoginEvaluado brand={brand} onLogged={(t) => { localStorage.setItem(EVAL_KEY, t); setToken(t) }} />
 
   // ----- Tomando un test -----
   if (activo) {
@@ -153,7 +167,7 @@ export default function EvaluadoApp() {
   )
 }
 
-function LoginEvaluado({ onLogged }) {
+function LoginEvaluado({ onLogged, brand }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
@@ -182,14 +196,24 @@ function LoginEvaluado({ onLogged }) {
     }
   }
 
+  const theme = brand ? { '--violeta': brand.color_acento, '--grad': brand.color_acento, '--rosa': brand.color_secundario || '#6be1e3' } : undefined
+
   return (
-    <div className="app">
+    <div className="app" style={theme}>
       <Plexus />
       <div className="login-wrap">
         <form className="card login-card" onSubmit={enviar}>
-          <span className="login-brand"><span className="logo">O<b>NE</b></span></span>
+          {brand ? (
+            <span className="login-brand">
+              {brand.logo_url
+                ? <img className="one-logo" src={brand.logo_url} alt={brand.razon_social} style={{ height: 42, maxWidth: 220 }} />
+                : <span className="one-sub" style={{ fontSize: 20, fontWeight: 800 }}>{brand.razon_social}</span>}
+            </span>
+          ) : (
+            <span className="login-brand"><span className="logo">O<b>NE</b></span></span>
+          )}
           <h1 className="login-h">Portal del evaluado</h1>
-          <p className="login-sub">Ingresá con los datos que te dio tu empresa.</p>
+          <p className="login-sub">{brand ? `Ingresá al portal de ${brand.razon_social}.` : 'Ingresá con los datos que te dio tu empresa.'}</p>
 
           <label className="login-lbl">Email</label>
           <input className="login-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tu@email.com" autoComplete="username" required />

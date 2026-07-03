@@ -42,15 +42,16 @@ class Settings(BaseSettings):
         return bool(self.SMTP_HOST.strip())
 
     def url_empresa(self, subdominio: str) -> str:
-        """Link de acceso de una empresa (subdominio si está activo, si no la URL general)."""
+        """Link de acceso brandeado del admin de una empresa (subdominio si está activo)."""
         if self.TENANT_DOMAIN.strip():
             return f"https://{subdominio}.{self.TENANT_DOMAIN.strip()}"
-        return f"{self.PUBLIC_BASE_URL.rstrip('/')}/login"
+        return f"{self.PUBLIC_BASE_URL.rstrip('/')}/acceso/{subdominio}"
 
     def url_evaluado(self, subdominio: str) -> str:
+        """Link de acceso brandeado del portal del evaluado."""
         if self.TENANT_DOMAIN.strip():
             return f"https://{subdominio}.{self.TENANT_DOMAIN.strip()}/evaluado"
-        return f"{self.PUBLIC_BASE_URL.rstrip('/')}/evaluado"
+        return f"{self.PUBLIC_BASE_URL.rstrip('/')}/acceso/{subdominio}/evaluado"
 
     def url_eval(self, token: str) -> str:
         """Link público para responder una campaña de evaluación (por token)."""

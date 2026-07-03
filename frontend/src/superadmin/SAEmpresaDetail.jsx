@@ -64,9 +64,10 @@ export default function SAEmpresaDetail() {
   const fuera = tests.filter((t) => !t.en_alcance && t.nombre.toLowerCase().includes(q.toLowerCase()))
   const activos = enAlcance.filter((t) => t.habilitado).length
 
-  const accesoUrl = `${window.location.origin}/acceso/${empresa.subdominio}`
-  async function copiarAcceso() {
-    try { await navigator.clipboard.writeText(accesoUrl); setCopiado(true); setTimeout(() => setCopiado(false), 2000) } catch { /* noop */ }
+  const accesoAdmin = `${window.location.origin}/acceso/${empresa.subdominio}`
+  const accesoEval = `${accesoAdmin}/evaluado`
+  async function copiar(url, cual) {
+    try { await navigator.clipboard.writeText(url); setCopiado(cual); setTimeout(() => setCopiado(false), 2000) } catch { /* noop */ }
   }
 
   return (
@@ -80,9 +81,14 @@ export default function SAEmpresaDetail() {
           <h2>{empresa.razon_social}</h2>
           <div className="meta"><span className="sa-subd">{empresa.subdominio}</span> · <span>{empresa.email_admin}</span></div>
           <div className="meta" style={{ marginTop: 8 }}>
-            <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Link de acceso:</b>
-            <span className="sa-subd" style={{ maxWidth: 320, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoUrl}>{accesoUrl}</span>
-            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={copiarAcceso}><Icon name="doc" /> {copiado ? '¡Copiado!' : 'Copiar'}</button>
+            <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Acceso administrador:</b>
+            <span className="sa-subd" style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoAdmin}>{accesoAdmin}</span>
+            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={() => copiar(accesoAdmin, 'admin')}><Icon name="doc" /> {copiado === 'admin' ? '¡Copiado!' : 'Copiar'}</button>
+          </div>
+          <div className="meta" style={{ marginTop: 6 }}>
+            <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Acceso evaluado:</b>
+            <span className="sa-subd" style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoEval}>{accesoEval}</span>
+            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={() => copiar(accesoEval, 'eval')}><Icon name="doc" /> {copiado === 'eval' ? '¡Copiado!' : 'Copiar'}</button>
           </div>
         </div>
         <div className="right">
