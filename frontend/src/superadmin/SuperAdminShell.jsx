@@ -9,14 +9,13 @@ const NAV = [
   { to: '/admin/empresas', end: false, icon: 'build', label: 'Empresas' },
   { to: '/admin/catalogo', end: false, icon: 'layers', label: 'Catálogo de tests' },
   { to: '/admin/plantillas', end: false, icon: 'doc', label: 'Plantillas 360°' },
-  { to: '/admin/config', end: false, icon: 'cog', label: 'Configuración' },
+  // 'Configuración' oculta hasta implementar el almacenamiento real (settings/integraciones).
 ]
 
 function tituloDe(path) {
   if (path.startsWith('/admin/empresas')) return 'Empresas'
   if (path.startsWith('/admin/catalogo')) return 'Catálogo de tests'
   if (path.startsWith('/admin/plantillas')) return 'Plantillas de evaluación'
-  if (path.startsWith('/admin/config')) return 'Configuración'
   return 'Dashboard'
 }
 

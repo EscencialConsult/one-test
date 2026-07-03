@@ -9,7 +9,6 @@ import SAEmpresas from './superadmin/SAEmpresas.jsx'
 import SAEmpresaDetail from './superadmin/SAEmpresaDetail.jsx'
 import SACatalogo from './superadmin/SACatalogo.jsx'
 import SAPlantillas from './superadmin/SAPlantillas.jsx'
-import SAConfig from './superadmin/SAConfig.jsx'
 import EEShell from './empresa/EEShell.jsx'
 import EEDashboard from './empresa/EEDashboard.jsx'
 import EEEvaluados from './empresa/EEEvaluados.jsx'
@@ -57,7 +56,6 @@ export default function App() {
             <Route path="empresas/:id" element={<SAEmpresaDetail />} />
             <Route path="catalogo" element={<SACatalogo />} />
             <Route path="plantillas" element={<SAPlantillas />} />
-            <Route path="config" element={<SAConfig />} />
           </Route>
           <Route path="/empresa/informe/:resultadoId" element={<Protected rol="admin_empresa"><InformeView /></Protected>} />
           <Route path="/empresa" element={<Protected rol="admin_empresa"><EEShell /></Protected>}>
