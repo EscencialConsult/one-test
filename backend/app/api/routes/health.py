@@ -1,12 +1,15 @@
 """Endpoints de salud del servicio y de la base de datos."""
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+import asyncio
+
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.core.db import get_db
+from app.core.email import _send_sync
 
 router = APIRouter(tags=["health"])
 
@@ -36,3 +39,25 @@ async def health_email() -> dict:
         "from_name": settings.SMTP_FROM_NAME,
         "public_base_url": settings.PUBLIC_BASE_URL,
     }
+
+
+@router.get("/health/email/test")
+async def health_email_test(
+    to: str = Query(...), key: str = Query(...)
+) -> dict:
+    """Intenta un envío real desde este servidor y devuelve el error exacto si falla.
+
+    Protegido con SECRET_KEY. Temporal: para diagnosticar el envío en producción.
+    """
+    if key != settings.SECRET_KEY:
+        raise HTTPException(403, "Clave inválida")
+    if not settings.email_habilitado:
+        return {"ok": False, "error": "SMTP no configurado (email_habilitado=False)"}
+    try:
+        await asyncio.to_thread(
+            _send_sync, to, "Prueba de envío ONE (producción)",
+            "<p>Prueba de envío <b>desde Render</b>.</p>", "ONE Core Analytics",
+        )
+        return {"ok": True, "detalle": f"Enviado a {to} (encolado por el SMTP)"}
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "error": f"{type(e).__name__}: {e}"}
