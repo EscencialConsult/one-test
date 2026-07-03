@@ -110,6 +110,13 @@ async def generar_informe(
             tests=tests_payload,
         )
     except Exception as e:  # noqa: BLE001
+        msg = str(e)
+        if "insufficient_quota" in msg or "exceeded your current quota" in msg:
+            raise HTTPException(
+                status.HTTP_402_PAYMENT_REQUIRED,
+                "La IA no tiene saldo disponible en OpenAI en este momento. "
+                "Cargá crédito en la cuenta de OpenAI para habilitar la generación.",
+            )
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, f"No se pudo generar el informe: {e}")
 
     titulo = (body.titulo or contenido.get("titulo") or f"Informe integral · {nombre_ev}").strip()[:200]
