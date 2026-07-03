@@ -27,9 +27,9 @@ body{font-family:"Segoe UI",-apple-system,Roboto,system-ui,sans-serif;color:var(
 .brand .logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* Lockup de marca: logo ONE (imagen) + "Core Analytics" */
-.one-brand{display:inline-flex;align-items:center;gap:9px}
-.one-logo{height:30px;width:auto;display:block}
-.one-sub{font-weight:700;font-size:15px;color:var(--tinta);letter-spacing:.2px;white-space:nowrap}
+.one-brand{display:inline-flex;align-items:center;gap:10px}
+.one-logo{height:40px;width:auto;display:block}
+.one-sub{font-weight:700;font-size:17px;color:var(--tinta);letter-spacing:.2px;white-space:nowrap}
 
 .wrap{max-width:980px;margin:0 auto;padding:30px 20px 70px}
 .card{background:rgba(255,255,255,.9);border:1px solid var(--linea);border-radius:var(--radio);box-shadow:var(--sombra)}

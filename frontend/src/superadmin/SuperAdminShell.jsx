@@ -40,7 +40,7 @@ export default function SuperAdminShell() {
       <div className="sa-app">
         <aside className="sa-side">
           <div className="sa-brand">
-            <span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" style={{ height: 26 }} /><span className="one-sub" style={{ fontSize: 14 }}>Core Analytics</span></span>
+            <span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" style={{ height: 34 }} /><span className="one-sub" style={{ fontSize: 15 }}>Core Analytics</span></span>
           </div>
           <nav className="sa-nav">
             {NAV.map((n) => (
