@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
 import './landing.css'
@@ -221,12 +221,21 @@ function donutSeg(cx, cy, ro, ri, a1, a2) {
 
 function StatDonut() {
   const [act, setAct] = useState(0)
+  const [paused, setPaused] = useState(false)
   const seg = (2 * Math.PI) / STATS.length
   const start = -Math.PI / 2
   const gap = 0.05
   const cur = STATS[act]
+
+  // Rota el resaltado solo; se pausa cuando el mouse está encima.
+  useEffect(() => {
+    if (paused) return
+    const t = setInterval(() => setAct((a) => (a + 1) % STATS.length), 2500)
+    return () => clearInterval(t)
+  }, [paused])
+
   return (
-    <div className="lp-card lp-donut">
+    <div className="lp-card lp-donut" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="lp-donut-graf">
         <svg viewBox="0 0 260 260">
           {STATS.map((s, i) => {
@@ -242,8 +251,8 @@ function StatDonut() {
               />
             )
           })}
-          <text x="130" y="126" textAnchor="middle" className="lp-donut-n" fill={cur.color}>{cur.big}</text>
-          <text x="130" y="150" textAnchor="middle" className="lp-donut-l">{cur.label}</text>
+          <text key={'n' + act} x="130" y="126" textAnchor="middle" className="lp-donut-n lp-fade" fill={cur.color}>{cur.big}</text>
+          <text key={'l' + act} x="130" y="150" textAnchor="middle" className="lp-donut-l lp-fade">{cur.label}</text>
         </svg>
       </div>
       <div className="lp-donut-legend">
