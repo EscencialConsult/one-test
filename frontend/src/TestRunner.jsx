@@ -67,6 +67,22 @@ const META = {
     ],
     dimNames: {},
   },
+  'dnla-leadership': {
+    nombre: 'DNLA — Liderazgo y Mandos Medios',
+    subtitulo: '8 competencias',
+    intro: 'Autoevaluación de tu estilo de liderazgo: cómo guiás, motivás y desarrollás personas. Respondé según la frecuencia con que actuás así; no hay respuestas correctas.',
+    escalaLabel: 'escala 1–5 (Nunca → Siempre)',
+    instrucciones: [
+      'Indicá con qué frecuencia actuás como describe cada afirmación (de Nunca a Siempre).',
+      'Respondé con sinceridad sobre cómo actuás realmente, no cómo te gustaría actuar.',
+      'Son 40 afirmaciones; no hay respuestas correctas ni incorrectas.',
+    ],
+    dimNames: {
+      vision_estrategica: 'Visión Estratégica', comunicacion: 'Comunicación', decision: 'Decisión',
+      motivacion: 'Motivación', conflictos: 'Conflictos', resiliencia: 'Resiliencia',
+      innovacion: 'Innovación', autogestion: 'Autogestión',
+    },
+  },
   eneagrama: {
     nombre: 'Eneagrama Profesional',
     subtitulo: '9 eneatipos',

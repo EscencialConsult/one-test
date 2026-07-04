@@ -28,7 +28,7 @@ async function apiEval(path, opts = {}) {
 // Tests que hoy se pueden rendir en línea (tienen runner compatible).
 const RUNNABLE = new Set([
   'big-five', 'chaside', 'dnla-percepcion-personal', 'baron-eqi',
-  'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'eneagrama',
+  'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'eneagrama', 'dnla-leadership',
   'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron',
 ])
 
