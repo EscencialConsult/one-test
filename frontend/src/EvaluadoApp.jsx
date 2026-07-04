@@ -28,8 +28,9 @@ async function apiEval(path, opts = {}) {
 // Tests que hoy se pueden rendir en línea (tienen runner compatible).
 const RUNNABLE = new Set([
   'big-five', 'chaside', 'dnla-percepcion-personal', 'baron-eqi',
-  'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'eneagrama', 'dnla-leadership',
+  'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'dnla-leadership',
   'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron',
+  // 'eneagrama' deshabilitado: la versión cargada es básica; se reactiva con el test completo.
 ])
 
 function runnerFor(slug) {
