@@ -25,6 +25,14 @@ async def obtener_preguntas(slug: str) -> dict:
     except FileNotFoundError as e:
         raise HTTPException(status.HTTP_404_NOT_FOUND, str(e))
 
+    # DISC (elección forzada, 28 grupos de 4 adjetivos): se eligen MÁS y MENOS por grupo.
+    if "grupos" in data:
+        grupos = [
+            {"id": g["id"], "parte": g.get("parte"), "D": g["D"], "I": g["I"], "S": g["S"], "C": g["C"]}
+            for g in data["grupos"]
+        ]
+        return {"slug": slug, "tipo": "disc", "dimensiones": data.get("dimensiones"), "grupos": grupos, "total": len(grupos)}
+
     # WAIS-IV (screening opción múltiple, 2 partes): se sirven ambas partes SIN la clave.
     if "parte1" in data:
         def _wais_item(it: dict) -> dict:

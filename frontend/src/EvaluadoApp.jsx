@@ -8,6 +8,7 @@ import StaiRunner from './StaiRunner.jsx'
 import ExcelRunner from './ExcelRunner.jsx'
 import ToulouseRunner from './ToulouseRunner.jsx'
 import WaisRunner from './WaisRunner.jsx'
+import DiscRunner from './DiscRunner.jsx'
 import './evaluado/pe.css'
 
 const EVAL_KEY = 'one_eval_token'
@@ -30,7 +31,7 @@ async function apiEval(path, opts = {}) {
 const RUNNABLE = new Set([
   'big-five', 'chaside', 'dnla-percepcion-personal', 'baron-eqi',
   'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'dnla-leadership',
-  'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron', 'wais-iv',
+  'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron', 'wais-iv', 'disc',
   // 'eneagrama' deshabilitado: la versión cargada es básica; se reactiva con el test completo.
 ])
 
@@ -40,6 +41,7 @@ function runnerFor(slug) {
   if (slug === 'stai') return StaiRunner
   if (slug === 'toulouse-pieron') return ToulouseRunner
   if (slug === 'wais-iv') return WaisRunner
+  if (slug === 'disc') return DiscRunner
   if (slug.startsWith('excel-')) return ExcelRunner
   return TestRunner
 }

@@ -16,6 +16,7 @@ import InformeEneagrama from '../informes/InformeEneagrama.jsx'
 import InformeToulouse from '../informes/InformeToulouse.jsx'
 import InformeDnlaLeadership from '../informes/InformeDnlaLeadership.jsx'
 import InformeWais from '../informes/InformeWais.jsx'
+import InformeDisc from '../informes/InformeDisc.jsx'
 import '../informes/informe.css'
 
 // Mapa slug -> componente de informe.
@@ -36,6 +37,7 @@ const INFORMES = {
   'toulouse-pieron': InformeToulouse,
   'dnla-leadership': InformeDnlaLeadership,
   'wais-iv': InformeWais,
+  'disc': InformeDisc,
 }
 
 export default function InformeView() {
