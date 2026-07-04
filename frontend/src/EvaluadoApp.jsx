@@ -7,6 +7,7 @@ import KuderRunner from './KuderRunner.jsx'
 import StaiRunner from './StaiRunner.jsx'
 import ExcelRunner from './ExcelRunner.jsx'
 import ToulouseRunner from './ToulouseRunner.jsx'
+import WaisRunner from './WaisRunner.jsx'
 import './evaluado/pe.css'
 
 const EVAL_KEY = 'one_eval_token'
@@ -29,7 +30,7 @@ async function apiEval(path, opts = {}) {
 const RUNNABLE = new Set([
   'big-five', 'chaside', 'dnla-percepcion-personal', 'baron-eqi',
   'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'dnla-leadership',
-  'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron',
+  'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron', 'wais-iv',
   // 'eneagrama' deshabilitado: la versión cargada es básica; se reactiva con el test completo.
 ])
 
@@ -38,6 +39,7 @@ function runnerFor(slug) {
   if (slug === 'kuder') return KuderRunner
   if (slug === 'stai') return StaiRunner
   if (slug === 'toulouse-pieron') return ToulouseRunner
+  if (slug === 'wais-iv') return WaisRunner
   if (slug.startsWith('excel-')) return ExcelRunner
   return TestRunner
 }

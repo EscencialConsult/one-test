@@ -25,6 +25,27 @@ async def obtener_preguntas(slug: str) -> dict:
     except FileNotFoundError as e:
         raise HTTPException(status.HTTP_404_NOT_FOUND, str(e))
 
+    # WAIS-IV (screening opción múltiple, 2 partes): se sirven ambas partes SIN la clave.
+    if "parte1" in data:
+        def _wais_item(it: dict) -> dict:
+            return {
+                "id": it["id"],
+                "indice": it.get("indice"),
+                "subtest": it.get("subtest"),
+                "text": it.get("text") or it.get("texto") or "",
+                "options": it.get("options", []),
+            }
+        p1 = [_wais_item(it) for it in data.get("parte1", [])]
+        p2 = [_wais_item(it) for it in data.get("parte2", [])]
+        return {
+            "slug": slug,
+            "tipo": "wais",
+            "letras": data.get("letras", ["a", "b", "c", "d"]),
+            "parte1": p1,
+            "parte2": p2,
+            "total": len(p1) + len(p2),
+        }
+
     # Tests de tríadas (Kuder): cada ítem presenta 3 actividades; se elige la que MÁS y la que MENOS gusta.
     if "triadas" in data:
         triadas = [{"n": t["n"], "actividades": t["actividades"]} for t in data["triadas"]]
