@@ -161,22 +161,54 @@ def _analizar_segmentos(respuestas: list[int]) -> list[dict]:
     return distribucion
 
 
-def calcular(respuestas: str | Sequence[int]) -> dict:
-    """Calcula el analisis Toulouse-Pieron. respuestas: ver docstring del modulo."""
-    parsed = _parsear_respuestas(respuestas)
+def calcular(respuestas) -> dict:
+    """Calcula el analisis Toulouse-Pieron.
 
-    total_marcados = len(parsed)
-    # Math.max sobre lista vacia en JS devuelve -Infinity; aqui se documenta como
-    # caso degenerado: sin marcas, totalProcesado = 0 (ver _max_index).
-    max_index = max(parsed) if parsed else -1
+    Entrada VÁLIDA (recomendada): dict con
+      - "marcados": índices marcados (lista de int, o string "12,45,...").
+      - "objetivo_indices": índices de los cuadrados que SÍ eran objetivo (grilla real).
+      - "tiempo_seg": segundos empleados (opcional, para la velocidad real).
+    Con objetivos, los aciertos/errores/omisiones se calculan por COMPARACIÓN real:
+      - aciertos  = marcados que eran objetivo,
+      - errores   = marcados que NO eran objetivo (comisiones),
+      - omisiones = objetivos dentro de la zona recorrida que quedaron sin marcar.
+
+    Compatibilidad: si se pasa solo una lista/string de índices (sin objetivos), se usa
+    la estimación legacy (20% de lo marcado). NO recomendada; deja tieneObjetivos=False.
+    """
+    objetivos = None
+    tiempo_seg = None
+    if isinstance(respuestas, dict):
+        objetivos = respuestas.get("objetivo_indices")
+        if objetivos is None:
+            objetivos = respuestas.get("objetivos_indices") or respuestas.get("objetivos")
+        tiempo_seg = respuestas.get("tiempo_seg", respuestas.get("tiempo"))
+        marcados = _parsear_respuestas(respuestas.get("marcados", []))
+    else:
+        marcados = _parsear_respuestas(respuestas)
+
+    marcados = sorted({i for i in marcados if 0 <= i < TOTAL_CUADRADOS})
+    total_marcados = len(marcados)
+    max_index = marcados[-1] if marcados else -1
     total_procesado = max_index + 1
-
     porcentaje_completado = (total_procesado / TOTAL_CUADRADOS) * 100
 
-    # Estimacion legacy: 20% de los marcados son aciertos (Math.round half-up).
-    aciertos = _round_half_up(total_marcados * FACTOR_ACIERTOS)
-    errores = total_marcados - aciertos
-    omisiones = OBJETIVOS_ESPERADOS - aciertos
+    if objetivos is not None:
+        targets = {int(t) for t in objetivos if 0 <= int(t) < TOTAL_CUADRADOS}
+        marcados_set = set(marcados)
+        aciertos = len(marcados_set & targets)
+        errores = len(marcados_set - targets)  # comisiones (marcó algo que no tocaba)
+        targets_region = {t for t in targets if t < total_procesado}
+        omisiones = len(targets_region - marcados_set)  # objetivos sin marcar en lo recorrido
+        objetivos_total = len(targets)
+        tiene_objetivos = True
+    else:
+        # Estimación legacy (fallback): 20% de los marcados son aciertos.
+        aciertos = _round_half_up(total_marcados * FACTOR_ACIERTOS)
+        errores = total_marcados - aciertos
+        omisiones = OBJETIVOS_ESPERADOS - aciertos
+        objetivos_total = OBJETIVOS_ESPERADOS
+        tiene_objetivos = False
 
     indice_aciertos = (aciertos / total_procesado) * 100 if total_procesado else 0.0
     indice_errores = (errores / total_procesado) * 100 if total_procesado else 0.0
@@ -188,12 +220,14 @@ def calcular(respuestas: str | Sequence[int]) -> dict:
     nivel_velocidad = _clasificar_por_rango(total_procesado, _CLAS_VELOCIDAD)
 
     perfil = _identificar_perfil(aciertos, errores, total_procesado)
-    analisis_segmentos = _analizar_segmentos(parsed)
+    analisis_segmentos = _analizar_segmentos(marcados)
 
     return {
         "totalMarcados": total_marcados,
         "totalProcesado": total_procesado,
         "porcentajeCompletado": porcentaje_completado,
+        "objetivosTotal": objetivos_total,
+        "tiempoSegundos": tiempo_seg,
         "aciertos": aciertos,
         "errores": errores,
         "omisiones": omisiones,
@@ -206,7 +240,7 @@ def calcular(respuestas: str | Sequence[int]) -> dict:
         "nivelVelocidad": nivel_velocidad,
         "perfil": perfil,
         "analisisPorSegmentos": analisis_segmentos,
-        "tieneObjetivos": False,
+        "tieneObjetivos": tiene_objetivos,
     }
 
 

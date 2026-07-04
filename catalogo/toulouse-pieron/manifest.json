@@ -26,6 +26,6 @@
     "informe": "informe.json",
     "regresion": "regresion.json"
   },
-  "estado": "completo_con_bloqueos",
-  "_estado_nota": "Port fiel del legacy Test13/script.gs. El legacy NO calcula aciertos reales por comparacion con los objetivos: los estima como round(totalMarcados*0.20). Ver BLOQUEOS en ANALISIS.md."
+  "estado": "completo",
+  "_estado_nota": "Cálculo VÁLIDO (2026-07-03): el runner (ToulouseRunner.jsx) genera la grilla y los 2 objetivos y los envía junto con las marcas; scoring.calcular compara marca vs objetivo real → aciertos/errores/omisiones exactos. Se conserva la estimación legacy (20%) solo como fallback si no llegan los objetivos. Índices, baremos, perfil y segmentos se mantienen del port original."
 }
