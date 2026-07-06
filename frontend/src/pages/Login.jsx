@@ -11,16 +11,27 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [cargando, setCargando] = useState(false)
-  const [brand, setBrand] = useState(null)
+  const cacheKey = sub ? `one_brand_${sub}` : null
+  const readCache = () => {
+    if (!cacheKey) return null
+    try { const c = localStorage.getItem(cacheKey); return c ? JSON.parse(c) : null } catch { return null }
+  }
+  // La marca cacheada aparece al instante (sin parpadeo); luego se refresca desde la API.
+  const [brand, setBrand] = useState(readCache)
+  const [brandReady, setBrandReady] = useState(() => !sub || !!readCache())
 
   // Si se entró por /acceso/:sub, traemos la marca de esa empresa para el login.
   useEffect(() => {
-    if (!sub) { setBrand(null); return }
+    if (!sub) { setBrand(null); setBrandReady(true); return }
     let vivo = true
     fetch(`/api/publico/marca/${encodeURIComponent(sub)}`)
       .then((r) => (r.ok ? r.json() : null))
-      .then((b) => { if (vivo) setBrand(b) })
-      .catch(() => {})
+      .then((b) => {
+        if (!vivo) return
+        if (b) { setBrand(b); try { localStorage.setItem(cacheKey, JSON.stringify(b)) } catch {} }
+        setBrandReady(true)
+      })
+      .catch(() => { if (vivo) setBrandReady(true) })
     return () => { vivo = false }
   }, [sub])
 
@@ -51,14 +62,17 @@ export default function Login() {
           {brand ? (
             <span className="login-brand">
               {brand.logo_url
-                ? <img className="one-logo" src={brand.logo_url} alt={brand.razon_social} style={{ height: 42, maxWidth: 220 }} />
-                : <span className="one-sub" style={{ fontSize: 20, fontWeight: 800 }}>{brand.razon_social}</span>}
+                ? <img className="one-logo" src={brand.logo_url} alt={brand.razon_social} style={{ height: 60, maxWidth: 240, objectFit: 'contain' }} />
+                : <span className="one-sub" style={{ fontSize: 22, fontWeight: 800 }}>{brand.razon_social}</span>}
             </span>
+          ) : (sub && !brandReady) ? (
+            // Marca de empresa aún cargando: reservamos el espacio, sin mostrar el logo de ONE.
+            <span className="login-brand" style={{ minHeight: 60, display: 'block' }} aria-hidden="true" />
           ) : (
             <Link to="/" className="login-brand"><span className="one-brand"><img className="one-logo" src="/logo.png" alt="ONE" /><span className="one-sub">Core Analytics</span></span></Link>
           )}
           <h1 className="login-h">Iniciar sesión</h1>
-          <p className="login-sub">{brand ? `Accedé al panel de ${brand.razon_social}.` : 'Accedé a tu panel de ONE Core Analytics.'}</p>
+          <p className="login-sub">{brand ? `Accedé al panel de ${brand.razon_social}.` : (sub ? 'Accedé al panel.' : 'Accedé a tu panel de ONE Core Analytics.')}</p>
 
           <label className="login-lbl">Email</label>
           <input
@@ -87,7 +101,7 @@ export default function Login() {
           <button className="btn prim" type="submit" disabled={cargando} style={{ width: '100%', marginTop: 8 }}>
             {cargando ? 'Ingresando…' : 'Ingresar →'}
           </button>
-          {!brand && <Link to="/" className="login-volver">← Volver al inicio</Link>}
+          {!sub && <Link to="/" className="login-volver">← Volver al inicio</Link>}
         </form>
       </div>
     </div>
