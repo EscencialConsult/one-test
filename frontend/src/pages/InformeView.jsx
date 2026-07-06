@@ -76,6 +76,8 @@ export default function InformeView() {
     clone.style.width = ANCHO + 'px'
     clone.style.maxWidth = ANCHO + 'px'
     clone.style.margin = '0'
+    clone.style.boxSizing = 'border-box'
+    clone.style.padding = '4px 22px' // aire blanco a los lados: evita que se corten las esquinas/bordes
     wrap.appendChild(clone)
     document.body.appendChild(wrap)
     try {
