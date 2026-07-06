@@ -74,7 +74,7 @@ export default function InformeView() {
         margin: [10, 8, 12, 8],
         filename: nombreArchivo(data),
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0, windowWidth: 820 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0, x: 0, y: 0, windowWidth: 800 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         // Se evita partir bloques chicos; los sheets fluyen (sin dejar hojas casi vacías).
         pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-cover', '.bf-bar', 'tr', '.inf-resultrow', '.inf-two > *'] },
