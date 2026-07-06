@@ -89,7 +89,7 @@ export default function InformeView() {
         margin: [12, 12, 14, 12],
         filename: nombreArchivo(data),
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: ANCHO, windowWidth: ANCHO },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         // Cada sección/tarjeta se mantiene entera en una página (no se parte al medio).
         pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-sheet', '.inf-two', '.inf-cover', '.bf-bar', 'tr', '.inf-resultrow'] },
