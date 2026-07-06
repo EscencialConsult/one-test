@@ -61,28 +61,39 @@ export default function InformeView() {
   const Informe = data ? INFORMES[data.test_slug] : null
 
   async function descargarPDF() {
-    const doc = bodyRef.current?.querySelector('.inf-doc')
-    if (!doc || bajando) return
+    const src = bodyRef.current?.querySelector('.inf-doc')
+    if (!src || bajando) return
     setBajando(true)
-    doc.classList.add('pdf-cap') // ancho fijo durante la captura (evita recortes)
+    // Se clona el informe en un contenedor de ancho fijo FUERA de pantalla: la captura
+    // no depende del ancho de la ventana, así queda centrado y sin recortes.
+    const ANCHO = 760
+    const wrap = document.createElement('div')
+    wrap.style.cssText = `position:fixed; left:-10000px; top:0; width:${ANCHO}px; background:#ffffff;`
+    const clone = src.cloneNode(true)
+    clone.classList.remove('pdf-cap')
+    clone.style.width = ANCHO + 'px'
+    clone.style.maxWidth = ANCHO + 'px'
+    clone.style.margin = '0'
+    wrap.appendChild(clone)
+    document.body.appendChild(wrap)
     try {
       // Bundle pre-armado (incluye html2canvas + jsPDF); evita resolver canvg/core-js.
       const mod = await import('html2pdf.js/dist/html2pdf.bundle.min.js')
       const html2pdf = window.html2pdf || mod.default || mod
       if (typeof html2pdf !== 'function') throw new Error('html2pdf no disponible')
       await html2pdf().set({
-        margin: [10, 8, 12, 8],
+        margin: [12, 12, 14, 12],
         filename: nombreArchivo(data),
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0, x: 0, y: 0, windowWidth: 800 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: ANCHO },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         // Se evita partir bloques chicos; los sheets fluyen (sin dejar hojas casi vacías).
         pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-cover', '.bf-bar', 'tr', '.inf-resultrow', '.inf-two > *'] },
-      }).from(doc).save()
+      }).from(clone).save()
     } catch (e) {
       window.alert('No se pudo generar el PDF. Probá de nuevo o usá Ctrl+P para imprimir.')
     } finally {
-      doc.classList.remove('pdf-cap')
+      document.body.removeChild(wrap)
       setBajando(false)
     }
   }
