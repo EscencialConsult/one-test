@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import ErrorBoundary from '../components/ErrorBoundary.jsx'
@@ -40,11 +40,19 @@ const INFORMES = {
   'disc': InformeDisc,
 }
 
+function nombreArchivo(data) {
+  const t = (data?.test_nombre || 'Informe').replace(/[^\w\sÁÉÍÓÚáéíóúÑñ-]/g, '').trim().replace(/\s+/g, '-')
+  const ev = data?.evaluado ? `-${data.evaluado.nombre}-${data.evaluado.apellido}` : ''
+  return `Informe-${t}${ev}`.replace(/[^\w-]/g, '') + '.pdf'
+}
+
 export default function InformeView() {
   const { resultadoId } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
+  const [bajando, setBajando] = useState(false)
+  const bodyRef = useRef(null)
 
   useEffect(() => {
     api(`/resultados/${resultadoId}`).then(setData).catch((e) => setError(e.message))
@@ -52,11 +60,35 @@ export default function InformeView() {
 
   const Informe = data ? INFORMES[data.test_slug] : null
 
+  async function descargarPDF() {
+    const doc = bodyRef.current?.querySelector('.inf-doc')
+    if (!doc || bajando) return
+    setBajando(true)
+    try {
+      // Bundle pre-armado (incluye html2canvas + jsPDF); evita resolver canvg/core-js.
+      const mod = await import('html2pdf.js/dist/html2pdf.bundle.min.js')
+      const html2pdf = window.html2pdf || mod.default || mod
+      if (typeof html2pdf !== 'function') throw new Error('html2pdf no disponible')
+      await html2pdf().set({
+        margin: [8, 8, 10, 8],
+        filename: nombreArchivo(data),
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: 900 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-sheet', '.inf-cover', '.bf-bar', 'tr'] },
+      }).from(doc).save()
+    } catch (e) {
+      window.alert('No se pudo generar el PDF. Probá de nuevo o usá Ctrl+P para imprimir.')
+    } finally {
+      setBajando(false)
+    }
+  }
+
   return (
-    <div className="inf-body">
+    <div className="inf-body" ref={bodyRef}>
       <div className="inf-toolbar">
         <button className="inf-back" onClick={() => navigate(-1)}>← Volver</button>
-        <button className="inf-print" onClick={() => window.print()}>Descargar PDF</button>
+        <button className="inf-print" disabled={bajando || !data} onClick={descargarPDF}>{bajando ? 'Generando PDF…' : 'Descargar PDF'}</button>
       </div>
 
       {error && <div className="inf-doc"><div className="inf-sheet"><div className="inf-pad">⚠️ {error}</div></div></div>}
