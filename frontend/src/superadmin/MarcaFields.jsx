@@ -55,8 +55,9 @@ export default function MarcaFields({ form, set }) {
 // Muestra de color (picker nativo) + campo de texto para pegar/escribir el HEX.
 // Evita depender del campo HEX del popup de Chrome, que a veces se traba.
 function ColorInput({ label, value, onChange }) {
-  const hex = value || '#000000'
-  const valido = /^#[0-9a-fA-F]{6}$/.test(hex)
+  // El campo de texto muestra el valor CRUDO (puede estar vacío o incompleto mientras se
+  // escribe). El fallback a negro lo usa solo la muestra <input type=color>, que no admite vacío.
+  const valido = /^#[0-9a-fA-F]{6}$/.test(value || '')
   function onText(e) {
     let v = e.target.value.trim().replace(/[^#0-9a-fA-F]/g, '')
     if (v && !v.startsWith('#')) v = '#' + v
@@ -68,14 +69,14 @@ function ColorInput({ label, value, onChange }) {
       <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
         <input
           type="color"
-          value={valido ? hex : '#000000'}
+          value={valido ? value : '#000000'}
           onChange={(e) => onChange(e.target.value)}
           style={{ height: 46, width: 52, padding: 4, flex: '0 0 auto', cursor: 'pointer' }}
           title="Elegir color"
         />
         <input
           type="text"
-          value={hex}
+          value={value || ''}
           onChange={onText}
           placeholder="#00b3b3"
           maxLength={7}
