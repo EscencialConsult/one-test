@@ -106,6 +106,14 @@ export default function EEInformeIntegral({ evaluadoId, evaluadoNombre, resultad
   )
 }
 
+// Imprime solo el modal: marca el body para activar el @media print scopeado en ee.css.
+function imprimirModal() {
+  document.body.classList.add('print-modal')
+  const limpiar = () => { document.body.classList.remove('print-modal'); window.removeEventListener('afterprint', limpiar) }
+  window.addEventListener('afterprint', limpiar)
+  window.print()
+}
+
 function ModalInforme({ informe, evaluadoNombre, onClose }) {
   const c = informe.contenido || {}
   const tests = informe.tests || []
@@ -149,7 +157,7 @@ function ModalInforme({ informe, evaluadoNombre, onClose }) {
         </div>
         <div className="sa-modalfoot inf-actions">
           <button type="button" className="sa-btn ghost" onClick={onClose}>Cerrar</button>
-          <button type="button" className="sa-btn dark" onClick={() => window.print()}><Icon name="doc" /> Imprimir / PDF</button>
+          <button type="button" className="sa-btn dark" onClick={imprimirModal}><Icon name="doc" /> Imprimir / PDF</button>
         </div>
       </div>
     </div>
