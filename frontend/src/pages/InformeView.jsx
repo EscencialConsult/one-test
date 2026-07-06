@@ -68,7 +68,9 @@ export default function InformeView() {
     // no depende del ancho de la ventana, así queda centrado y sin recortes.
     const ANCHO = 760
     const wrap = document.createElement('div')
-    wrap.style.cssText = `position:fixed; left:-10000px; top:0; width:${ANCHO}px; background:#ffffff;`
+    // Visible en la esquina superior por el instante que dura la captura (html2canvas no
+    // renderiza bien elementos fuera de pantalla). Tapa la vista ~1s mientras genera.
+    wrap.style.cssText = `position:fixed; left:0; top:0; width:${ANCHO}px; z-index:99999; background:#ffffff;`
     const clone = src.cloneNode(true)
     clone.classList.remove('pdf-cap')
     clone.style.width = ANCHO + 'px'
@@ -85,7 +87,7 @@ export default function InformeView() {
         margin: [12, 12, 14, 12],
         filename: nombreArchivo(data),
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: ANCHO },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         // Se evita partir bloques chicos; los sheets fluyen (sin dejar hojas casi vacías).
         pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-cover', '.bf-bar', 'tr', '.inf-resultrow', '.inf-two > *'] },
