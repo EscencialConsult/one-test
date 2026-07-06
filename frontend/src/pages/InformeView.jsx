@@ -89,8 +89,8 @@ export default function InformeView() {
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        // Se evita partir bloques chicos; los sheets fluyen (sin dejar hojas casi vacías).
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-cover', '.bf-bar', 'tr', '.inf-resultrow', '.inf-two > *'] },
+        // Cada sección/tarjeta se mantiene entera en una página (no se parte al medio).
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-sheet', '.inf-two', '.inf-cover', '.bf-bar', 'tr', '.inf-resultrow'] },
       }).from(clone).save()
     } catch (e) {
       window.alert('No se pudo generar el PDF. Probá de nuevo o usá Ctrl+P para imprimir.')
