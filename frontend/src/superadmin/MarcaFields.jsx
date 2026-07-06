@@ -44,10 +44,47 @@ export default function MarcaFields({ form, set }) {
       </div>
 
       <div className="sa-frow">
-        <div className="sa-field"><label>Color principal</label><input type="color" value={form.color_acento} onChange={(e) => set('color_acento', e.target.value)} style={{ height: 46, padding: 4 }} /></div>
-        <div className="sa-field"><label>Color secundario</label><input type="color" value={form.color_secundario} onChange={(e) => set('color_secundario', e.target.value)} style={{ height: 46, padding: 4 }} /></div>
+        <ColorInput label="Color principal" value={form.color_acento} onChange={(v) => set('color_acento', v)} />
+        <ColorInput label="Color secundario" value={form.color_secundario} onChange={(v) => set('color_secundario', v)} />
         <div className="sa-field"><label>Vista</label><div className="sa-grad-prev" style={{ background: `linear-gradient(135deg, ${form.color_acento}, ${form.color_secundario})` }} /></div>
       </div>
     </>
+  )
+}
+
+// Muestra de color (picker nativo) + campo de texto para pegar/escribir el HEX.
+// Evita depender del campo HEX del popup de Chrome, que a veces se traba.
+function ColorInput({ label, value, onChange }) {
+  const hex = value || '#000000'
+  const valido = /^#[0-9a-fA-F]{6}$/.test(hex)
+  function onText(e) {
+    let v = e.target.value.trim().replace(/[^#0-9a-fA-F]/g, '')
+    if (v && !v.startsWith('#')) v = '#' + v
+    onChange(v.slice(0, 7))
+  }
+  return (
+    <div className="sa-field">
+      <label>{label}</label>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <input
+          type="color"
+          value={valido ? hex : '#000000'}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ height: 46, width: 52, padding: 4, flex: '0 0 auto', cursor: 'pointer' }}
+          title="Elegir color"
+        />
+        <input
+          type="text"
+          value={hex}
+          onChange={onText}
+          placeholder="#00b3b3"
+          maxLength={7}
+          spellCheck={false}
+          autoCapitalize="off"
+          autoComplete="off"
+          style={{ flex: 1, minWidth: 0, fontFamily: 'ui-monospace, monospace', textTransform: 'lowercase' }}
+        />
+      </div>
+    </div>
   )
 }
