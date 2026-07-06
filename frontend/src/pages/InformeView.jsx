@@ -77,7 +77,7 @@ export default function InformeView() {
     clone.style.maxWidth = ANCHO + 'px'
     clone.style.margin = '0'
     clone.style.boxSizing = 'border-box'
-    clone.style.padding = '4px 22px' // aire blanco a los lados: evita que se corten las esquinas/bordes
+    clone.style.padding = '6px 46px' // aire blanco simétrico: absorbe el desborde y evita recortes
     wrap.appendChild(clone)
     document.body.appendChild(wrap)
     try {
@@ -89,7 +89,7 @@ export default function InformeView() {
         margin: [12, 12, 14, 12],
         filename: nombreArchivo(data),
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: ANCHO, windowWidth: ANCHO },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
         // Cada sección/tarjeta se mantiene entera en una página (no se parte al medio).
         pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-sheet', '.inf-two', '.inf-cover', '.bf-bar', 'tr', '.inf-resultrow'] },
