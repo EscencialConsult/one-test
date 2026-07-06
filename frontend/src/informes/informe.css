@@ -205,6 +205,9 @@
 .inf-reco b { color: var(--violeta); }
 .inf-interp p, .inf-reco p { font-size: 13.5px; line-height: 1.65; color: #3a3d4d; margin-top: 6px; }
 @media (max-width: 560px) { .inf-escala { grid-template-columns: repeat(2,1fr); } }
+/* Ancho fijo mientras se genera el PDF (evita recortes por el ancho de la ventana). */
+.inf-doc.pdf-cap { width: 800px; max-width: 800px; margin: 0 auto; }
+
 @page { margin: 12mm; }
 @media print {
   .inf-body { background: #fff; padding: 0; }

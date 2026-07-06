@@ -64,22 +64,25 @@ export default function InformeView() {
     const doc = bodyRef.current?.querySelector('.inf-doc')
     if (!doc || bajando) return
     setBajando(true)
+    doc.classList.add('pdf-cap') // ancho fijo durante la captura (evita recortes)
     try {
       // Bundle pre-armado (incluye html2canvas + jsPDF); evita resolver canvg/core-js.
       const mod = await import('html2pdf.js/dist/html2pdf.bundle.min.js')
       const html2pdf = window.html2pdf || mod.default || mod
       if (typeof html2pdf !== 'function') throw new Error('html2pdf no disponible')
       await html2pdf().set({
-        margin: [8, 8, 10, 8],
+        margin: [10, 8, 12, 8],
         filename: nombreArchivo(data),
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: 900 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0, windowWidth: 820 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-sheet', '.inf-cover', '.bf-bar', 'tr'] },
+        // Se evita partir bloques chicos; los sheets fluyen (sin dejar hojas casi vacías).
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-cover', '.bf-bar', 'tr', '.inf-resultrow', '.inf-two > *'] },
       }).from(doc).save()
     } catch (e) {
       window.alert('No se pudo generar el PDF. Probá de nuevo o usá Ctrl+P para imprimir.')
     } finally {
+      doc.classList.remove('pdf-cap')
       setBajando(false)
     }
   }
