@@ -41,7 +41,7 @@ export default function InformeCampania({ id, onBack }) {
 
   const c = d.campania
   const marca = d.marca
-  const esSino = d.escala !== 'likert5'
+  const esSino = d.escala === 'sino' // solo Sí/No usa % de cumplimiento; likert y satisfacción son 1 a 5
   const acento = marca?.color_acento || '#4d248f'
   const sec = marca?.color_secundario || '#6be1e3'
   const gruposMostrados = (d.grupos || []).filter((g) => g.mostrado)
@@ -184,7 +184,7 @@ function Areas({ d, acento }) {
   return (
     <div className="inf-card">
       <h3>Promedio por competencia</h3>
-      <div className="sub">Valoración de los observadores sobre {d.campania.sujeto_nombre} (escala 1 a 5).</div>
+      <div className="sub">Valoración sobre {d.campania.sujeto_nombre} (escala 1 a 5).</div>
       {conDatos ? (
         <ResponsiveContainer width="100%" height={340}>
           <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 8 }}>
@@ -309,7 +309,7 @@ function Sintesis({ d, esSino }) {
     const prom = (conDatos.reduce((s, c) => s + c.promedio, 0) / conDatos.length).toFixed(1)
     cuerpo = (
       <>
-        <p className="inf-tx"><b>Valoración general:</b> {sujeto} promedia <b>{prom}/5</b> según los observadores.</p>
+        <p className="inf-tx"><b>Valoración general:</b> {sujeto} promedia <b>{prom}/5</b> según las respuestas.</p>
         <p className="inf-tx"><b>Mejor valoradas:</b> {listar(orden.slice(0, 2), 'promedio')}.</p>
         {orden.length > 2 && <p className="inf-tx"><b>A reforzar:</b> {listar([...orden].reverse().slice(0, 2), 'promedio')}.</p>}
       </>
@@ -331,4 +331,4 @@ function Sintesis({ d, esSino }) {
 }
 
 function label(d, rel) { return (d.grupos.find((g) => g.relacion === rel) || {}).label || rel }
-function tipoTxt(t) { return t === 'personas_360' ? 'Evaluación 360°' : t === 'areas' ? 'Evaluación de área' : 'Evaluación de proceso' }
+function tipoTxt(t) { return t === 'personas_360' ? 'Evaluación 360°' : t === 'areas' ? 'Evaluación de área' : t === 'clientes' ? 'Encuesta de clientes' : 'Evaluación de proceso' }

@@ -6,10 +6,12 @@ export const TIPOS = [
   { v: 'personas_360', label: 'Evaluación 360° (personas)', hint: 'El sujeto es una persona; se la evalúa desde varias relaciones (auto, supervisor, pares, reportes).' },
   { v: 'areas', label: 'Áreas / Departamentos', hint: 'El sujeto es un área o departamento; lo evalúan los colaboradores.' },
   { v: 'procesos', label: 'Procesos internos', hint: 'El sujeto es un proceso o protocolo; se verifica su cumplimiento (ideal con escala Sí/No).' },
+  { v: 'clientes', label: 'Clientes (satisfacción)', hint: 'Los evaluadores son clientes externos; evalúan el sujeto que definas (una persona, un servicio o la empresa). Ideal con la escala de Satisfacción.' },
 ]
 export const ESCALAS = [
   { v: 'likert5', label: 'Likert 1-5 (Nunca → Siempre)' },
   { v: 'sino', label: 'Sí / No (Cumple / No cumple)' },
+  { v: 'satisfaccion', label: 'Satisfacción 1-5 (Muy insatisfecho → Muy satisfecho)' },
 ]
 
 let _uid = 0

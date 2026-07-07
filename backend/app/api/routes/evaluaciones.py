@@ -22,7 +22,9 @@ from app.core.db import get_db
 from app.core.email import enviar_invitacion_evaluador360
 from app.models.evaluacion import (
     ESCALA_LIKERT,
+    ESCALA_SINO,
     TIPO_360,
+    TIPO_CLIENTES,
     EvalCampania,
     EvalCompetencia,
     EvalEvaluador,
@@ -47,6 +49,7 @@ TIPO_TEXTO = {
     "personas_360": "evaluación 360°",
     "areas": "evaluación de área/departamento",
     "procesos": "evaluación de proceso",
+    "clientes": "encuesta de satisfacción de clientes",
 }
 
 
@@ -359,6 +362,8 @@ def _rel_valida(tipo: str, relacion: str) -> str:
         if relacion not in RELACIONES_360:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "Relación inválida para 360°")
         return relacion
+    if tipo == TIPO_CLIENTES:
+        return "cliente"
     return RELACION_OBSERVADOR
 
 
@@ -598,7 +603,7 @@ async def reenviar_evaluador(
     return {"email_habilitado": settings.email_habilitado}
 
 
-REL_LABEL = {"auto": "Autoevaluación", "supervisor": "Supervisor", "par": "Pares", "reporte": "Reportes", "observador": "Observadores"}
+REL_LABEL = {"auto": "Autoevaluación", "supervisor": "Supervisor", "par": "Pares", "reporte": "Reportes", "observador": "Observadores", "cliente": "Clientes"}
 
 
 def _informe(camp: EvalCampania, evs: list) -> dict:
@@ -611,7 +616,7 @@ def _informe(camp: EvalCampania, evs: list) -> dict:
 
     min_anon = max(1, camp.anonimato_min or 3)
     es360 = camp.tipo == TIPO_360
-    es_sino = camp.escala != ESCALA_LIKERT
+    es_sino = camp.escala == ESCALA_SINO  # solo Sí/No usa % de cumplimiento; likert y satisfacción son numéricas 1-5
 
     def mostrado(rel: str, n: int) -> bool:
         # auto y supervisor siempre se muestran; el resto requiere N mínimo (anonimato).
@@ -647,15 +652,15 @@ def _informe(camp: EvalCampania, evs: list) -> dict:
             row["gap"] = round(auto - otros, 2) if (auto is not None and otros is not None) else None
             row["promedio"] = otros if otros is not None else auto
         else:
-            obs = por_rel.get("observador", [])
-            prom = promedio(comp, obs) if len(obs) >= min_anon else None
+            # No-360 (áreas / procesos / clientes): un solo grupo (observador o cliente).
+            prom = promedio(comp, completos) if len(completos) >= min_anon else None
             row["promedio"] = round(prom * 100) if (es_sino and prom is not None) else prom
         comps_out.append(row)
 
     # Detalle por pregunta (procesos / Sí-No): % de cumplimiento por ítem.
     preguntas_out = []
     if es_sino:
-        obs = por_rel.get("observador", [])
+        obs = completos
         if len(obs) >= min_anon:
             for comp in comps:
                 for p in comp.get("preguntas", []):
@@ -742,7 +747,7 @@ async def responder_enviar(
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Ya enviaste tus respuestas")
 
     ids = [p["id"] for c in camp.estructura.get("competencias", []) for p in c.get("preguntas", [])]
-    lo, hi = (1, 5) if camp.escala == ESCALA_LIKERT else (0, 1)
+    lo, hi = (0, 1) if camp.escala == ESCALA_SINO else (1, 5)  # sino: 0-1 · likert/satisfacción: 1-5
     limpio: dict = {}
     for pid in ids:
         v = data.respuestas.get(pid)

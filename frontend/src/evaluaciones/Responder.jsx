@@ -9,7 +9,11 @@ const LIKERT = [
   { v: 4, l: 'Frecuentemente' }, { v: 5, l: 'Siempre' },
 ]
 const SINO = [{ v: 0, l: 'No cumple' }, { v: 1, l: 'Cumple' }]
-const relFrase = (r) => ({ auto: 'como autoevaluación', supervisor: 'como supervisor/a', par: 'como par', reporte: 'como reporte directo', observador: 'como observador/a' }[r] || '')
+const SATISFACCION = [
+  { v: 1, l: 'Muy insatisfecho' }, { v: 2, l: 'Insatisfecho' }, { v: 3, l: 'Neutral' },
+  { v: 4, l: 'Satisfecho' }, { v: 5, l: 'Muy satisfecho' },
+]
+const relFrase = (r) => ({ auto: 'como autoevaluación', supervisor: 'como supervisor/a', par: 'como par', reporte: 'como reporte directo', observador: 'como observador/a', cliente: 'como cliente' }[r] || '')
 
 async function pub(path, opts = {}) {
   const headers = { ...(opts.headers || {}) }
@@ -39,7 +43,7 @@ export default function Responder() {
 
   const marca = info?.marca
   const theme = marca ? { '--violeta': marca.color_acento, '--grad': `linear-gradient(135deg, ${marca.color_acento}, ${marca.color_secundario || '#6be1e3'})` } : undefined
-  const opciones = info?.escala === 'sino' ? SINO : LIKERT
+  const opciones = info?.escala === 'sino' ? SINO : info?.escala === 'satisfaccion' ? SATISFACCION : LIKERT
   const respondidas = preguntas.filter((id) => resp[id] !== undefined).length
 
   async function enviar() {
@@ -69,7 +73,7 @@ export default function Responder() {
         <div className="resp-head" style={{ background: `linear-gradient(135deg, ${marca?.color_acento || '#4d248f'}, ${marca?.color_secundario || '#6be1e3'})` }}>
           {marca?.logo_url ? <img className="rlogo" src={marca.logo_url} alt={marca.razon_social} /> : <div className="rmarca">{marca?.razon_social || 'ONE'}</div>}
           <h1>Evaluación sobre {info.sujeto_nombre}</h1>
-          <p>Hola {info.evaluador_nombre}, respondés {relFrase(info.relacion)}. No hay respuestas correctas ni incorrectas: elegí lo que mejor refleje tu percepción. {info.escala === 'sino' ? 'Indicá si se cumple o no.' : 'Escala del 1 (Nunca) al 5 (Siempre).'}</p>
+          <p>Hola {info.evaluador_nombre}, respondés {relFrase(info.relacion)}. No hay respuestas correctas ni incorrectas: elegí lo que mejor refleje tu percepción. {info.escala === 'sino' ? 'Indicá si se cumple o no.' : info.escala === 'satisfaccion' ? 'Escala del 1 (Muy insatisfecho) al 5 (Muy satisfecho).' : 'Escala del 1 (Nunca) al 5 (Siempre).'}</p>
         </div>
 
         {error && <div className="sa-err">{error}</div>}

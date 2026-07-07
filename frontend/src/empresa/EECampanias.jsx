@@ -14,9 +14,9 @@ const REL_360 = [
   { v: 'auto', l: 'Autoevaluación' }, { v: 'supervisor', l: 'Supervisor' },
   { v: 'par', l: 'Par' }, { v: 'reporte', l: 'Reporte directo' },
 ]
-const relLabel = (v) => REL_360.find((r) => r.v === v)?.l || (v === 'observador' ? 'Observador' : v)
+const relLabel = (v) => REL_360.find((r) => r.v === v)?.l || (v === 'observador' ? 'Observador' : v === 'cliente' ? 'Cliente' : v)
 const ESTADO_CAMP = { borrador: ['Borrador', 'sinasig'], abierta: ['Abierta', 'curso'], cerrada: ['Cerrada', 'comp'] }
-const sujetoLabel = (tipo) => (tipo === 'personas_360' ? 'Persona a evaluar' : tipo === 'areas' ? 'Área / Departamento' : 'Proceso a evaluar')
+const sujetoLabel = (tipo) => (tipo === 'personas_360' ? 'Persona a evaluar' : tipo === 'areas' ? 'Área / Departamento' : tipo === 'clientes' ? 'Sujeto evaluado (persona, servicio o empresa)' : 'Proceso a evaluar')
 
 export default function EECampanias() {
   const [vista, setVista] = useState('lista') // 'lista' | 'nueva' | {id}
@@ -93,6 +93,7 @@ function CampaniaNueva({ onCancel, onCreada }) {
   useEffect(() => { api('/empresa/evaluados').then(setEvaluados).catch(() => {}) }, [])
   const form = (forms || []).find((f) => f.id === formId)
   const es360 = form?.tipo === 'personas_360'
+  const esClientes = form?.tipo === 'clientes'
   // Solo colaboradores participan de evaluaciones (los postulantes no).
   const colaboradores = evaluados.filter((e) => e.tipo === 'colaborador')
   const nombreCompleto = (e) => `${e.nombre} ${e.apellido || ''}`.trim()
@@ -163,7 +164,7 @@ function CampaniaNueva({ onCancel, onCreada }) {
             <div className="sa-field"><label>Nombre de la campaña</label><input className="ev-input" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej. Liderazgo Q3 2026" /></div>
             <div className="sa-frow">
               <div className="sa-field"><label>{sujetoLabel(form.tipo)}</label>
-                <input className="ev-input" value={sujeto} onChange={(e) => { setSujeto(e.target.value); setSujetoEvaluadoId('') }} placeholder={form.tipo === 'personas_360' ? 'Ej. Juan Pérez' : form.tipo === 'areas' ? 'Ej. Departamento de Enfermería' : 'Ej. Preparación de habitación'} />
+                <input className="ev-input" value={sujeto} onChange={(e) => { setSujeto(e.target.value); setSujetoEvaluadoId('') }} placeholder={form.tipo === 'personas_360' ? 'Ej. Juan Pérez' : form.tipo === 'areas' ? 'Ej. Departamento de Enfermería' : form.tipo === 'clientes' ? 'Ej. Atención al cliente · Juan Pérez · la empresa' : 'Ej. Preparación de habitación'} />
                 {es360 && colaboradores.length > 0 && (
                   <select className="ev-input" style={{ marginTop: 6 }} value={sujetoEvaluadoId} onChange={(e) => { const id = e.target.value; setSujetoEvaluadoId(id); const ev = colaboradores.find((x) => x.id === id); if (ev) setSujeto(nombreCompleto(ev)) }}>
                     <option value="">…o elegí un colaborador cargado</option>
@@ -179,9 +180,10 @@ function CampaniaNueva({ onCancel, onCreada }) {
 
       {form && (
         <>
-          <div className="ev-sec-t">Evaluadores {es360 ? '(por relación)' : '(observadores)'}</div>
+          <div className="ev-sec-t">Evaluadores {es360 ? '(por relación)' : esClientes ? '(clientes)' : '(observadores)'}</div>
           <div className="sa-card sa-panel">
-            {(colaboradores.length > 0 || areas.length > 0) && (
+            {esClientes && <p className="ev-tipo-hint" style={{ marginTop: 0, marginBottom: 10 }}>Los clientes son <b>externos</b>: agregalos a mano con nombre y correo. Reciben el link por correo y responden sin ingresar a la plataforma.</p>}
+            {!esClientes && (colaboradores.length > 0 || areas.length > 0) && (
               <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid var(--linea)', display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {colaboradores.length > 0 && (
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -252,6 +254,7 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
   if (!c) return <div className="sa-card sa-panel"><Loader /></div>
 
   const es360 = c.tipo === 'personas_360'
+  const esClientes = c.tipo === 'clientes'
   const [estTxt, estCls] = ESTADO_CAMP[c.estado] || [c.estado, 'sinasig']
   const filtrados = c.evaluadores.filter((e) => (fEval === 'todos' ? true : fEval === 'resp' ? e.estado === 'completado' : e.estado !== 'completado'))
 
@@ -352,7 +355,7 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
 
       {add && (
         <div className="sa-card sa-panel" style={{ marginTop: 12 }}>
-          {colaboradores.length > 0 && (
+          {!esClientes && colaboradores.length > 0 && (
             <select className="ev-input" style={{ marginBottom: 8 }} value=""
               onChange={(e) => { const ev = colaboradores.find((x) => x.id === e.target.value); if (ev) setAdd((a) => ({ ...a, nombre: nombreCompleto(ev), email: ev.email, evaluado_id: ev.id })) }}>
               <option value="">Elegí un colaborador ya cargado…</option>

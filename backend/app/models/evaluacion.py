@@ -30,9 +30,11 @@ from app.models.base import Base, TenantMixin, TimestampMixin, UUIDPkMixin
 TIPO_360 = "personas_360"
 TIPO_AREAS = "areas"
 TIPO_PROCESOS = "procesos"
+TIPO_CLIENTES = "clientes"  # los evaluadores son clientes externos (satisfacción)
 # escala
 ESCALA_LIKERT = "likert5"
 ESCALA_SINO = "sino"
+ESCALA_SATISFACCION = "satisfaccion"  # 1-5: Muy insatisfecho → Muy satisfecho (numérica, como likert)
 
 
 class EvalFormulario(UUIDPkMixin, TimestampMixin, Base):
