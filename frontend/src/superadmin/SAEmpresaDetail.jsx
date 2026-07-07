@@ -73,7 +73,8 @@ export default function SAEmpresaDetail() {
   if (!empresa || !tests) return <div className="sa-card sa-panel"><Loader /></div>
 
   const enAlcance = tests.filter((t) => t.en_alcance)
-  const fuera = tests.filter((t) => !t.en_alcance && t.nombre.toLowerCase().includes(q.toLowerCase()))
+  // Los tests en preparación (disponible === false) no se pueden asignar a empresas.
+  const fuera = tests.filter((t) => !t.en_alcance && t.disponible !== false && t.nombre.toLowerCase().includes(q.toLowerCase()))
   const activos = enAlcance.filter((t) => t.habilitado).length
 
   const accesoAdmin = `${window.location.origin}/acceso/${empresa.subdominio}`

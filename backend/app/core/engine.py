@@ -82,6 +82,8 @@ def listar_catalogo() -> list[dict[str, Any]]:
                 "tipo_respuesta": m.get("tipo_respuesta"),
                 "estado": m.get("estado", ""),
                 "tomable": (carpeta / "preguntas.json").exists(),
+                # `disponible` False = test en preparación: no se puede asignar a empresas.
+                "disponible": bool(m.get("disponible", True)),
             }
         )
     return salida

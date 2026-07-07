@@ -32,5 +32,7 @@
     "regresion": "regresion.json"
   },
   "estado": "parcial_logica_gs_falta_contenido_original",
-  "_autoridad": "Test10/script.gs (DNLA Sales Profile v1.1). Ver ANALISIS.md: el index.html legacy implementa un test DISTINTO (30 ítems, 6 dimensiones) y NO se usa como autoridad."
+  "_autoridad": "Test10/script.gs (DNLA Sales Profile v1.1). Ver ANALISIS.md: el index.html legacy implementa un test DISTINTO (30 ítems, 6 dimensiones) y NO se usa como autoridad.",
+  "disponible": false,
+  "_disponible_nota": "No disponible: en preparacion. No asignable a empresas; en el catalogo aparece deshabilitado al final y sin categoria."
 }

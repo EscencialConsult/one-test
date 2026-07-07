@@ -223,8 +223,11 @@ async def upsert_test_empresa(
 ) -> dict:
     """Añade el test al alcance (si no estaba) y fija su estado habilitado."""
     await _get_empresa(empresa_id, db)
-    if slug not in engine.slugs_catalogo():
+    cat = {t["slug"]: t for t in engine.listar_catalogo()}
+    if slug not in cat:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "El test no existe en el catálogo")
+    if not cat[slug].get("disponible", True):
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Ese test todavía no está disponible para asignar a empresas")
 
     res = await db.execute(
         select(EmpresaTest).where(
