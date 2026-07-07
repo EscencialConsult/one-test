@@ -13,7 +13,7 @@ from app.api.deps import require_superadmin
 from app.core import engine
 from app.core.config import settings
 from app.core.db import get_db
-from app.core.email import enviar_bienvenida_empresa
+from app.core.email import enviar_bienvenida_empresa, enviar_nuevas_credenciales_empresa
 from app.core.security import generar_password, hash_password
 from app.models.empresa_test import EmpresaTest
 from app.models.enums import RolUsuario
@@ -160,6 +160,36 @@ async def _get_empresa(empresa_id: uuid.UUID, db: AsyncSession) -> Empresa:
     if empresa is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Empresa no encontrada")
     return empresa
+
+
+@router.post("/{empresa_id}/reenviar-credenciales")
+async def reenviar_credenciales_empresa(
+    empresa_id: uuid.UUID,
+    background: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Genera una NUEVA contraseña para el admin de la empresa y se la envía por correo.
+    No cambia el usuario ni el link de acceso (solo la contraseña)."""
+    empresa = await _get_empresa(empresa_id, db)
+    email = (empresa.email_admin or "").lower()
+    res = await db.execute(
+        select(Usuario).where(
+            Usuario.tenant_id == empresa_id, Usuario.rol == RolUsuario.ADMIN_EMPRESA
+        )
+    )
+    admins = list(res.scalars().all())
+    admin = next((u for u in admins if u.email == email), admins[0] if admins else None)
+    if admin is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "La empresa no tiene un administrador")
+
+    nueva = generar_password()
+    admin.password_hash = hash_password(nueva)
+    await db.commit()
+
+    background.add_task(
+        enviar_nuevas_credenciales_empresa, admin.email, nueva, settings.url_empresa(empresa.subdominio)
+    )
+    return {"email_habilitado": settings.email_habilitado, "email": admin.email}
 
 
 @router.get("/{empresa_id}/tests")

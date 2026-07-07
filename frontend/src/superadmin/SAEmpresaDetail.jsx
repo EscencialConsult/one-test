@@ -15,6 +15,7 @@ export default function SAEmpresaDetail() {
   const [q, setQ] = useState('')
   const [edit, setEdit] = useState(false)
   const [copiado, setCopiado] = useState(false)
+  const [aviso, setAviso] = useState(null)
   const addRef = useRef(null)
 
   async function cargar() {
@@ -48,6 +49,15 @@ export default function SAEmpresaDetail() {
     } catch (ex) { setError(ex.message) } finally { setBusy(null) }
   }
 
+  async function reenviarCreds() {
+    if (!window.confirm('Se generará una NUEVA contraseña y se enviará al correo del administrador de la empresa. El usuario y el link de acceso NO cambian. ¿Continuar?')) return
+    setBusy('reenv'); setAviso(null); setError(null)
+    try {
+      const r = await api(`/empresas/${id}/reenviar-credenciales`, { method: 'POST' })
+      setAviso(r.email_habilitado ? `Nueva contraseña enviada a ${r.email}.` : 'Se generó la nueva contraseña, pero el correo no está configurado (SMTP).')
+    } catch (ex) { setError(ex.message) } finally { setBusy(null) }
+  }
+
   async function toggleEstado() {
     const nuevo = empresa.estado === 'activo' ? 'suspendido' : 'activo'
     setBusy('estado')
@@ -74,6 +84,7 @@ export default function SAEmpresaDetail() {
     <>
       <button className="sa-backlink" onClick={() => navigate('/admin/empresas')}><Icon name="chevL" /> Volver a Empresas</button>
       {error && <div className="sa-err">{error}</div>}
+      {aviso && <div className="ee-note" style={{ marginBottom: 12 }}><Icon name="check" /> {aviso}</div>}
 
       <div className="sa-card sa-emp-head">
         <div className="lg2">{sigla(empresa.razon_social)}</div>
@@ -84,6 +95,7 @@ export default function SAEmpresaDetail() {
             <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Acceso administrador:</b>
             <span className="sa-subd" style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoAdmin}>{accesoAdmin}</span>
             <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={() => copiar(accesoAdmin, 'admin')}><Icon name="doc" /> {copiado === 'admin' ? '¡Copiado!' : 'Copiar'}</button>
+            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} disabled={busy === 'reenv'} onClick={reenviarCreds} title="Envía una nueva contraseña al admin (no cambia usuario ni link)"><Icon name="mail" /> {busy === 'reenv' ? 'Enviando…' : 'Reenviar credenciales'}</button>
           </div>
           <div className="meta" style={{ marginTop: 6 }}>
             <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Acceso evaluado:</b>

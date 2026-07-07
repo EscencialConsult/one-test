@@ -132,6 +132,29 @@ async def enviar_bienvenida_empresa(marca: dict, email: str, password: str, link
     )
 
 
+async def enviar_nuevas_credenciales_empresa(email: str, password: str, link: str) -> bool:
+    # Reenvío de credenciales desde ONE: nueva contraseña, MISMO usuario y MISMO link.
+    marca_one = {
+        "razon_social": "ONE Core Analytics",
+        "color_acento": "#4d248f",
+        "color_secundario": "#6be1e3",
+        "logo_url": f"{settings.PUBLIC_BASE_URL.rstrip('/')}/logo.png",
+    }
+    c1 = marca_one["color_acento"]
+    cuerpo = (
+        '<p style="font-size:14.5px;line-height:1.6;">Generamos una <b>nueva contraseña</b> para el acceso a su panel en '
+        '<b>ONE Core Analytics</b>. El usuario y el enlace de acceso no cambian; ingresen con la contraseña que figura abajo.</p>'
+        f'{_caja_credenciales(c1, email, password, "Sus datos de acceso:")}'
+        '<p style="font-size:12.5px;color:#8a8f9c;margin-top:10px;">Por seguridad, les recomendamos cambiar la contraseña '
+        'después de ingresar, desde <b>Configuración</b> en su panel.</p>'
+    )
+    html = _plantilla(
+        marca_one, "Nuevas credenciales de acceso", cuerpo, "Ingresar al panel", link,
+        pie="Equipo de ONE Core Analytics",
+    )
+    return await enviar_email(email, "Nuevas credenciales - ONE Core Analytics", html, from_name="ONE Core Analytics")
+
+
 async def enviar_invitacion_evaluado(marca: dict, nombre: str, email: str, password: str, link: str) -> bool:
     c1 = marca.get("color_acento") or "#4d248f"
     razon = escape(marca.get("razon_social") or "la empresa")
