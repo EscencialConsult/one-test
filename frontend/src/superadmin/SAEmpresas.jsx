@@ -96,7 +96,7 @@ function ModalNuevaEmpresa({ onClose, onCreada }) {
         <p className="ms">Se creará un espacio de datos aislado para el nuevo cliente.</p>
         {err && <div className="sa-err">{err}</div>}
         <div className="sa-field"><label>Razón social</label><input value={form.razon_social} onChange={(e) => set('razon_social', e.target.value)} placeholder="Ej. TechSur S.A." required /></div>
-        <div className="sa-field"><label>Identificador de subdominio</label><input value={form.subdominio} onChange={(e) => set('subdominio', e.target.value)} placeholder="techsur" required /><small style={{ display: 'block', color: 'var(--muted)', fontSize: 11.5, marginTop: 6 }}>Su espacio: techsur.one.com (identificador, solo minúsculas y guiones).</small></div>
+        <div className="sa-field"><label>Identificador de subdominio</label><input value={form.subdominio} onChange={(e) => set('subdominio', e.target.value.toLowerCase().replace(/[^a-z0-9-]+/g, '-'))} placeholder="techsur" required /><small style={{ display: 'block', color: 'var(--muted)', fontSize: 11.5, marginTop: 6 }}>Solo minúsculas, números y guiones (los puntos y espacios se convierten en guion). Ej: escencial-latam</small></div>
         <div className="sa-field"><label>Correo del administrador principal</label><input type="email" value={form.email_admin} onChange={(e) => set('email_admin', e.target.value)} placeholder="admin@empresa.com" required /></div>
 
         <MarcaFields form={form} set={set} />
