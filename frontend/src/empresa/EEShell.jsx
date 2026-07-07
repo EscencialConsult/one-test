@@ -4,6 +4,7 @@ import Plexus from '../Plexus.jsx'
 import { useAuth } from '../auth/AuthContext.jsx'
 import { api } from '../lib/api.js'
 import { ConfirmHost } from '../lib/confirm.jsx'
+import Loader from '../components/Loader.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import '../superadmin/sa.css'
 import './ee.css'
@@ -31,12 +32,13 @@ export default function EEShell() {
   const { pathname } = useLocation()
   const [sp] = useSearchParams()
   const [empresa, setEmpresa] = useState(null)
+  const [cargandoEmpresa, setCargandoEmpresa] = useState(true)
   const [bell, setBell] = useState(false)
   const [notis, setNotis] = useState({ no_leidas: 0, items: [] })
   const [navOpen, setNavOpen] = useState(false)
   const bellRef = useRef(null)
 
-  useEffect(() => { api('/empresa/me').then(setEmpresa).catch(() => {}) }, [])
+  useEffect(() => { api('/empresa/me').then(setEmpresa).catch(() => {}).finally(() => setCargandoEmpresa(false)) }, [])
   useEffect(() => { setNavOpen(false) }, [pathname]) // cerrar menú móvil al navegar
 
   async function cargarNotis() {
@@ -70,6 +72,10 @@ export default function EEShell() {
   }
 
   function salir() { logout(); navigate('/login', { replace: true }) }
+
+  // Mientras carga la marca de la empresa, mostramos el espiral de ONE (evita el
+  // "flash" de colores por defecto antes de pintar el panel con la marca correcta).
+  if (cargandoEmpresa) return <Loader full label="Cargando tu panel…" />
 
   const acento = empresa?.color_acento || 'var(--violeta)'
   const secundario = empresa?.color_secundario || '#6be1e3'
