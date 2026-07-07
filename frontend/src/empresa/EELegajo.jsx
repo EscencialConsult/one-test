@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../lib/api.js'
+import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import EEInformeIntegral from './EEInformeIntegral.jsx'
 
@@ -41,7 +42,7 @@ export default function EELegajo() {
   }
 
   async function reenviarCredenciales() {
-    if (!window.confirm('Se generará una NUEVA contraseña temporal y se enviará por correo al evaluado (la anterior deja de servir). ¿Continuar?')) return
+    if (!(await confirmar('Se generará una NUEVA contraseña temporal y se enviará por correo al evaluado (la anterior deja de servir). ¿Continuar?'))) return
     setCred('enviando')
     try {
       const r = await api(`/evaluados/${id}/reenviar-credenciales`, { method: 'POST' })

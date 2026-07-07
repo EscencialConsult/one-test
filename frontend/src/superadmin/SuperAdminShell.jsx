@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
 import { useAuth } from '../auth/AuthContext.jsx'
+import { ConfirmHost } from '../lib/confirm.jsx'
 import Icon from './Icons.jsx'
 import './sa.css'
 
@@ -42,6 +43,7 @@ export default function SuperAdminShell() {
     <>
       <Plexus />
       <div className={'sa-app' + (navOpen ? ' nav-open' : '')}>
+        <ConfirmHost />
         <div className="sa-backdrop" onClick={() => setNavOpen(false)} />
         <aside className="sa-side">
           <div className="sa-brand">

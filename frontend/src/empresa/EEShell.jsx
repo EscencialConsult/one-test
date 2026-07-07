@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'reac
 import Plexus from '../Plexus.jsx'
 import { useAuth } from '../auth/AuthContext.jsx'
 import { api } from '../lib/api.js'
+import { ConfirmHost } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import '../superadmin/sa.css'
 import './ee.css'
@@ -85,6 +86,7 @@ export default function EEShell() {
     <>
       <Plexus />
       <div className={'sa-app' + (empresa ? ' ee-theme' : '') + (navOpen ? ' nav-open' : '')} style={theme}>
+        <ConfirmHost />
         <div className="sa-backdrop" onClick={() => setNavOpen(false)} />
         <aside className="sa-side">
           <div className="ee-brand2">

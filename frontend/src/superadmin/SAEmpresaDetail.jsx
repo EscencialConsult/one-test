@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../lib/api.js'
+import { confirmar } from '../lib/confirm.jsx'
 import Icon from './Icons.jsx'
 import MarcaFields from './MarcaFields.jsx'
 
@@ -50,7 +51,7 @@ export default function SAEmpresaDetail() {
   }
 
   async function reenviarCreds() {
-    if (!window.confirm('Se generará una NUEVA contraseña y se enviará al correo del administrador de la empresa. El usuario y el link de acceso NO cambian. ¿Continuar?')) return
+    if (!(await confirmar('Se generará una NUEVA contraseña y se enviará al correo del administrador de la empresa. El usuario y el link de acceso NO cambian. ¿Continuar?'))) return
     setBusy('reenv'); setAviso(null); setError(null)
     try {
       const r = await api(`/empresas/${id}/reenviar-credenciales`, { method: 'POST' })

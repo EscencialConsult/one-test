@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../lib/api.js'
+import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 
 // Informe gerencial integral con IA: el admin elige varios tests completados de un
@@ -45,7 +46,7 @@ export default function EEInformeIntegral({ evaluadoId, evaluadoNombre, resultad
   }
 
   async function borrar(id) {
-    if (!window.confirm('¿Eliminar este informe integral?')) return
+    if (!(await confirmar('¿Eliminar este informe integral?'))) return
     try {
       await api(`/empresa/informes-integrales/${id}`, { method: 'DELETE' })
       if (abierto?.id === id) setAbierto(null)

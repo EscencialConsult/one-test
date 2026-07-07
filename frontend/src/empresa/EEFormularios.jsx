@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../lib/api.js'
+import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import FormularioBuilder, { TIPOS, ESCALAS } from '../evaluaciones/FormularioBuilder.jsx'
 
@@ -34,7 +35,7 @@ export default function EEFormularios() {
   }
 
   async function eliminar(id) {
-    if (!window.confirm('¿Eliminar este formulario?')) return
+    if (!(await confirmar('¿Eliminar este formulario?'))) return
     try { await api(`/empresa/eval-formularios/${id}`, { method: 'DELETE' }); await cargar() } catch (e) { setError(e.message) }
   }
 

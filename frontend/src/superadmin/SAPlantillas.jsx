@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../lib/api.js'
+import { confirmar } from '../lib/confirm.jsx'
 import Icon from './Icons.jsx'
 import FormularioBuilder, { TIPOS, ESCALAS } from '../evaluaciones/FormularioBuilder.jsx'
 
@@ -33,7 +34,7 @@ export default function SAPlantillas() {
   }
 
   async function eliminar(id) {
-    if (!window.confirm('¿Eliminar esta plantilla? Las campañas ya creadas no se ven afectadas (guardan su propia copia).')) return
+    if (!(await confirmar('¿Eliminar esta plantilla? Las campañas ya creadas no se ven afectadas (guardan su propia copia).'))) return
     try { await api(`/admin/eval-formularios/${id}`, { method: 'DELETE' }); await cargar() } catch (e) { setError(e.message) }
   }
 

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { api } from '../lib/api.js'
+import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import { TIPOS, ESCALAS } from '../evaluaciones/FormularioBuilder.jsx'
 
@@ -254,18 +255,18 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
   const filtrados = c.evaluadores.filter((e) => (fEval === 'todos' ? true : fEval === 'resp' ? e.estado === 'completado' : e.estado !== 'completado'))
 
   async function lanzar() {
-    if (!window.confirm('Se enviarán las invitaciones por correo a los evaluadores. ¿Lanzar la campaña?')) return
+    if (!(await confirmar('Se enviarán las invitaciones por correo a los evaluadores. ¿Lanzar la campaña?'))) return
     setBusy(true); setMsg(null)
     try { const r = await api(`/empresa/eval-campanias/${id}/lanzar`, { method: 'POST' }); setMsg(r.email_habilitado ? `Campaña lanzada. Se enviaron ${r.enviados} invitación(es).` : 'Campaña lanzada, pero el correo no está configurado (SMTP). Compartí los links manualmente.'); await cargar() }
     catch (e) { setError(e.message) } finally { setBusy(false) }
   }
   async function cerrar() {
-    if (!window.confirm('Cerrar la campaña impide nuevas respuestas y habilita el informe. ¿Continuar?')) return
+    if (!(await confirmar('Cerrar la campaña impide nuevas respuestas y habilita el informe. ¿Continuar?'))) return
     setBusy(true)
     try { await api(`/empresa/eval-campanias/${id}/cerrar`, { method: 'POST' }); await cargar() } catch (e) { setError(e.message) } finally { setBusy(false) }
   }
   async function reabrir() {
-    if (!window.confirm('Reabrir la campaña permite que los evaluadores pendientes (o nuevos que agregues) respondan. Quienes ya respondieron mantienen su respuesta y no la repiten. ¿Continuar?')) return
+    if (!(await confirmar('Reabrir la campaña permite que los evaluadores pendientes (o nuevos que agregues) respondan. Quienes ya respondieron mantienen su respuesta y no la repiten. ¿Continuar?'))) return
     setBusy(true)
     try { await api(`/empresa/eval-campanias/${id}/reabrir`, { method: 'POST' }); await cargar() } catch (e) { setError(e.message) } finally { setBusy(false) }
   }
@@ -274,7 +275,7 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
     try { const r = await api(`/empresa/eval-evaluadores/${eid}/reenviar`, { method: 'POST' }); setMsg(r.email_habilitado ? 'Invitación reenviada.' : 'El correo no está configurado (SMTP).') } catch (e) { setError(e.message) }
   }
   async function quitar(eid) {
-    if (!window.confirm('¿Quitar este evaluador?')) return
+    if (!(await confirmar('¿Quitar este evaluador?'))) return
     try { await api(`/empresa/eval-evaluadores/${eid}`, { method: 'DELETE' }); await cargar() } catch (e) { setError(e.message) }
   }
   async function copiar(link) {
