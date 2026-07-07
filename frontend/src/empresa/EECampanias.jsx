@@ -81,32 +81,42 @@ function CampaniaNueva({ onCancel, onCreada }) {
   const [evs, setEvs] = useState([{ relacion: 'auto', nombre: '', email: '' }])
   const [areas, setAreas] = useState([])
   const [areaSel, setAreaSel] = useState('')
+  const [evaluados, setEvaluados] = useState([])
+  const [sujetoEvaluadoId, setSujetoEvaluadoId] = useState('')
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
 
   useEffect(() => { api('/empresa/eval-formularios').then(setForms).catch((e) => setError(e.message)) }, [])
   useEffect(() => { api('/empresa/areas').then(setAreas).catch(() => {}) }, [])
+  useEffect(() => { api('/empresa/evaluados').then(setEvaluados).catch(() => {}) }, [])
   const form = (forms || []).find((f) => f.id === formId)
   const es360 = form?.tipo === 'personas_360'
+  // Solo colaboradores participan de evaluaciones (los postulantes no).
+  const colaboradores = evaluados.filter((e) => e.tipo === 'colaborador')
+  const nombreCompleto = (e) => `${e.nombre} ${e.apellido || ''}`.trim()
 
   const setEv = (i, patch) => setEvs((s) => s.map((e, j) => (j === i ? { ...e, ...patch } : e)))
   const addEv = () => setEvs((s) => [...s, { relacion: es360 ? 'par' : 'observador', nombre: '', email: '' }])
   const delEv = (i) => setEvs((s) => s.filter((_, j) => j !== i))
+
+  // Suma personas a la lista evitando duplicados por email; conserva evaluado_id (vínculo al usuario cargado).
+  const mergeEvs = (nuevos) => setEvs((s) => {
+    const emails = new Set(s.map((e) => (e.email || '').toLowerCase()).filter(Boolean))
+    const add = nuevos.filter((n) => n.email && !emails.has(n.email.toLowerCase()))
+    if (add.length === 0) { setError('Esas personas ya están en la lista (o no tienen email).'); return s }
+    const base = s.filter((e) => e.nombre.trim() || e.email.trim())
+    return [...base, ...add]
+  })
+  const rel0 = () => (es360 ? 'par' : 'observador')
+  const agregarEvaluado = (ev) => { setError(null); mergeEvs([{ relacion: rel0(), nombre: nombreCompleto(ev), email: ev.email, evaluado_id: ev.id }]) }
+  const agregarTodos = () => { setError(null); mergeEvs(colaboradores.map((ev) => ({ relacion: rel0(), nombre: nombreCompleto(ev), email: ev.email, evaluado_id: ev.id }))) }
 
   async function agregarArea() {
     if (!areaSel) return
     setError(null)
     try {
       const miembros = await api(`/empresa/areas/${areaSel}/miembros`)
-      setEvs((s) => {
-        const emails = new Set(s.map((e) => (e.email || '').toLowerCase()).filter(Boolean))
-        const nuevos = miembros
-          .filter((m) => m.email && !emails.has(m.email.toLowerCase()))
-          .map((m) => ({ relacion: es360 ? 'par' : 'observador', nombre: m.nombre, email: m.email }))
-        if (nuevos.length === 0) { setError('Esa área no tiene miembros nuevos (o ya están en la lista).'); return s }
-        const base = s.filter((e) => e.nombre.trim() || e.email.trim())
-        return [...base, ...nuevos]
-      })
+      mergeEvs(miembros.map((m) => ({ relacion: rel0(), nombre: m.nombre, email: m.email, evaluado_id: m.id })))
     } catch (e) { setError(e.message) }
   }
 
@@ -117,13 +127,13 @@ function CampaniaNueva({ onCancel, onCreada }) {
     if (!sujeto.trim()) { setError(`Indicá el ${sujetoLabel(form.tipo).toLowerCase()}.`); return }
     const evaluadores = evs
       .filter((e) => e.nombre.trim() && e.email.trim())
-      .map((e) => ({ relacion: es360 ? e.relacion : 'observador', nombre: e.nombre.trim(), email: e.email.trim() }))
+      .map((e) => ({ relacion: es360 ? e.relacion : 'observador', nombre: e.nombre.trim(), email: e.email.trim(), evaluado_id: e.evaluado_id || null }))
     if (evaluadores.length === 0) { setError('Agregá al menos un evaluador con nombre y email.'); return }
     setBusy(true)
     try {
       const c = await api('/empresa/eval-campanias', {
         method: 'POST',
-        json: { nombre: nombre.trim(), formulario_id: formId, sujeto_nombre: sujeto.trim(), anonimato_min: Number(anon) || 3, evaluadores },
+        json: { nombre: nombre.trim(), formulario_id: formId, sujeto_nombre: sujeto.trim(), sujeto_evaluado_id: sujetoEvaluadoId || null, anonimato_min: Number(anon) || 3, evaluadores },
       })
       onCreada(c)
     } catch (e) { setError(e.message); setBusy(false) }
@@ -150,7 +160,15 @@ function CampaniaNueva({ onCancel, onCreada }) {
           <>
             <div className="sa-field"><label>Nombre de la campaña</label><input className="ev-input" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej. Liderazgo Q3 2026" /></div>
             <div className="sa-frow">
-              <div className="sa-field"><label>{sujetoLabel(form.tipo)}</label><input className="ev-input" value={sujeto} onChange={(e) => setSujeto(e.target.value)} placeholder={form.tipo === 'personas_360' ? 'Ej. Juan Pérez' : form.tipo === 'areas' ? 'Ej. Departamento de Enfermería' : 'Ej. Preparación de habitación'} /></div>
+              <div className="sa-field"><label>{sujetoLabel(form.tipo)}</label>
+                <input className="ev-input" value={sujeto} onChange={(e) => { setSujeto(e.target.value); setSujetoEvaluadoId('') }} placeholder={form.tipo === 'personas_360' ? 'Ej. Juan Pérez' : form.tipo === 'areas' ? 'Ej. Departamento de Enfermería' : 'Ej. Preparación de habitación'} />
+                {es360 && colaboradores.length > 0 && (
+                  <select className="ev-input" style={{ marginTop: 6 }} value={sujetoEvaluadoId} onChange={(e) => { const id = e.target.value; setSujetoEvaluadoId(id); const ev = colaboradores.find((x) => x.id === id); if (ev) setSujeto(nombreCompleto(ev)) }}>
+                    <option value="">…o elegí un colaborador cargado</option>
+                    {colaboradores.map((ev) => <option key={ev.id} value={ev.id}>{nombreCompleto(ev)}</option>)}
+                  </select>
+                )}
+              </div>
               <div className="sa-field"><label>Anonimato: mínimo de respuestas por grupo</label><input className="ev-input" type="number" min="1" value={anon} onChange={(e) => setAnon(e.target.value)} /></div>
             </div>
           </>
@@ -161,13 +179,26 @@ function CampaniaNueva({ onCancel, onCreada }) {
         <>
           <div className="ev-sec-t">Evaluadores {es360 ? '(por relación)' : '(observadores)'}</div>
           <div className="sa-card sa-panel">
-            {areas.length > 0 && (
-              <div style={{ display: 'flex', gap: 8, marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid var(--linea)' }}>
-                <select className="ev-input" value={areaSel} onChange={(e) => setAreaSel(e.target.value)}>
-                  <option value="">Agregar todos los miembros de un área…</option>
-                  {areas.map((a) => <option key={a.id} value={a.id}>{a.nombre}</option>)}
-                </select>
-                <button type="button" className="sa-btn ghost" disabled={!areaSel} onClick={agregarArea}><Icon name="users" /> Agregar área</button>
+            {(colaboradores.length > 0 || areas.length > 0) && (
+              <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: '1px solid var(--linea)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {colaboradores.length > 0 && (
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <select className="ev-input" style={{ flex: 1, minWidth: 200 }} value="" onChange={(e) => { const ev = colaboradores.find((x) => x.id === e.target.value); if (ev) agregarEvaluado(ev) }}>
+                      <option value="">Agregar colaborador ya cargado…</option>
+                      {colaboradores.map((ev) => <option key={ev.id} value={ev.id}>{nombreCompleto(ev)} — {ev.email}</option>)}
+                    </select>
+                    <button type="button" className="sa-btn ghost" onClick={agregarTodos}><Icon name="users" /> Agregar todos</button>
+                  </div>
+                )}
+                {areas.length > 0 && (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <select className="ev-input" style={{ flex: 1 }} value={areaSel} onChange={(e) => setAreaSel(e.target.value)}>
+                      <option value="">Agregar todos los miembros de un área…</option>
+                      {areas.map((a) => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+                    </select>
+                    <button type="button" className="sa-btn ghost" disabled={!areaSel} onClick={agregarArea}><Icon name="users" /> Agregar área</button>
+                  </div>
+                )}
               </div>
             )}
             {evs.map((e, i) => (
@@ -177,12 +208,13 @@ function CampaniaNueva({ onCancel, onCreada }) {
                     {REL_360.map((r) => <option key={r.v} value={r.v}>{r.l}</option>)}
                   </select>
                 )}
-                <input className="ev-input" placeholder="Nombre" value={e.nombre} onChange={(ev) => setEv(i, { nombre: ev.target.value })} />
-                <input className="ev-input" placeholder="Email" type="email" value={e.email} onChange={(ev) => setEv(i, { email: ev.target.value })} />
+                <input className="ev-input" placeholder="Nombre" value={e.nombre} onChange={(ev) => setEv(i, { nombre: ev.target.value, evaluado_id: undefined })} />
+                <input className="ev-input" placeholder="Email" type="email" value={e.email} onChange={(ev) => setEv(i, { email: ev.target.value, evaluado_id: undefined })} />
+                {e.evaluado_id && <span className="ev-tag tipo" title="Vinculado a un colaborador cargado" style={{ flex: 'none' }}>✓</span>}
                 <button className="ev-xbtn" title="Quitar" onClick={() => delEv(i)}><Icon name="x" /></button>
               </div>
             ))}
-            <button className="ev-addbtn" onClick={addEv}><Icon name="plus" /> Añadir evaluador</button>
+            <button className="ev-addbtn" onClick={addEv}><Icon name="plus" /> Añadir manualmente (persona externa)</button>
             {es360 && <p className="ev-tipo-hint" style={{ marginTop: 10 }}>Tip: la <b>autoevaluación</b> es la propia persona evaluada. Los grupos con menos de {anon || 3} respuestas no se muestran por separado (anonimato).</p>}
           </div>
 
@@ -200,15 +232,19 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
   const [c, setC] = useState(null)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
-  const [add, setAdd] = useState(null) // {relacion,nombre,email} | null
+  const [add, setAdd] = useState(null) // {relacion,nombre,email,evaluado_id} | null
   const [msg, setMsg] = useState(null)
   const [fEval, setFEval] = useState('todos') // todos | resp | pend
+  const [evaluados, setEvaluados] = useState([])
+  const colaboradores = evaluados.filter((e) => e.tipo === 'colaborador')
+  const nombreCompleto = (e) => `${e.nombre} ${e.apellido || ''}`.trim()
 
   async function cargar() {
     setError(null)
     try { setC(await api(`/empresa/eval-campanias/${id}`)) } catch (e) { setError(e.message) }
   }
   useEffect(() => { cargar() }, [id])
+  useEffect(() => { api('/empresa/evaluados').then(setEvaluados).catch(() => {}) }, [])
 
   if (error && !c) return <><button className="sa-backlink" onClick={onBack}><Icon name="chevL" /> Volver</button><div className="sa-err">{error}</div></>
   if (!c) return <div className="sa-card sa-panel">Cargando…</div>
@@ -242,7 +278,7 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
   async function guardarAdd() {
     if (!add.nombre.trim() || !add.email.trim()) { setError('Completá nombre y email.'); return }
     try {
-      await api(`/empresa/eval-campanias/${id}/evaluadores`, { method: 'POST', json: { relacion: es360 ? add.relacion : 'observador', nombre: add.nombre.trim(), email: add.email.trim() } })
+      await api(`/empresa/eval-campanias/${id}/evaluadores`, { method: 'POST', json: { relacion: es360 ? add.relacion : 'observador', nombre: add.nombre.trim(), email: add.email.trim(), evaluado_id: add.evaluado_id || null } })
       setAdd(null); await cargar()
     } catch (e) { setError(e.message) }
   }
@@ -304,18 +340,25 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
 
       {add && (
         <div className="sa-card sa-panel" style={{ marginTop: 12 }}>
+          {colaboradores.length > 0 && (
+            <select className="ev-input" style={{ marginBottom: 8 }} value=""
+              onChange={(e) => { const ev = colaboradores.find((x) => x.id === e.target.value); if (ev) setAdd((a) => ({ ...a, nombre: nombreCompleto(ev), email: ev.email, evaluado_id: ev.id })) }}>
+              <option value="">Elegí un colaborador ya cargado…</option>
+              {colaboradores.map((ev) => <option key={ev.id} value={ev.id}>{nombreCompleto(ev)} — {ev.email}</option>)}
+            </select>
+          )}
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {es360 && (
               <select className="ev-input" style={{ width: 160, flex: 'none' }} value={add.relacion} onChange={(e) => setAdd({ ...add, relacion: e.target.value })}>
                 {REL_360.map((r) => <option key={r.v} value={r.v}>{r.l}</option>)}
               </select>
             )}
-            <input className="ev-input" placeholder="Nombre" value={add.nombre} onChange={(e) => setAdd({ ...add, nombre: e.target.value })} />
-            <input className="ev-input" placeholder="Email" type="email" value={add.email} onChange={(e) => setAdd({ ...add, email: e.target.value })} />
+            <input className="ev-input" placeholder="Nombre" value={add.nombre} onChange={(e) => setAdd({ ...add, nombre: e.target.value, evaluado_id: undefined })} />
+            <input className="ev-input" placeholder="Email" type="email" value={add.email} onChange={(e) => setAdd({ ...add, email: e.target.value, evaluado_id: undefined })} />
             <button className="sa-btn dark" onClick={guardarAdd}>Agregar</button>
             <button className="sa-btn ghost" onClick={() => setAdd(null)}>Cancelar</button>
           </div>
-          <p className="ev-tipo-hint" style={{ marginTop: 8 }}>Si la campaña ya está abierta, se le envía la invitación al agregarlo.</p>
+          <p className="ev-tipo-hint" style={{ marginTop: 8 }}>Elegí un colaborador cargado (autocompleta) o escribí a mano una persona externa. Si la campaña ya está abierta, se le envía la invitación al agregarlo.</p>
         </div>
       )}
     </>
