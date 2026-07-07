@@ -120,12 +120,24 @@
 /* EMPRESA (detalle) */
 .sa-backlink { display: inline-flex; align-items: center; gap: 7px; color: var(--violeta); font-weight: 700; font-size: 13.5px; cursor: pointer; margin-bottom: 16px; background: 0; border: 0; }
 .sa-backlink .sa-ico { width: 18px; height: 18px; }
-.sa-emp-head { display: flex; align-items: center; gap: 18px; padding: 22px; margin-bottom: 22px; }
+.sa-emp-head { padding: 22px; margin-bottom: 22px; }
+.sa-emp-head .eh-top { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.sa-emp-head .eh-id { display: flex; align-items: center; gap: 16px; min-width: 0; }
 .sa-emp-head .lg2 { width: 56px; height: 56px; border-radius: 16px; background: rgba(77,36,143,.1); color: var(--violeta); display: grid; place-items: center; font-weight: 800; font-size: 18px; flex: none; }
-.sa-emp-head h2 { font-size: 20px; }
-.sa-emp-head .meta { display: flex; gap: 8px; align-items: center; margin-top: 6px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
-.sa-emp-head .right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.sa-emp-head h2 { font-size: 20px; line-height: 1.2; }
+.sa-emp-head .eh-sub { display: flex; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+.sa-emp-head .eh-mail { font-size: 13px; color: var(--muted); }
+.sa-emp-head .eh-actions { margin-left: auto; display: flex; align-items: center; gap: 14px; flex: none; }
 .sa-emp-head .estado { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; }
+.sa-emp-head .eh-accesos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--linea); }
+.sa-emp-head .eh-acc-lbl { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+.sa-emp-head .eh-acc-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sa-emp-head .eh-link { flex: 1 1 180px; min-width: 0; font-family: monospace; font-size: 12px; color: var(--violeta); background: rgba(77,36,143,.07); padding: 8px 11px; border-radius: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sa-emp-head .eh-btn { padding: 7px 11px; font-size: 12px; flex: none; }
+@media (max-width: 780px) {
+  .sa-emp-head .eh-accesos { grid-template-columns: 1fr; }
+  .sa-emp-head .eh-actions { margin-left: 0; width: 100%; justify-content: space-between; }
+}
 .sa-addwrap { position: relative; }
 .sa-addpanel { position: absolute; right: 0; top: 50px; width: 320px; max-height: 340px; overflow: auto; background: #fff; border: 1px solid var(--linea); border-radius: 14px; box-shadow: var(--sombra); padding: 8px; z-index: 30; }
 .sa-addpanel .ai { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; cursor: pointer; font-size: 13.5px; font-weight: 600; }

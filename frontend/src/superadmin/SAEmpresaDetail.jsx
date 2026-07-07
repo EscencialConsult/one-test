@@ -90,28 +90,42 @@ export default function SAEmpresaDetail() {
       {aviso && <div className="ee-note" style={{ marginBottom: 12 }}><Icon name="check" /> {aviso}</div>}
 
       <div className="sa-card sa-emp-head">
-        <div className="lg2">{sigla(empresa.razon_social)}</div>
-        <div style={{ minWidth: 0 }}>
-          <h2>{empresa.razon_social}</h2>
-          <div className="meta"><span className="sa-subd">{empresa.subdominio}</span> · <span>{empresa.email_admin}</span></div>
-          <div className="meta" style={{ marginTop: 8 }}>
-            <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Acceso administrador:</b>
-            <span className="sa-subd" style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoAdmin}>{accesoAdmin}</span>
-            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={() => copiar(accesoAdmin, 'admin')}><Icon name="doc" /> {copiado === 'admin' ? '¡Copiado!' : 'Copiar'}</button>
-            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} disabled={busy === 'reenv'} onClick={reenviarCreds} title="Envía una nueva contraseña al admin (no cambia usuario ni link)"><Icon name="mail" /> {busy === 'reenv' ? 'Enviando…' : 'Reenviar credenciales'}</button>
+        <div className="eh-top">
+          <div className="eh-id">
+            <div className="lg2">{sigla(empresa.razon_social)}</div>
+            <div style={{ minWidth: 0 }}>
+              <h2>{empresa.razon_social}</h2>
+              <div className="eh-sub">
+                <span className="sa-subd">{empresa.subdominio}</span>
+                <span className="eh-mail">{empresa.email_admin}</span>
+              </div>
+            </div>
           </div>
-          <div className="meta" style={{ marginTop: 6 }}>
-            <b style={{ color: 'var(--tinta)', fontSize: 12.5 }}>Acceso evaluado:</b>
-            <span className="sa-subd" style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'middle' }} title={accesoEval}>{accesoEval}</span>
-            <button className="sa-btn ghost" style={{ padding: '5px 10px', fontSize: 12 }} onClick={() => copiar(accesoEval, 'eval')}><Icon name="doc" /> {copiado === 'eval' ? '¡Copiado!' : 'Copiar'}</button>
+          <div className="eh-actions">
+            <div className="estado">
+              {empresa.estado === 'activo' ? 'Empresa activa' : 'Empresa suspendida'}
+              <button className={'sa-sw' + (empresa.estado === 'activo' ? ' on' : '')} disabled={busy === 'estado'} onClick={toggleEstado} aria-label="Cambiar estado" />
+            </div>
+            <button className="sa-btn ghost" onClick={() => setEdit(true)}><Icon name="edit" /> Editar</button>
           </div>
         </div>
-        <div className="right">
-          <div className="estado">
-            {empresa.estado === 'activo' ? 'Empresa activa' : 'Empresa suspendida'}
-            <button className={'sa-sw' + (empresa.estado === 'activo' ? ' on' : '')} disabled={busy === 'estado'} onClick={toggleEstado} aria-label="Cambiar estado" />
+
+        <div className="eh-accesos">
+          <div className="eh-acc">
+            <div className="eh-acc-lbl">Acceso administrador</div>
+            <div className="eh-acc-row">
+              <code className="eh-link" title={accesoAdmin}>{accesoAdmin}</code>
+              <button className="sa-btn ghost eh-btn" onClick={() => copiar(accesoAdmin, 'admin')}><Icon name="doc" /> {copiado === 'admin' ? '¡Copiado!' : 'Copiar'}</button>
+              <button className="sa-btn ghost eh-btn" disabled={busy === 'reenv'} onClick={reenviarCreds} title="Envía una nueva contraseña al admin (no cambia usuario ni link)"><Icon name="mail" /> {busy === 'reenv' ? 'Enviando…' : 'Reenviar credenciales'}</button>
+            </div>
           </div>
-          <button className="sa-btn ghost" onClick={() => setEdit(true)}><Icon name="edit" /> Editar</button>
+          <div className="eh-acc">
+            <div className="eh-acc-lbl">Acceso evaluado</div>
+            <div className="eh-acc-row">
+              <code className="eh-link" title={accesoEval}>{accesoEval}</code>
+              <button className="sa-btn ghost eh-btn" onClick={() => copiar(accesoEval, 'eval')}><Icon name="doc" /> {copiado === 'eval' ? '¡Copiado!' : 'Copiar'}</button>
+            </div>
+          </div>
         </div>
       </div>
 
