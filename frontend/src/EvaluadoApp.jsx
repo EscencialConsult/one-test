@@ -33,7 +33,7 @@ const RUNNABLE = new Set([
   'big-five', 'chaside', 'dnla-percepcion-personal', 'baron-eqi',
   'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'dnla-leadership',
   'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron', 'wais-iv', 'disc',
-  // 'eneagrama' deshabilitado: la versión cargada es básica; se reactiva con el test completo.
+  'eneagrama', // test completo de 90 ítems (10 por eneatipo) con scoring de base + alas + flechas
 ])
 
 function runnerFor(slug) {

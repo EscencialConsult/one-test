@@ -1,88 +1,82 @@
+"""Motor de cálculo DETERMINISTA — Eneagrama (90 ítems, 10 por eneatipo).
+
+Port fiel de `Informe/calculoEneagramaTotal.js` (plataforma-eneagrama):
+- Normalización ABSOLUTA por tipo: (raw - min) / (max - min) × 100, con
+  min = n_respondidas × 1 y max = n_respondidas × 5 (todo 1 = 0%, todo 5 = 100%).
+- Tipo BASE = el de mayor score. Empate → menor número (estable).
+- ALAS = los 2 tipos de mayor score después del base.
+- FLECHAS: integración/desintegración según el mapa del eneagrama.
+Sin IA: mismo input → mismo output.
+
+Entrada:  respuestas por ítem en escala 1-5.
+          - dict con claves base-0 (formato del front: {"0":v, …, "89":v}),
+          - dict con ids base-1 (1..90),
+          - o lista/secuencia de valores (posición 0 = primer ítem).
+Salida:   base + alas + flechas, scores 0-100 por eneatipo, ranking e interpretación
+          completa del tipo base (para el informe).
 """
-Motor de cálculo DETERMINISTA — Eneagrama Profesional (54 ítems).
-
-Port fiel de Test9/script.gs (calcularPuntajes + generarInformeHTML, selección de
-arquetipo) y de Test9/index.html (calculateResults). Sin IA: mismo input -> mismo output.
-Lógica aprobada, no se altera; solo se porta.
-
-Entrada:  respuestas del evaluado por ítem en escala 1-5.
-          - dict con claves base-0 (formato del front: {"0":v, ..., "53":v}),
-          - dict con ids base-1 (1..54),
-          - o lista/secuencia de 54 valores (posición 0 = primer ítem).
-Salida:   por eneatipo -> puntaje (6-30) y porcentaje; ranking ordenado;
-          dominante / secundario / terciario; arquetipo (combinación dom-ala).
-"""
-
 from __future__ import annotations
 
 import json
-import math
 from pathlib import Path
 from typing import Mapping, Sequence
 
 _DIR = Path(__file__).parent
 
-with (_DIR / "baremos.json").open(encoding="utf-8") as _f:
-    _B = json.load(_f)
-    # MAPEO_PREGUNTAS: eneatipo (1-9) -> lista de índices base-0.
-    _MAPEO = {int(k): v for k, v in _B["mapeo_eneatipo_indices"].items()
-              if not k.startswith("_")}
-    _NOMBRES = {int(k): v for k, v in _B["nombres"].items()}
-    _DENOM = _B["denominador_porcentaje"]
+with (_DIR / "preguntas.json").open(encoding="utf-8") as _f:
+    _P = json.load(_f)
+    _ITEMS = _P["items"]
+    # indice base-0 -> eneatipo (1-9)
+    _TIPO_POR_INDICE = {int(it["indice"]): int(it["eneatipo"]) for it in _ITEMS}
+
 with (_DIR / "interpretaciones.json").open(encoding="utf-8") as _f:
     _I = json.load(_f)
-    _POR_ENEATIPO = {int(k): v for k, v in _I["por_eneatipo"].items()}
-    _COMBINACIONES = _I["combinaciones"]
-    _ARQ_GENERICO = _I["arquetipo_generico"]
+    _TIPOS = {int(k): v for k, v in _I["tipos"].items()}
+    _FLECHAS = {int(k): v for k, v in _I["flechas"].items()}
 
 ENEATIPOS = list(range(1, 10))
+_N_ITEMS = len(_ITEMS)
 
 
-def _round_half_up(x: float) -> int:
-    """Replica JS Math.round (half-up) para valores no negativos."""
-    return math.floor(x + 0.5)
+def _valido(v) -> bool:
+    return v is not None and str(v).strip() != ""
 
 
 def _normalizar(respuestas: Mapping | Sequence) -> dict[int, int]:
-    """Devuelve un dict {indice_base_0: valor}.
-
-    Acepta:
-      - dict con claves base-0 (formato del front),
-      - dict con ids base-1 (1..54) -> se convierten a base-0,
-      - lista/tupla de 54 valores (posición 0 = índice 0).
-
-    Heurística para distinguir base-0 de base-1 en dicts: si aparece la clave 0
-    es base-0; si no aparece 0 pero sí 54, es base-1. En cualquier otro caso se
-    asume base-0 (el formato real del legacy).
-    """
+    """Devuelve {indice_base_0: valor}. Acepta dict base-0, dict base-1 o secuencia."""
     if isinstance(respuestas, Mapping):
-        claves = {int(k): int(v) for k, v in respuestas.items()}
-        if 0 in claves:
-            return claves
-        if 54 in claves and 0 not in claves:
+        claves = {int(k): int(v) for k, v in respuestas.items() if _valido(v)}
+        # base-1 (1..90) sin la clave 0 → convertir a base-0
+        if 0 not in claves and _N_ITEMS in claves:
             return {k - 1: v for k, v in claves.items()}
         return claves
-    return {i: int(v) for i, v in enumerate(respuestas)}
+    return {i: int(v) for i, v in enumerate(respuestas) if _valido(v)}
 
 
-def _arquetipo(dom_tipo: int, sec_tipo: int) -> dict:
-    """Selección del arquetipo: dom-sec, luego sec-dom, luego genérico.
+def _nombre(t: int) -> str:
+    return _TIPOS[t]["nombre"]
 
-    Port de generarInformeHTML: key=`dom-sec`; si no existe key=`sec-dom`;
-    si tampoco, arquetipo 'LA FUSIÓN' con cualidad/fortalezas construidas.
-    """
-    key = f"{dom_tipo}-{sec_tipo}"
-    if key not in _COMBINACIONES:
-        key = f"{sec_tipo}-{dom_tipo}"
-    if key in _COMBINACIONES:
-        return dict(_COMBINACIONES[key])
-    nombre_dom = _POR_ENEATIPO[dom_tipo]["nombre"]
-    nombre_sec = _POR_ENEATIPO[sec_tipo]["nombre"]
+
+def _perfil(t: int, pct: int) -> dict:
+    d = _TIPOS[t]
     return {
-        "arq": _ARQ_GENERICO["arq"],
-        "desc": _ARQ_GENERICO["desc"],
-        "cualidad": f"Equilibrio entre {nombre_dom} y {nombre_sec}",
-        "fortalezas": _POR_ENEATIPO[sec_tipo]["fortalezas"],
+        "tipo": t,
+        "nombre": d.get("nombre"),
+        "subtitulo": d.get("subtitulo"),
+        "descripcion": d.get("descripcion"),
+        "porcentaje": pct,
+        "emocion_basica": d.get("emocionBasica"),
+        "motivacion": d.get("motivacionProfunda"),
+        "miedo": d.get("miedoProfundo"),
+        "deseo": d.get("deseoBasico"),
+        "pecado_capital": d.get("pecadoCapital"),
+        "virtud": d.get("virtud"),
+        "fortalezas": d.get("fortalezas", []),
+        "areas_desarrollo": d.get("areas_desarrollo", []),
+        "en_trabajo": d.get("en_trabajo"),
+        "en_equipo": d.get("en_equipo"),
+        "camino_crecimiento": d.get("camino_crecimiento"),
+        "niveles": d.get("niveles", {}),
     }
 
 
@@ -90,63 +84,62 @@ def calcular(respuestas: Mapping | Sequence) -> dict:
     """Calcula el perfil de Eneagrama. respuestas en escala 1-5 (ver módulo)."""
     r = _normalizar(respuestas)
 
-    puntajes: dict[int, int] = {}
-    porcentajes: dict[int, int] = {}
-    for tipo in ENEATIPOS:
-        suma = 0
-        for idx in _MAPEO[tipo]:
-            # Sin inversión: suma directa. Faltantes -> 0 (como en el .gs).
-            suma += int(r.get(idx, 0) or 0)
-        puntajes[tipo] = suma
-        porcentajes[tipo] = _round_half_up((suma / _DENOM) * 100)
+    raw = {t: 0 for t in ENEATIPOS}
+    cnt = {t: 0 for t in ENEATIPOS}
+    for idx, tipo in _TIPO_POR_INDICE.items():
+        v = r.get(idx)
+        if v is None:
+            continue
+        v = int(v)
+        if 1 <= v <= 5:
+            raw[tipo] += v
+            cnt[tipo] += 1
 
-    # Ranking: orden de eneatipo (1..9), sort estable descendente por puntaje.
-    # En empate gana el eneatipo de MENOR número (estabilidad del sort del .gs).
-    ranking = [
-        {
-            "tipo": tipo,
-            "nombre": _NOMBRES[tipo],
-            "puntaje": puntajes[tipo],
-            "porcentaje": porcentajes[tipo],
-        }
-        for tipo in ENEATIPOS
-    ]
-    ranking.sort(key=lambda x: -x["puntaje"])  # estable: conserva orden de tipo
+    scores: dict[int, int] = {}
+    for t in ENEATIPOS:
+        n = cnt[t]
+        lo, hi = n * 1, n * 5
+        if n == 0 or hi == lo:
+            scores[t] = 0
+        else:
+            s = round(((raw[t] - lo) / (hi - lo)) * 100)
+            scores[t] = max(0, min(100, int(s)))
 
-    dom = ranking[0]
-    sec = ranking[1]
-    ter = ranking[2]
+    # Base = mayor score; en empate gana el eneatipo de MENOR número.
+    base = max(ENEATIPOS, key=lambda t: (scores[t], -t))
+    # Alas = los 2 de mayor score (excluyendo base); empate → menor número.
+    otros = sorted((t for t in ENEATIPOS if t != base), key=lambda t: (-scores[t], t))
+    ala1, ala2 = otros[0], otros[1]
 
-    arquetipo = _arquetipo(dom["tipo"], sec["tipo"])
+    integ = _FLECHAS[base]["integracion"]
+    desint = _FLECHAS[base]["desintegracion"]
 
-    def _detalle(entry: dict) -> dict:
-        t = entry["tipo"]
-        txt = _POR_ENEATIPO[t]
-        return {
-            "tipo": t,
-            "nombre": txt["nombre"],
-            "puntaje": entry["puntaje"],
-            "porcentaje": entry["porcentaje"],
-            "general": txt["general"],
-            "motivacion": txt["motivacion"],
-            "miedo": txt["miedo"],
-            "rasgos": txt["rasgos"],
-            "fortalezas": txt["fortalezas"],
-            "areas": txt["areas"],
-        }
+    roles = {base: "base", ala1: "ala", ala2: "ala"}
+    ranking = sorted(
+        (
+            {"tipo": t, "nombre": _nombre(t), "porcentaje": scores[t], "rol": roles.get(t)}
+            for t in ENEATIPOS
+        ),
+        key=lambda x: (-x["porcentaje"], x["tipo"]),
+    )
 
     return {
-        "puntajes": puntajes,
-        "porcentajes": porcentajes,
+        "notacion": f"{base}w{ala1}",
+        "base": base,
+        "base_nombre": _nombre(base),
+        "scores": {str(t): scores[t] for t in ENEATIPOS},
         "ranking": ranking,
-        "dominante": _detalle(dom),
-        "secundario": _detalle(sec),
-        "terciario": _detalle(ter),
-        "arquetipo": arquetipo,
+        "ala1": {"tipo": ala1, "nombre": _nombre(ala1), "porcentaje": scores[ala1]},
+        "ala2": {"tipo": ala2, "nombre": _nombre(ala2), "porcentaje": scores[ala2]},
+        "integracion": {"tipo": integ, "nombre": _nombre(integ)},
+        "desintegracion": {"tipo": desint, "nombre": _nombre(desint)},
+        "perfil": _perfil(base, scores[base]),
     }
 
 
 if __name__ == "__main__":
     import pprint
 
-    pprint.pprint(calcular({i: 3 for i in range(54)}))
+    # Sanity: respuestas altas en tipo 5, bajas en el resto → base = 5.
+    demo = {i: (5 if _TIPO_POR_INDICE[i] == 5 else 2) for i in range(_N_ITEMS)}
+    pprint.pprint(calcular(demo))

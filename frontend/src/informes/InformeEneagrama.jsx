@@ -1,23 +1,18 @@
-// Informe Eneagrama Profesional. Datos deterministas del motor (dominante/secundario/
-// terciario + arquetipo). La IA no interviene.
+// Informe Eneagrama (90 ítems). Datos deterministas del motor: tipo base + alas +
+// flechas (integración/desintegración) + interpretación rica por eneatipo. Sin IA.
 
 function Lista({ v }) {
-  if (Array.isArray(v)) return <ul className="inf-nolist">{v.map((x, i) => <li key={i}><span className="ok" style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> {x}</li>)}</ul>
-  return <p className="inf-tx">{v}</p>
+  if (!Array.isArray(v) || v.length === 0) return null
+  return <ul className="inf-nolist">{v.map((x, i) => <li key={i}><span className="ok" style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> {x}</li>)}</ul>
 }
 
-function Tipo({ d, tag }) {
+function Dato({ k, v }) {
+  if (!v) return null
   return (
-    <div className="inf-sheet"><div className="inf-pad">
-      <span className="inf-eyebrow">{tag}</span>
-      <h2 className="inf-sec">Eneatipo {d.tipo} · {d.nombre}</h2>
-      {d.general && <p className="inf-tx">{d.general}</p>}
-      {d.motivacion && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 6px' }}>Motivación central</h3><p className="inf-tx">{d.motivacion}</p></>}
-      {d.miedo && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 6px' }}>Temor básico</h3><p className="inf-tx">{d.miedo}</p></>}
-      {d.rasgos && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 6px' }}>Rasgos característicos</h3><Lista v={d.rasgos} /></>}
-      {d.fortalezas && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 6px' }}>Fortalezas</h3><Lista v={d.fortalezas} /></>}
-      {d.areas && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 6px' }}>Áreas de desarrollo</h3><Lista v={d.areas} /></>}
-    </div></div>
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ fontSize: 11.5, letterSpacing: '.04em', textTransform: 'uppercase', color: 'var(--muted)', fontWeight: 700, marginBottom: 2 }}>{k}</div>
+      <div className="inf-tx" style={{ margin: 0 }}>{v}</div>
+    </div>
   )
 }
 
@@ -26,12 +21,9 @@ export default function InformeEneagrama({ data }) {
   const ev = data.evaluado
   const marca = data.empresa
   const fecha = data.created_at ? new Date(data.created_at).toLocaleDateString('es-AR') : ''
-  const dom = d.dominante || {}
-  const sec = d.secundario || {}
-  const ter = d.terciario || {}
-  const arq = d.arquetipo || {}
+  const p = d.perfil || {}
   const ranking = d.ranking || []
-  const destacados = { [dom.tipo]: 'dom', [sec.tipo]: 'sec', [ter.tipo]: 'ter' }
+  const niveles = p.niveles || {}
 
   return (
     <div className="inf-doc">
@@ -42,72 +34,105 @@ export default function InformeEneagrama({ data }) {
             <span className="brand">{marca?.logo_url ? <img className="inf-logo" src={marca.logo_url} alt={marca.razon_social} /> : (marca?.razon_social || 'ONE')}</span>
             <span className="badge">Informe confidencial</span>
           </div>
-          <h1>Informe Eneagrama Profesional</h1>
+          <h1>Informe de Eneagrama</h1>
           <div className="st">Perfil de personalidad según los 9 eneatipos</div>
         </div>
         <div className="inf-who">
           <div><div className="k">Evaluado/a</div><div className="v">{ev ? `${ev.nombre} ${ev.apellido}` : '—'}</div></div>
           <div><div className="k">Fecha</div><div className="v">{fecha}</div></div>
-          <div><div className="k">Eneatipo dominante</div><div className="v">{dom.tipo} · {dom.nombre}</div></div>
+          <div><div className="k">Tipo base</div><div className="v">{d.base} · {p.nombre || d.base_nombre}</div></div>
         </div>
       </div>
+
+      {/* NOTACIÓN + SÍNTESIS */}
+      <div className="inf-sheet inf-divider">
+        <div className="eb">TU CONFIGURACIÓN</div>
+        <h1>{d.notacion || `Tipo ${d.base}`}</h1>
+        {p.subtitulo && <div className="st" style={{ marginTop: 6 }}>Eneatipo {d.base} — {p.nombre}: {p.subtitulo}</div>}
+      </div>
+      {p.descripcion && (
+        <div className="inf-sheet"><div className="inf-pad">
+          <span className="inf-eyebrow">Tu tipo base</span>
+          <h2 className="inf-sec">Eneatipo {d.base} · {p.nombre}</h2>
+          <p className="inf-tx">{p.descripcion}</p>
+          <div className="inf-two" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 24px', marginTop: 8 }}>
+            <Dato k="Motivación profunda" v={p.motivacion} />
+            <Dato k="Miedo básico" v={p.miedo} />
+            <Dato k="Deseo básico" v={p.deseo} />
+            <Dato k="Emoción básica" v={p.emocion_basica} />
+            <Dato k="Pasión / pecado capital" v={p.pecado_capital} />
+            <Dato k="Virtud" v={p.virtud} />
+          </div>
+        </div></div>
+      )}
 
       {/* RANKING */}
       <div className="inf-sheet"><div className="inf-pad">
         <span className="inf-eyebrow">Resultado</span>
         <h2 className="inf-sec">Distribución de los 9 eneatipos</h2>
-        <p className="inf-tx">Tu configuración combina un eneatipo <b>dominante</b> con un ala <b>secundaria</b> y una <b>terciaria</b>. El resto también aporta matices.</p>
+        <p className="inf-tx">Tu <b>tipo base</b> es el de mayor puntaje; sus dos <b>alas</b> lo matizan. El puntaje de cada tipo va de 0 a 100 según tus respuestas.</p>
         <div className="bf-bars" style={{ marginTop: 12 }}>
-          {ranking.map((t) => {
-            const rol = destacados[t.tipo]
-            return (
-              <div className="bf-bar" key={t.tipo}>
-                <label>
-                  <span>{t.tipo}. {t.nombre}{rol === 'dom' ? ' · Dominante' : rol === 'sec' ? ' · Secundario' : rol === 'ter' ? ' · Terciario' : ''}</span>
-                  <b>{t.porcentaje}%</b>
-                </label>
-                <div className="bf-track"><i style={{ width: `${t.porcentaje}%`, background: rol ? 'linear-gradient(135deg,#4d248f,#6be1e3)' : '#c6c9d7' }} /></div>
-              </div>
-            )
-          })}
+          {ranking.map((t) => (
+            <div className="bf-bar" key={t.tipo}>
+              <label>
+                <span>{t.tipo}. {t.nombre}{t.rol === 'base' ? ' · Base' : t.rol === 'ala' ? ' · Ala' : ''}</span>
+                <b>{t.porcentaje}%</b>
+              </label>
+              <div className="bf-track"><i style={{ width: `${t.porcentaje}%`, background: t.rol ? 'linear-gradient(135deg,#4d248f,#6be1e3)' : '#c6c9d7' }} /></div>
+            </div>
+          ))}
         </div>
       </div></div>
 
-      {/* ARQUETIPO */}
-      {(arq.arq || arq.cualidad) && (
-        <div className="inf-sheet inf-divider">
-          <div className="eb">TU ARQUETIPO</div>
-          <h1>{arq.arq || `${dom.nombre} con ala ${sec.tipo}`}</h1>
-          {arq.cualidad && <div className="st" style={{ marginTop: 6 }}>{arq.cualidad}</div>}
+      {/* ALAS + FLECHAS */}
+      <div className="inf-sheet"><div className="inf-pad">
+        <span className="inf-eyebrow">Dinámica</span>
+        <h2 className="inf-sec">Alas y flechas</h2>
+        <div className="inf-two" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 24px' }}>
+          {d.ala1 && <Dato k="Ala dominante" v={`Tipo ${d.ala1.tipo} — ${d.ala1.nombre} (${d.ala1.porcentaje}%)`} />}
+          {d.ala2 && <Dato k="Ala secundaria" v={`Tipo ${d.ala2.tipo} — ${d.ala2.nombre} (${d.ala2.porcentaje}%)`} />}
+          {d.integracion && <Dato k="Integración (crecimiento)" v={`Hacia el Tipo ${d.integracion.tipo} — ${d.integracion.nombre}. En sus mejores momentos, adopta lo sano de este tipo.`} />}
+          {d.desintegracion && <Dato k="Desintegración (estrés)" v={`Hacia el Tipo ${d.desintegracion.tipo} — ${d.desintegracion.nombre}. Bajo estrés, puede tomar rasgos de este tipo.`} />}
         </div>
-      )}
-      {arq.desc && (
+      </div></div>
+
+      {/* FORTALEZAS / ÁREAS */}
+      {(p.fortalezas?.length || p.areas_desarrollo?.length) ? (
         <div className="inf-sheet"><div className="inf-pad">
-          <span className="inf-eyebrow">La combinación</span>
-          <h2 className="inf-sec">Dominante {dom.tipo} + ala {sec.tipo}</h2>
-          <p className="inf-tx">{arq.desc}</p>
-          {arq.fortalezas && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 6px' }}>Fortalezas de la combinación</h3><Lista v={arq.fortalezas} /></>}
+          <span className="inf-eyebrow">Perfil</span>
+          <h2 className="inf-sec">Fortalezas y áreas de desarrollo</h2>
+          <div className="inf-two" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 24px' }}>
+            <div>
+              <h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '6px 0 6px' }}>Fortalezas</h3>
+              <Lista v={p.fortalezas} />
+            </div>
+            <div>
+              <h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '6px 0 6px' }}>Áreas de desarrollo</h3>
+              <Lista v={p.areas_desarrollo} />
+            </div>
+          </div>
+        </div></div>
+      ) : null}
+
+      {/* EN EL TRABAJO / EN EQUIPO */}
+      {(p.en_trabajo || p.en_equipo) && (
+        <div className="inf-sheet"><div className="inf-pad">
+          <span className="inf-eyebrow">Ámbito laboral</span>
+          <h2 className="inf-sec">En el trabajo y en equipo</h2>
+          {p.en_trabajo && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '10px 0 4px' }}>En el trabajo</h3><p className="inf-tx">{p.en_trabajo}</p></>}
+          {p.en_equipo && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 4px' }}>En equipo</h3><p className="inf-tx">{p.en_equipo}</p></>}
         </div></div>
       )}
 
-      {/* PERFIL DOMINANTE (detalle) */}
-      <Tipo d={dom} tag="Eneatipo dominante" />
-
-      {/* SECUNDARIO Y TERCIARIO (breve) */}
-      {sec.tipo && (
+      {/* NIVELES + CAMINO */}
+      {(niveles.sano || niveles.promedio || niveles.insano || p.camino_crecimiento) && (
         <div className="inf-sheet"><div className="inf-pad">
-          <span className="inf-eyebrow">Alas complementarias</span>
-          <h2 className="inf-sec">Influencias secundaria y terciaria</h2>
-          <div style={{ marginBottom: 14 }}>
-            <h3 style={{ fontSize: 14.5, color: 'var(--violeta)', marginBottom: 4 }}>Secundario · Eneatipo {sec.tipo} — {sec.nombre} ({sec.porcentaje}%)</h3>
-            <p className="inf-tx">{sec.general}</p>
-          </div>
-          {ter.tipo && (
-            <div>
-              <h3 style={{ fontSize: 14.5, color: 'var(--violeta)', marginBottom: 4 }}>Terciario · Eneatipo {ter.tipo} — {ter.nombre} ({ter.porcentaje}%)</h3>
-              <p className="inf-tx">{ter.general}</p>
-            </div>
-          )}
+          <span className="inf-eyebrow">Desarrollo</span>
+          <h2 className="inf-sec">Niveles y camino de crecimiento</h2>
+          <Dato k="Nivel sano" v={niveles.sano} />
+          <Dato k="Nivel promedio" v={niveles.promedio} />
+          <Dato k="Nivel de alerta" v={niveles.insano} />
+          {p.camino_crecimiento && <><h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '14px 0 4px' }}>Camino de crecimiento</h3><p className="inf-tx">{p.camino_crecimiento}</p></>}
         </div></div>
       )}
 

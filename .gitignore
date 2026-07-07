@@ -33,3 +33,5 @@ Thumbs.db
 
 # ── Material legacy de migración (no es parte del proyecto) ─
 _migracion/
+# Repo del test de Eneagrama importado solo para extraer el test (se elimina luego).
+plataforma-eneagrama/
