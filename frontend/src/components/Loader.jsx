@@ -18,8 +18,9 @@ const CSS = `
 
 export default function Loader({ full = false, label = 'Cargando…', size = 108 }) {
   // El espiral ocupa ~64% del PNG (margen transparente). Metemos el anillo hacia
-  // adentro (~15% del tamaño) para que abrace el espiral real, no el borde del PNG.
-  const ringInset = Math.round(size * 0.15)
+  // adentro (~9% del tamaño) para que quede cerca del espiral pero con una pequeña
+  // separación (no pegado al borde del PNG ni encima del dibujo).
+  const ringInset = Math.round(size * 0.09)
   const cuerpo = (
     <div className="one-loader">
       <div className="one-spinwrap" style={{ width: size, height: size }}>
