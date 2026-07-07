@@ -264,6 +264,11 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
     setBusy(true)
     try { await api(`/empresa/eval-campanias/${id}/cerrar`, { method: 'POST' }); await cargar() } catch (e) { setError(e.message) } finally { setBusy(false) }
   }
+  async function reabrir() {
+    if (!window.confirm('Reabrir la campaña permite que los evaluadores pendientes (o nuevos que agregues) respondan. Quienes ya respondieron mantienen su respuesta y no la repiten. ¿Continuar?')) return
+    setBusy(true)
+    try { await api(`/empresa/eval-campanias/${id}/reabrir`, { method: 'POST' }); await cargar() } catch (e) { setError(e.message) } finally { setBusy(false) }
+  }
   async function reenviar(eid) {
     setMsg(null)
     try { const r = await api(`/empresa/eval-evaluadores/${eid}/reenviar`, { method: 'POST' }); setMsg(r.email_habilitado ? 'Invitación reenviada.' : 'El correo no está configurado (SMTP).') } catch (e) { setError(e.message) }
@@ -302,7 +307,12 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
               <button className="sa-btn dark" disabled={busy} onClick={cerrar}><Icon name="check" /> Cerrar campaña</button>
             </>
           )}
-          {c.estado === 'cerrada' && <button className="sa-btn prim" onClick={() => onVerInforme(id)}><Icon name="chart" /> Ver informe</button>}
+          {c.estado === 'cerrada' && (
+            <>
+              <button className="sa-btn ghost" disabled={busy} onClick={reabrir}><Icon name="send" /> Reabrir campaña</button>
+              <button className="sa-btn prim" onClick={() => onVerInforme(id)}><Icon name="chart" /> Ver informe</button>
+            </>
+          )}
         </div>
       </div>
 
@@ -316,7 +326,7 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
             return <div key={k} className={'sa-chipf' + (fEval === k ? ' on' : '')} onClick={() => setFEval(k)}>{t} ({n})</div>
           })}
         </div>
-        <button className="sa-btn ghost" onClick={() => setAdd({ relacion: es360 ? 'par' : 'observador', nombre: '', email: '' })}><Icon name="plus" /> Añadir evaluador</button>
+        {c.estado !== 'cerrada' && <button className="sa-btn ghost" onClick={() => setAdd({ relacion: es360 ? 'par' : 'observador', nombre: '', email: '' })}><Icon name="plus" /> Añadir evaluador</button>}
       </div>
 
       <div className="sa-card" style={{ padding: '6px 0' }}>

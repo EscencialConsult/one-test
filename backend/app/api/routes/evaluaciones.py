@@ -504,6 +504,20 @@ async def cerrar_campania(
     return {"ok": True}
 
 
+@router_emp.post("/eval-campanias/{cid}/reabrir")
+async def reabrir_campania(
+    cid: uuid.UUID,
+    tenant_id: uuid.UUID = Depends(get_current_tenant_id),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Reabre una campaña cerrada: los pendientes/nuevos pueden responder. Quienes ya
+    respondieron NO la repiten (el endpoint público bloquea a los completados)."""
+    camp = await _get_campania(cid, tenant_id, db)
+    camp.estado = "abierta"
+    await db.commit()
+    return {"ok": True}
+
+
 @router_emp.delete("/eval-campanias/{cid}", status_code=status.HTTP_204_NO_CONTENT)
 async def eliminar_campania(
     cid: uuid.UUID,
