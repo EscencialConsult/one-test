@@ -18,6 +18,7 @@ import InformeToulouse from '../informes/InformeToulouse.jsx'
 import InformeDnlaLeadership from '../informes/InformeDnlaLeadership.jsx'
 import InformeWais from '../informes/InformeWais.jsx'
 import InformeDisc from '../informes/InformeDisc.jsx'
+import InformeCAD from '../informes/InformeCAD.jsx'
 import '../informes/informe.css'
 
 // Mapa slug -> componente de informe.
@@ -39,6 +40,7 @@ const INFORMES = {
   'dnla-leadership': InformeDnlaLeadership,
   'wais-iv': InformeWais,
   'disc': InformeDisc,
+  'cad': InformeCAD,
 }
 
 function nombreArchivo(data) {

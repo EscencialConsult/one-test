@@ -34,6 +34,7 @@ const RUNNABLE = new Set([
   'ipp-r', 'gds-15', 'domino-48', 'kuder', 'stai', 'dnla-leadership',
   'excel-inicial', 'excel-intermedio', 'excel-avanzado', 'toulouse-pieron', 'wais-iv', 'disc',
   'eneagrama', // test completo de 90 ítems (10 por eneatipo) con scoring de base + alas + flechas
+  'cad', // CAD afrontamiento del dolor: 31 ítems Likert 0-4, 6 estrategias (usa TestRunner)
 ])
 
 function runnerFor(slug) {

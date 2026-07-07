@@ -92,7 +92,19 @@ const META = {
     instrucciones: [
       'Indicá con qué frecuencia te identificás con cada afirmación (de Nunca a Siempre).',
       'Respondé con sinceridad y espontaneidad; no hay respuestas correctas.',
-      'Son 54 afirmaciones; no te detengas demasiado en cada una.',
+      'Son 90 afirmaciones; no te detengas demasiado en cada una.',
+    ],
+    dimNames: {},
+  },
+  cad: {
+    nombre: 'CAD — Afrontamiento del Dolor',
+    subtitulo: '31 ítems',
+    intro: 'Cuestionario sobre cómo afrontás el dolor o el malestar. No hay respuestas correctas ni incorrectas: indicá tu grado de acuerdo con cada afirmación.',
+    escalaLabel: 'Totalmente de acuerdo → Totalmente en desacuerdo',
+    instrucciones: [
+      'Indicá tu grado de acuerdo con cada afirmación (de Totalmente de acuerdo a Totalmente en desacuerdo).',
+      'Respondé con sinceridad; no hay respuestas correctas ni incorrectas.',
+      'Son 31 afirmaciones; no te detengas demasiado en cada una.',
     ],
     dimNames: {},
   },

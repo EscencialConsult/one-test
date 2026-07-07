@@ -9,6 +9,14 @@
     "D": { "valor": 1, "label": "Ligeramente en desacuerdo" },
     "E": { "valor": 0, "label": "Totalmente en desacuerdo" }
   },
+  "_escala_nota": "Mapa plano {valor: label} que consume la plataforma (el endpoint sirve 'escala'; el front envía la clave numérica 0-4). Orden mostrado: de acuerdo → en desacuerdo.",
+  "escala": {
+    "4": "Totalmente de acuerdo",
+    "3": "Ligeramente de acuerdo",
+    "2": "Ni sí ni no",
+    "1": "Ligeramente en desacuerdo",
+    "0": "Totalmente en desacuerdo"
+  },
   "escalas": {
     "Religión": { "items": [3, 8, 17, 22, 25] },
     "Catarsis": { "items": [7, 9, 13, 16, 29] },
