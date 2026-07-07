@@ -1,5 +1,6 @@
-// Informe Bar-On EQ-i — versión PRELIMINAR (data-driven).
-// El diseño/contenido definitivo se ajustará con el material de referencia del test.
+// Informe Bar-On EQ-i (Inteligencia Emocional). Datos deterministas del motor:
+// CE Total + 5 escalas compuestas (con interpretación y características por nivel) +
+// 15 subescalas + fortalezas / áreas de oportunidad. Sin IA.
 
 function kind(nivel) {
   const n = (nivel || '').toUpperCase().replace(/_/g, ' ')
@@ -7,110 +8,158 @@ function kind(nivel) {
   if (n.includes('PROMEDIO') || n.includes('MEDIO')) return 'medio'
   return 'bajo'
 }
-const fmtNivel = (n) => (n || '').replace(/_/g, ' ').toLowerCase().replace(/^\w/, (c) => c.toUpperCase())
+const COLOR = { alto: '#16a34a', medio: '#d97706', bajo: '#dc2626' }
+const fmtNivel = (n) => (n || '').replace(/_/g, ' ').toLowerCase().replace(/(^|\s)\w/g, (c) => c.toUpperCase())
+
+function Pct({ v, nivel }) {
+  return <b style={{ color: COLOR[kind(nivel)] }}>{v}% <span style={{ fontWeight: 600, color: 'var(--muted)' }}>· {fmtNivel(nivel)}</span></b>
+}
 
 export default function InformeBaronEQi({ data }) {
   const d = data.datos || {}
   const ce = d.ceTotal || {}
+  const subMap = d.subescalas || {}
   const compuestas = Object.values(d.compuestas || {})
-  const subescalas = Object.values(d.subescalas || {})
   const fortalezas = d.fortalezas || []
   const debilidades = d.debilidades || []
   const ev = data.evaluado
   const marca = data.empresa
   const fecha = data.created_at ? new Date(data.created_at).toLocaleDateString('es-AR') : ''
+  const ceK = kind(ce.nivel)
 
   return (
     <div className="inf-doc">
-      {/* Portada */}
+      {/* PORTADA */}
       <div className="inf-sheet">
         <div className="inf-cover">
           <div className="top">
             <span className="brand">{marca?.logo_url ? <img className="inf-logo" src={marca.logo_url} alt={marca.razon_social} /> : (marca?.razon_social || 'ONE')}</span>
-            <span className="badge">Informe preliminar</span>
+            <span className="badge">Informe confidencial</span>
           </div>
-          <h1>Informe Bar-On EQ-i</h1>
-          <div className="st">Inventario de Inteligencia Emocional · 15 subescalas</div>
+          <h1>Informe de Inteligencia Emocional</h1>
+          <div className="st">Test Bar-On EQ-i (Emotional Quotient Inventory) · 15 subescalas · 5 componentes</div>
         </div>
         <div className="inf-who">
           <div><div className="k">Evaluado/a</div><div className="v">{ev ? `${ev.nombre} ${ev.apellido}` : '—'}</div></div>
           <div><div className="k">Fecha</div><div className="v">{fecha}</div></div>
-          <div><div className="k">Cociente Emocional</div><div className={'v pin-' + kind(ce.nivel)}>{fmtNivel(ce.nivel)}</div></div>
+          <div><div className="k">Cociente Emocional</div><div className="v" style={{ color: COLOR[ceK] }}>{fmtNivel(ce.nivel)}</div></div>
         </div>
       </div>
 
-      {/* Aviso preliminar */}
-      <div className="inf-sheet"><div className="inf-pad" style={{ paddingTop: 22, paddingBottom: 22 }}>
-        <div className="inf-draft">⚠ Informe <b>preliminar de prueba</b>: muestra los datos reales calculados, pero el formato y los textos definitivos se ajustarán con el material de referencia del Bar-On EQ-i.</div>
-      </div></div>
-
-      {/* CE Total */}
+      {/* CE TOTAL */}
       <div className="inf-sheet"><div className="inf-pad">
+        <span className="inf-eyebrow">Resultado global</span>
         <h2 className="inf-sec">Cociente Emocional Total</h2>
-        <div className="inf-global">
-          <div className="lbl">Resultado global</div>
-          <div className="num">{ce.porcentaje != null ? `${ce.porcentaje}%` : '—'}</div>
-          <div className={'nivel lvl-' + kind(ce.nivel)}>{fmtNivel(ce.nivel)}</div>
-          {ce.interpretacion && <p>{ce.interpretacion}</p>}
+        <div style={{ textAlign: 'center', padding: '18px 0 6px' }}>
+          <div style={{ fontSize: 46, fontWeight: 800, lineHeight: 1, color: COLOR[ceK] }}>{ce.porcentaje != null ? `${ce.porcentaje}%` : '—'}</div>
+          <div style={{ fontSize: 15, fontWeight: 700, marginTop: 6, color: COLOR[ceK] }}>{fmtNivel(ce.nivel)}</div>
         </div>
       </div></div>
 
-      {/* Componentes */}
+      {/* INTERPRETACIÓN GENERAL */}
+      {ce.interpretacion && (
+        <div className="inf-sheet"><div className="inf-pad">
+          <span className="inf-eyebrow">Lectura</span>
+          <h2 className="inf-sec">Interpretación general</h2>
+          <p className="inf-tx">{ce.interpretacion}</p>
+        </div></div>
+      )}
+
+      {/* ANÁLISIS DE ESCALAS COMPUESTAS */}
       <div className="inf-sheet"><div className="inf-pad">
-        <h2 className="inf-sec">Componentes (5 áreas)</h2>
-        {compuestas.map((c) => (
-          <div className="inf-card" key={c.nombre}>
-            <div className="ah"><b>{c.nombre}</b><span className="pc">{c.porcentaje}%</span></div>
-            <div className="desc">{c.descripcion}</div>
-            <div className="track"><i className={'fl-' + kind(c.nivel)} style={{ width: `${c.porcentaje}%` }} /></div>
-            {c.interpretacion?.general && <p className="g">{c.interpretacion.general}</p>}
-          </div>
-        ))}
+        <span className="inf-eyebrow">Análisis</span>
+        <h2 className="inf-sec">Escalas compuestas (5 componentes)</h2>
       </div></div>
 
-      {/* Subescalas */}
-      <div className="inf-sheet"><div className="inf-pad">
-        <h2 className="inf-sec">Detalle por subescala (15)</h2>
-        <div className="inf-bars">
-          {subescalas.map((s) => (
-            <div className="inf-row" key={s.nombre}>
-              <div className="nm">
-                <div className="t">{s.nombre}</div>
-                <div className="track"><i className={'fl-' + kind(s.nivel)} style={{ width: `${s.porcentaje}%` }} /></div>
+      {compuestas.map((c) => {
+        const ck = kind(c.nivel)
+        const carac = c.interpretacion?.fortalezas || []
+        const subs = (c.subescalas || []).map((code) => ({ code, ...subMap[code] })).filter((s) => s.nombre)
+        return (
+          <div className="inf-sheet" key={c.nombre}><div className="inf-pad">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+              <div>
+                <h3 className="inf-sec" style={{ margin: 0 }}>{c.nombre}</h3>
+                <div style={{ fontSize: 12.5, color: 'var(--muted)' }}>{c.descripcion}</div>
               </div>
-              <div className="pd"><b>{s.porcentaje}%</b> · {fmtNivel(s.nivel)}</div>
+              <div style={{ textAlign: 'right', flex: 'none' }}>
+                <div style={{ fontSize: 22, fontWeight: 800, color: COLOR[ck] }}>{c.porcentaje}%</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: COLOR[ck] }}>{fmtNivel(c.nivel)}</div>
+              </div>
             </div>
-          ))}
-        </div>
+            <div className="bf-track" style={{ margin: '10px 0 14px' }}><i style={{ width: `${c.porcentaje}%`, background: COLOR[ck] }} /></div>
+
+            {c.interpretacion?.general && <p className="inf-tx">{c.interpretacion.general}</p>}
+
+            {carac.length > 0 && (
+              <>
+                <h4 style={{ fontSize: 13, color: COLOR.alto, margin: '12px 0 6px' }}>Características identificadas</h4>
+                <ul className="inf-nolist">{carac.map((x, i) => <li key={i}><span className="ok" style={{ color: COLOR.alto, fontWeight: 800, flex: 'none' }}>✓</span> {x}</li>)}</ul>
+              </>
+            )}
+
+            {subs.length > 0 && (
+              <>
+                <h4 style={{ fontSize: 13, color: 'var(--violeta)', margin: '14px 0 8px' }}>Subescalas componentes</h4>
+                <div className="bf-bars">
+                  {subs.map((s) => {
+                    const sk = kind(s.nivel)
+                    return (
+                      <div className="bf-bar" key={s.code}>
+                        <label><span>{s.nombre}</span><Pct v={s.porcentaje} nivel={s.nivel} /></label>
+                        <div className="bf-track"><i style={{ width: `${s.porcentaje}%`, background: COLOR[sk] }} /></div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
+            )}
+          </div></div>
+        )
+      })}
+
+      {/* FORTALEZAS */}
+      {fortalezas.length > 0 && (
+        <div className="inf-sheet"><div className="inf-pad">
+          <span className="inf-eyebrow">Perfil</span>
+          <h2 className="inf-sec">Tus principales fortalezas</h2>
+          <p className="inf-tx">Las áreas donde demostrás mayor desarrollo en tu inteligencia emocional.</p>
+          <ol style={{ margin: '10px 0 0', paddingLeft: 0, listStyle: 'none' }}>
+            {fortalezas.map((f, i) => (
+              <li key={f.codigo} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderTop: i ? '1px solid var(--linea)' : 'none' }}>
+                <span style={{ flex: 'none', width: 26, height: 26, borderRadius: 8, background: 'var(--violeta)', color: '#fff', fontWeight: 800, fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
+                <span style={{ flex: 1, fontWeight: 700 }}>{f.nombre}</span>
+                <Pct v={f.porcentaje} nivel={f.nivel} />
+              </li>
+            ))}
+          </ol>
+        </div></div>
+      )}
+
+      {/* ÁREAS DE OPORTUNIDAD */}
+      {debilidades.length > 0 && (
+        <div className="inf-sheet"><div className="inf-pad">
+          <span className="inf-eyebrow">Desarrollo</span>
+          <h2 className="inf-sec">Áreas de oportunidad</h2>
+          <p className="inf-tx">Áreas que representan oportunidades de crecimiento y desarrollo. Un puntaje bajo no es un déficit: indica margen de mejora.</p>
+          <ul className="inf-nolist" style={{ marginTop: 8 }}>
+            {debilidades.map((f) => (
+              <li key={f.codigo}><span className="ok" style={{ color: COLOR.bajo, fontWeight: 800, flex: 'none' }}>›</span> <span style={{ flex: 1 }}>{f.nombre}</span> <Pct v={f.porcentaje} nivel={f.nivel} /></li>
+            ))}
+          </ul>
+        </div></div>
+      )}
+
+      {/* SOBRE EL TEST */}
+      <div className="inf-sheet"><div className="inf-pad">
+        <span className="inf-eyebrow">Ficha técnica</span>
+        <h2 className="inf-sec">Sobre el Test Bar-On EQ-i</h2>
+        <p className="inf-tx">El <b>Bar-On Emotional Quotient Inventory (EQ-i)</b> es uno de los instrumentos de evaluación de la inteligencia emocional y social más reconocidos y validados científicamente a nivel mundial, desarrollado por el Dr. Reuven Bar-On. Consta de <b>133 ítems</b> (escala Likert de 5 puntos) organizados en <b>15 subescalas</b> agrupadas en <b>5 componentes</b>: intrapersonal, interpersonal, adaptabilidad, manejo del estrés y estado de ánimo general.</p>
+        <p className="inf-tx">El modelo define la inteligencia emocional como un conjunto de capacidades, competencias y habilidades no cognitivas que influyen en la capacidad de una persona para afrontar las demandas y presiones del entorno.</p>
+        <div className="ee-note" style={{ marginTop: 10 }}><b>Qué NO es:</b> no mide coeficiente intelectual (IQ) ni habilidades cognitivas; no emite diagnósticos inmutables (refleja el momento actual y puede variar por factores contextuales); no debe interpretarse de forma aislada — conviene complementarlo con la orientación de un profesional de la psicología.</div>
       </div></div>
 
-      {/* Fortalezas / Debilidades */}
-      <div className="inf-sheet"><div className="inf-pad">
-        <h2 className="inf-sec">Fortalezas y áreas a desarrollar</h2>
-        <div className="inf-two">
-          <div>
-            <div className="inf-h3 pin-alto">Fortalezas</div>
-            <ul className="inf-list">
-              {fortalezas.map((f) => (
-                <li key={f.codigo}>{f.nombre}<span className={'pct pin-' + kind(f.nivel)}>{f.porcentaje}%</span></li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <div className="inf-h3 pin-bajo">Áreas a desarrollar</div>
-            <ul className="inf-list">
-              {debilidades.map((f) => (
-                <li key={f.codigo}>{f.nombre}<span className={'pct pin-' + kind(f.nivel)}>{f.porcentaje}%</span></li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-        <div className="inf-foot">
-          <b>{marca?.razon_social || 'ONE'}</b>
-          <div>Informe confidencial — uso exclusivo de la empresa · generado por ONE Core Analytics</div>
-        </div>
-      </div>
+      <div className="inf-sheet inf-foot"><b>ONE Core Analytics</b><br />Resultado determinista del cuestionario. Evaluación estandarizada, parte de un proceso más amplio. Informe confidencial.</div>
     </div>
   )
 }
