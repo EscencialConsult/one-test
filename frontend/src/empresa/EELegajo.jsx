@@ -11,22 +11,24 @@ export default function EELegajo() {
   const navigate = useNavigate()
   const [ev, setEv] = useState(null)
   const [perfiles, setPerfiles] = useState([])
+  const [areas, setAreas] = useState([])
   const [tests, setTests] = useState([])
   const [asig, setAsig] = useState(null)
   const [resultados, setResultados] = useState([])
   const [error, setError] = useState(null)
   const [modal, setModal] = useState(false)
+  const [editar, setEditar] = useState(false)
   const [busy, setBusy] = useState(null)
   const [cred, setCred] = useState(null) // null | 'enviando' | 'ok' | 'sin-smtp' | 'error'
 
   async function cargar() {
     setError(null)
     try {
-      const [e, p, t, a, r] = await Promise.all([
-        api(`/evaluados/${id}`), api('/perfiles'), api('/empresa/tests'),
+      const [e, p, ar, t, a, r] = await Promise.all([
+        api(`/evaluados/${id}`), api('/perfiles'), api('/empresa/areas'), api('/empresa/tests'),
         api(`/evaluados/${id}/asignaciones`), api(`/evaluados/${id}/resultados`),
       ])
-      setEv(e); setPerfiles(p); setTests(t); setAsig(a); setResultados(r)
+      setEv(e); setPerfiles(p); setAreas(ar); setTests(t); setAsig(a); setResultados(r)
     } catch (ex) { setError(ex.message) }
   }
   useEffect(() => { cargar() }, [id])
@@ -66,6 +68,7 @@ export default function EELegajo() {
           <div className="meta"><span>{perfilNombre || 'Sin perfil'}</span> · <span>{ev.email}</span>{!ev.activo && <span className="ee-badge sin">inactivo</span>}</div>
         </div>
         <div className="right">
+          <button className="sa-btn ghost" onClick={() => setEditar(true)}><Icon name="edit" /> Editar</button>
           <button className="sa-btn ghost" disabled={cred === 'enviando'} onClick={reenviarCredenciales}><Icon name="mail" /> {cred === 'enviando' ? 'Enviando…' : 'Reenviar credenciales'}</button>
           <button className="sa-btn prim" onClick={() => setModal(true)}><Icon name="plus" /> Asignar batería</button>
         </div>
@@ -114,7 +117,84 @@ export default function EELegajo() {
           }}
         />
       )}
+
+      {editar && (
+        <ModalEditarEvaluado
+          ev={ev} perfiles={perfiles} areas={areas}
+          onClose={() => setEditar(false)}
+          onGuardado={() => { setEditar(false); cargar() }}
+        />
+      )}
     </>
+  )
+}
+
+function ModalEditarEvaluado({ ev, perfiles, areas, onClose, onGuardado }) {
+  const [form, setForm] = useState({
+    nombre: ev.nombre || '', apellido: ev.apellido || '', tipo: ev.tipo || 'colaborador',
+    perfil_id: ev.perfil_id || '', area_id: ev.area_id || '', activo: ev.activo !== false,
+  })
+  const [err, setErr] = useState(null)
+  const [busy, setBusy] = useState(false)
+  const set = (k, v) => setForm((f) => ({ ...f, [k]: v }))
+
+  async function guardar(e) {
+    e.preventDefault()
+    if (!form.nombre.trim() || !form.apellido.trim()) { setErr('Completá nombre y apellido.'); return }
+    setErr(null); setBusy(true)
+    try {
+      await api(`/evaluados/${ev.id}`, {
+        method: 'PATCH',
+        json: {
+          nombre: form.nombre.trim(), apellido: form.apellido.trim(), tipo: form.tipo,
+          perfil_id: form.perfil_id || null, area_id: form.area_id || null, activo: form.activo,
+        },
+      })
+      onGuardado()
+    } catch (ex) { setErr(ex.message); setBusy(false) }
+  }
+
+  return (
+    <div className="sa-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose() }}>
+      <form className="sa-modal" onSubmit={guardar}>
+        <button type="button" className="x" onClick={onClose}><Icon name="x" /></button>
+        <h2>Editar evaluado</h2>
+        <p className="ms">El email no se cambia (es su identificador). Cambiá el <b>tipo</b> para pasar de postulante a colaborador o viceversa.</p>
+        {err && <div className="sa-err">{err}</div>}
+        <div className="sa-frow">
+          <div className="sa-field"><label>Nombre</label><input value={form.nombre} onChange={(e) => set('nombre', e.target.value)} required /></div>
+          <div className="sa-field"><label>Apellido</label><input value={form.apellido} onChange={(e) => set('apellido', e.target.value)} required /></div>
+        </div>
+        <div className="sa-field"><label>Email</label><input value={ev.email} disabled /></div>
+        <div className="sa-field"><label>Tipo de usuario</label>
+          <select value={form.tipo} onChange={(e) => set('tipo', e.target.value)}>
+            <option value="colaborador">Colaborador (empleado — informe de desarrollo)</option>
+            <option value="postulante">Postulante (candidato — informe de selección)</option>
+          </select>
+        </div>
+        <div className="sa-frow">
+          <div className="sa-field"><label>Perfil</label>
+            <select value={form.perfil_id} onChange={(e) => set('perfil_id', e.target.value)}>
+              <option value="">(sin perfil)</option>
+              {perfiles.map((p) => <option key={p.id} value={p.id}>{p.nombre}</option>)}
+            </select>
+          </div>
+          <div className="sa-field"><label>Área</label>
+            <select value={form.area_id} onChange={(e) => set('area_id', e.target.value)}>
+              <option value="">(sin área)</option>
+              {areas.map((a) => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+            </select>
+          </div>
+        </div>
+        <label className="ee-check" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, margin: '4px 0 2px' }}>
+          <input type="checkbox" checked={form.activo} onChange={(e) => set('activo', e.target.checked)} /> Activo (puede ingresar y rendir pruebas)
+        </label>
+        <div className="sa-modalfoot">
+          <button type="button" className="sa-btn ghost" onClick={onClose}>Cancelar</button>
+          <button className="sa-btn dark" disabled={busy}>{busy ? 'Guardando…' : 'Guardar cambios'}</button>
+        </div>
+      </form>
+    </div>
   )
 }
 

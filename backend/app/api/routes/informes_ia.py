@@ -93,7 +93,11 @@ async def generar_informe(
 
     cat = {t["slug"]: t for t in engine.listar_catalogo()}
     tests_payload = [
-        {"nombre": cat.get(r.test_slug, {}).get("nombre", r.test_slug), "datos": r.datos}
+        {
+            "nombre": cat.get(r.test_slug, {}).get("nombre", r.test_slug),
+            "categoria": cat.get(r.test_slug, {}).get("categoria"),
+            "datos": r.datos,
+        }
         for r in resultados
     ]
     snapshot = [
@@ -108,6 +112,7 @@ async def generar_informe(
             evaluado=nombre_ev,
             empresa=emp.razon_social if emp else "la empresa",
             tests=tests_payload,
+            tipo_evaluado=ev.tipo,
         )
     except Exception as e:  # noqa: BLE001
         msg = str(e)

@@ -118,13 +118,15 @@ function imprimirModal() {
 function ModalInforme({ informe, evaluadoNombre, onClose }) {
   const c = informe.contenido || {}
   const tests = informe.tests || []
+  // 'seleccion' (postulante) o 'desarrollo' (colaborador). Compat con informes viejos (sin modo).
+  const esSeleccion = (c.modo || ((c.aspectos_a_considerar || c.ajuste_al_perfil) ? 'seleccion' : 'desarrollo')) === 'seleccion'
   return (
     <div className="sa-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose() }}>
       <div className="sa-modal inf-modal">
         <button type="button" className="x" onClick={onClose}><Icon name="x" /></button>
         <div className="inf-doc">
           <div className="inf-head">
-            <span className="inf-tag">Informe gerencial integral</span>
+            <span className="inf-tag">Informe gerencial integral · {esSeleccion ? 'Selección' : 'Desarrollo'}</span>
             <h2>{c.titulo || informe.titulo}</h2>
             <div className="inf-meta">{evaluadoNombre} · {tests.length} pruebas integradas · {new Date(informe.created_at).toLocaleDateString()}</div>
             <div className="inf-tests">{tests.map((t) => <span key={t.slug || t.nombre} className="inf-chip">{t.nombre}</span>)}</div>
@@ -140,16 +142,24 @@ function ModalInforme({ informe, evaluadoNombre, onClose }) {
             </section>
           )}
 
-          {c.integracion && (<section className="inf-sec"><h3>Integración: coherencias y tensiones</h3><Parrafos texto={c.integracion} /></section>)}
+          {c.integracion && (<section className="inf-sec"><h3>{c.integracion_titulo || 'Integración'}</h3><Parrafos texto={c.integracion} /></section>)}
 
           {Array.isArray(c.fortalezas) && c.fortalezas.length > 0 && (
             <section className="inf-sec"><h3>Fortalezas</h3><ul>{c.fortalezas.map((x, i) => <li key={i}>{x}</li>)}</ul></section>
           )}
+          {/* Desarrollo (colaborador) */}
           {Array.isArray(c.areas_desarrollo) && c.areas_desarrollo.length > 0 && (
             <section className="inf-sec"><h3>Áreas de desarrollo</h3><ul>{c.areas_desarrollo.map((x, i) => <li key={i}>{x}</li>)}</ul></section>
           )}
           {Array.isArray(c.recomendaciones) && c.recomendaciones.length > 0 && (
             <section className="inf-sec"><h3>Recomendaciones para gerencia</h3><ul>{c.recomendaciones.map((x, i) => <li key={i}>{x}</li>)}</ul></section>
+          )}
+          {/* Selección (postulante) */}
+          {Array.isArray(c.aspectos_a_considerar) && c.aspectos_a_considerar.length > 0 && (
+            <section className="inf-sec"><h3>Aspectos a considerar</h3><ul>{c.aspectos_a_considerar.map((x, i) => <li key={i}>{x}</li>)}</ul></section>
+          )}
+          {Array.isArray(c.ajuste_al_perfil) && c.ajuste_al_perfil.length > 0 && (
+            <section className="inf-sec"><h3>Ajuste al perfil · orientación para la selección</h3><ul>{c.ajuste_al_perfil.map((x, i) => <li key={i}>{x}</li>)}</ul></section>
           )}
 
           {c.cierre && (<section className="inf-sec"><Parrafos texto={c.cierre} /></section>)}
