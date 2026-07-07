@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import Icon from './Icons.jsx'
+import Loader from '../components/Loader.jsx'
 
 export default function SADashboard() {
   const [r, setR] = useState(null)
@@ -16,7 +17,7 @@ export default function SADashboard() {
   }, [])
 
   if (error) return <div className="sa-err">{error}</div>
-  if (!r) return <div className="sa-card sa-panel">Cargando…</div>
+  if (!r) return <div className="sa-card sa-panel"><Loader /></div>
 
   const maxUso = Math.max(1, ...(r.tests_mas_usados || []).map((t) => t.n))
   const recientes = empresas.slice(0, 5)

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Plexus from './Plexus.jsx'
+import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
 
 // Metadatos de presentación por test (el cálculo siempre viene del backend).
@@ -119,7 +120,7 @@ export default function TestRunner({ slug, onExit, onSubmit }) {
   }, [data])
 
   if (error) return <Centro><div className="card pad">⚠️ {error}</div></Centro>
-  if (!data) return <Centro><div className="card pad">Cargando test…</div></Centro>
+  if (!data) return <Centro><Loader label="Cargando test…" /></Centro>
   if (!data.escala || !Array.isArray(data.items) || data.items.length === 0) {
     return (
       <Centro>

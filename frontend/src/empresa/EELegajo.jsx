@@ -4,6 +4,7 @@ import { api } from '../lib/api.js'
 import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import EEInformeIntegral from './EEInformeIntegral.jsx'
+import Loader from '../components/Loader.jsx'
 
 export default function EELegajo() {
   const { id } = useParams()
@@ -51,7 +52,7 @@ export default function EELegajo() {
   }
 
   if (error && !ev) return <div className="sa-err">{error}</div>
-  if (!ev || !asig) return <div className="sa-card sa-panel">Cargando…</div>
+  if (!ev || !asig) return <div className="sa-card sa-panel"><Loader /></div>
 
   return (
     <>

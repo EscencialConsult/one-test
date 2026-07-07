@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Plexus from './Plexus.jsx'
+import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
 
 const completa = (a) => a && a.mas != null && a.menos != null && a.mas !== a.menos
@@ -19,7 +20,7 @@ export default function KuderRunner({ slug, onExit, onSubmit }) {
   }, [slug])
 
   if (error) return <Centro><div className="card pad">⚠️ {error}</div></Centro>
-  if (!data) return <Centro><div className="card pad">Cargando test…</div></Centro>
+  if (!data) return <Centro><Loader label="Cargando test…" /></Centro>
 
   const triadas = data.triadas
   const total = triadas.length

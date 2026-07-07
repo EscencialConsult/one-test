@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import ErrorBoundary from '../components/ErrorBoundary.jsx'
+import Loader from '../components/Loader.jsx'
 import InformeBaronEQi from '../informes/InformeBaronEQi.jsx'
 import InformeBigFive from '../informes/InformeBigFive.jsx'
 import InformeChaside from '../informes/InformeChaside.jsx'
@@ -111,7 +112,7 @@ export default function InformeView() {
 
       {error && <div className="inf-doc"><div className="inf-sheet"><div className="inf-pad">⚠️ {error}</div></div></div>}
 
-      {!data && !error && <div className="inf-doc"><div className="inf-sheet"><div className="inf-pad">Cargando informe…</div></div></div>}
+      {!data && !error && <div className="inf-doc"><div className="inf-sheet"><div className="inf-pad"><Loader label="Cargando informe…" /></div></div></div>}
 
       {data && (Informe ? (
         <ErrorBoundary fallback={(err) => (

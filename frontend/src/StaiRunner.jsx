@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Plexus from './Plexus.jsx'
+import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
 
 const PARTE = {
@@ -21,7 +22,7 @@ export default function StaiRunner({ slug, onExit, onSubmit }) {
   }, [slug])
 
   if (error) return <Centro><div className="card pad">⚠️ {error}</div></Centro>
-  if (!data) return <Centro><div className="card pad">Cargando test…</div></Centro>
+  if (!data) return <Centro><Loader label="Cargando test…" /></Centro>
 
   const items = data.items
   const total = items.length

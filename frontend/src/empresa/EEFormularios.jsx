@@ -3,6 +3,7 @@ import { api } from '../lib/api.js'
 import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import FormularioBuilder, { TIPOS, ESCALAS } from '../evaluaciones/FormularioBuilder.jsx'
+import Loader from '../components/Loader.jsx'
 
 const tipoLabel = (v) => TIPOS.find((t) => t.v === v)?.label || v
 const escLabel = (v) => (ESCALAS.find((s) => s.v === v)?.label || v).split(' (')[0]
@@ -58,7 +59,7 @@ export default function EEFormularios() {
       {error && <div className="sa-err">{error}</div>}
 
       {!mios ? (
-        <div className="sa-card sa-panel">Cargando…</div>
+        <div className="sa-card sa-panel"><Loader /></div>
       ) : mios.length === 0 ? (
         <div className="sa-card sa-panel sa-empty">Todavía no tenés formularios. Creá uno nuevo o partí de una plantilla de ONE.</div>
       ) : (
@@ -99,7 +100,7 @@ function ModalPlantillas({ onClose, onUsar }) {
         <p className="ms">Elegí una plantilla para partir de ella. Se crea una copia editable en tu empresa.</p>
         {error && <div className="sa-err">{error}</div>}
         {!lista ? (
-          <div className="sa-empty">Cargando…</div>
+          <div className="sa-empty"><Loader /></div>
         ) : lista.length === 0 ? (
           <div className="sa-empty">Todavía no hay plantillas disponibles.</div>
         ) : (

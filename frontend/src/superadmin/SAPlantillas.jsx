@@ -3,6 +3,7 @@ import { api } from '../lib/api.js'
 import { confirmar } from '../lib/confirm.jsx'
 import Icon from './Icons.jsx'
 import FormularioBuilder, { TIPOS, ESCALAS } from '../evaluaciones/FormularioBuilder.jsx'
+import Loader from '../components/Loader.jsx'
 
 const tipoLabel = (v) => TIPOS.find((t) => t.v === v)?.label || v
 const escLabel = (v) => (ESCALAS.find((s) => s.v === v)?.label || v).split(' (')[0]
@@ -52,7 +53,7 @@ export default function SAPlantillas() {
       {error && <div className="sa-err">{error}</div>}
 
       {!lista ? (
-        <div className="sa-card sa-panel">Cargando…</div>
+        <div className="sa-card sa-panel"><Loader /></div>
       ) : lista.length === 0 ? (
         <div className="sa-card sa-panel sa-empty">Todavía no hay plantillas. Creá la primera con “Nueva plantilla”.</div>
       ) : (

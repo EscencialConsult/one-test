@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import Icon from '../superadmin/Icons.jsx'
+import Loader from '../components/Loader.jsx'
 
 export default function EEDashboard() {
   const [r, setR] = useState(null)
@@ -11,7 +12,7 @@ export default function EEDashboard() {
   useEffect(() => { api('/empresa/resumen').then(setR).catch((e) => setError(e.message)) }, [])
 
   if (error) return <div className="sa-err">{error}</div>
-  if (!r) return <div className="sa-card sa-panel">Cargando…</div>
+  if (!r) return <div className="sa-card sa-panel"><Loader /></div>
 
   const est = r.por_estado || {}
   const sinIniciar = (est.sin_iniciar || 0) + (est.sin_asignar || 0)

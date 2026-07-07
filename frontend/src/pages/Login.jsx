@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
+import Loader from '../components/Loader.jsx'
 import { useAuth, homeFor } from '../auth/AuthContext.jsx'
 
 export default function Login() {
@@ -37,6 +38,10 @@ export default function Login() {
 
   // Si ya hay sesión, ir directo al portal correspondiente.
   if (user) return <Navigate to={homeFor(user)} replace />
+
+  // Login de marca: mientras traemos la marca por primera vez (sin cache), mostramos
+  // el espiral de ONE en vez del login con colores por defecto.
+  if (sub && !brandReady) return <Loader full />
 
   async function enviar(e) {
     e.preventDefault()

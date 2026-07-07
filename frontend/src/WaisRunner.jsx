@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import Plexus from './Plexus.jsx'
+import Loader from './components/Loader.jsx'
 import { getPreguntas } from './api.js'
 
 // Runner del WAIS-IV (screening de opción múltiple, 2 partes). Sin feedback durante:
@@ -26,7 +27,7 @@ export default function WaisRunner({ slug, onExit, onSubmit }) {
   }, [data])
 
   if (error) return <Centro><div className="card pad">⚠️ {error}</div></Centro>
-  if (!data) return <Centro><div className="card pad">Cargando test…</div></Centro>
+  if (!data) return <Centro><Loader label="Cargando test…" /></Centro>
 
   const letras = data.letras || ['a', 'b', 'c', 'd']
   const total = items.length

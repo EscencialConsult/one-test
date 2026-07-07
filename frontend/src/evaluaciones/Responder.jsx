@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Plexus from '../Plexus.jsx'
+import Loader from '../components/Loader.jsx'
 import './eval.css'
 
 const LIKERT = [
@@ -50,7 +51,7 @@ export default function Responder() {
 
   // ---- Estados especiales ----
   if (error && !info) return <Marco theme={theme}><div className="resp-center"><h1>Enlace no válido</h1><p>{error}</p></div></Marco>
-  if (!info) return <Marco theme={theme}><div className="resp-center"><p>Cargando…</p></div></Marco>
+  if (!info) return <Marco theme={theme}><div className="resp-center"><Loader /></div></Marco>
   if (enviado || info.ya_respondido) return (
     <Marco theme={theme}><div className="resp-center">
       <div className="ok">✓</div>

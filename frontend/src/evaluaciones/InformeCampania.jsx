@@ -5,6 +5,7 @@ import {
 } from 'recharts'
 import { api } from '../lib/api.js'
 import Icon from '../superadmin/Icons.jsx'
+import Loader from '../components/Loader.jsx'
 import './eval.css'
 
 const COLORS = { auto: '#4d248f', supervisor: '#e17bd7', par: '#6be1e3', reporte: '#e4c76a', observador: '#4d248f' }
@@ -36,7 +37,7 @@ export default function InformeCampania({ id, onBack }) {
   }
 
   if (error) return <><button className="sa-backlink" onClick={onBack}><Icon name="chevL" /> Volver</button><div className="sa-err">{error}</div></>
-  if (!d) return <div className="sa-card sa-panel">Cargando informe…</div>
+  if (!d) return <div className="sa-card sa-panel"><Loader label="Cargando informe…" /></div>
 
   const c = d.campania
   const marca = d.marca

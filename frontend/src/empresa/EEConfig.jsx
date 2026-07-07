@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import Icon from '../superadmin/Icons.jsx'
+import Loader from '../components/Loader.jsx'
 
 export default function EEConfig() {
   const { empresa } = useOutletContext()
@@ -101,7 +102,7 @@ function Etiquetas({ endpoint, titulo, desc, placeholder, btn }) {
       <p className="d" style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 16 }}>{desc}</p>
       {error && <div className="sa-err">{error}</div>}
       {!items ? (
-        <div className="sa-empty">Cargando…</div>
+        <div className="sa-empty"><Loader /></div>
       ) : (
         <div className="ee-tags">
           {items.length === 0 && <span className="sa-empty" style={{ padding: 0 }}>Todavía no hay.</span>}

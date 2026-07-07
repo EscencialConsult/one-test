@@ -4,6 +4,7 @@ import { api } from '../lib/api.js'
 import { confirmar } from '../lib/confirm.jsx'
 import Icon from './Icons.jsx'
 import MarcaFields from './MarcaFields.jsx'
+import Loader from '../components/Loader.jsx'
 
 export default function SAEmpresaDetail() {
   const { id } = useParams()
@@ -69,7 +70,7 @@ export default function SAEmpresaDetail() {
   }
 
   if (error && !empresa) return <div className="sa-err">{error}</div>
-  if (!empresa || !tests) return <div className="sa-card sa-panel">Cargando…</div>
+  if (!empresa || !tests) return <div className="sa-card sa-panel"><Loader /></div>
 
   const enAlcance = tests.filter((t) => t.en_alcance)
   const fuera = tests.filter((t) => !t.en_alcance && t.nombre.toLowerCase().includes(q.toLowerCase()))

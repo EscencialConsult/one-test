@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import Icon from './Icons.jsx'
 import MarcaFields from './MarcaFields.jsx'
+import Loader from '../components/Loader.jsx'
 
 const FORM_VACIO = {
   razon_social: '', subdominio: '', email_admin: '',
@@ -44,7 +45,7 @@ export default function SAEmpresas() {
 
       <div className="sa-card sa-panel">
         {!empresas ? (
-          <div className="sa-empty">Cargando…</div>
+          <div className="sa-empty"><Loader /></div>
         ) : lista.length === 0 ? (
           <div className="sa-empty">No hay empresas para este filtro.</div>
         ) : (

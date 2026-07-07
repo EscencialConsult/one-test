@@ -3,6 +3,7 @@ import { api } from '../lib/api.js'
 import { confirmar } from '../lib/confirm.jsx'
 import Icon from '../superadmin/Icons.jsx'
 import { TIPOS, ESCALAS } from '../evaluaciones/FormularioBuilder.jsx'
+import Loader from '../components/Loader.jsx'
 
 // El informe usa Recharts (pesado): se carga bajo demanda al abrirlo.
 const InformeCampania = lazy(() => import('../evaluaciones/InformeCampania.jsx'))
@@ -30,7 +31,7 @@ export default function EECampanias() {
 
   if (vista === 'nueva') return <CampaniaNueva onCancel={() => setVista('lista')} onCreada={(c) => setVista({ id: c.id })} />
   if (typeof vista === 'object' && vista?.informe) return (
-    <Suspense fallback={<div className="sa-card sa-panel">Cargando informe…</div>}>
+    <Suspense fallback={<div className="sa-card sa-panel"><Loader label="Cargando informe…" /></div>}>
       <InformeCampania id={vista.informe} onBack={() => setVista({ id: vista.informe })} />
     </Suspense>
   )
@@ -44,7 +45,7 @@ export default function EECampanias() {
       </div>
       {error && <div className="sa-err">{error}</div>}
       {!lista ? (
-        <div className="sa-card sa-panel">Cargando…</div>
+        <div className="sa-card sa-panel"><Loader /></div>
       ) : lista.length === 0 ? (
         <div className="sa-card sa-panel sa-empty">Todavía no hay campañas. Creá la primera con “Nueva campaña”.</div>
       ) : (
@@ -148,7 +149,7 @@ function CampaniaNueva({ onCancel, onCreada }) {
 
       <div className="sa-card sa-panel">
         <div className="sa-field"><label>Formulario</label>
-          {!forms ? <div className="sa-empty" style={{ padding: 0 }}>Cargando…</div> : forms.length === 0 ? (
+          {!forms ? <div className="sa-empty" style={{ padding: 0 }}><Loader /></div> : forms.length === 0 ? (
             <div className="ee-note"><Icon name="doc" /> No tenés formularios. Creá uno en la pestaña “Formularios”.</div>
           ) : (
             <select className="ev-input" value={formId} onChange={(e) => { setFormId(e.target.value); const f = forms.find((x) => x.id === e.target.value); setEvs([{ relacion: f?.tipo === 'personas_360' ? 'auto' : 'observador', nombre: '', email: '' }]) }}>
@@ -248,7 +249,7 @@ function CampaniaDetalle({ id, onBack, onVerInforme }) {
   useEffect(() => { api('/empresa/evaluados').then(setEvaluados).catch(() => {}) }, [])
 
   if (error && !c) return <><button className="sa-backlink" onClick={onBack}><Icon name="chevL" /> Volver</button><div className="sa-err">{error}</div></>
-  if (!c) return <div className="sa-card sa-panel">Cargando…</div>
+  if (!c) return <div className="sa-card sa-panel"><Loader /></div>
 
   const es360 = c.tipo === 'personas_360'
   const [estTxt, estCls] = ESTADO_CAMP[c.estado] || [c.estado, 'sinasig']

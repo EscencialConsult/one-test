@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Plexus from './Plexus.jsx'
+import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
 
 // Posición de los puntos (pips) por número, en % dentro de cada mitad de la ficha.
@@ -86,7 +87,7 @@ export default function DominoRunner({ slug, onExit, onSubmit }) {
   }, [screen, left]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error) return <Centro><div className="card pad">⚠️ {error}</div></Centro>
-  if (!data) return <Centro><div className="card pad">Cargando test…</div></Centro>
+  if (!data) return <Centro><Loader label="Cargando test…" /></Centro>
 
   const items = data.items
   const total = items.length

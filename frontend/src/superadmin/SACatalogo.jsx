@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { api } from '../lib/api.js'
 import Icon from './Icons.jsx'
+import Loader from '../components/Loader.jsx'
 
 export default function SACatalogo() {
   const [tests, setTests] = useState(null)
@@ -17,7 +18,7 @@ export default function SACatalogo() {
   }, [tests])
 
   if (error) return <div className="sa-err">{error}</div>
-  if (!tests) return <div className="sa-card sa-panel">Cargando…</div>
+  if (!tests) return <div className="sa-card sa-panel"><Loader /></div>
 
   const lista = cat === 'todos' ? tests : tests.filter((t) => t.categoria === cat)
 

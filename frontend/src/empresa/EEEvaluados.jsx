@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import Icon from '../superadmin/Icons.jsx'
+import Loader from '../components/Loader.jsx'
 
 const ESTADOS = {
   completado: { cls: 'comp', txt: 'Completado' },
@@ -75,7 +76,7 @@ export default function EEEvaluados() {
 
       <div className="sa-card sa-panel">
         {!evs ? (
-          <div className="sa-empty">Cargando…</div>
+          <div className="sa-empty"><Loader /></div>
         ) : lista.length === 0 ? (
           <div className="sa-empty">{evs.length === 0 ? 'Todavía no hay evaluados. Creá el primero.' : q ? `Sin resultados para “${sp.get('q')}”.` : 'No hay evaluados para este filtro.'}</div>
         ) : (

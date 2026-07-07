@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import Loader from './components/Loader.jsx'
 import Plexus from './Plexus.jsx'
 import TestRunner from './TestRunner.jsx'
 import DominoRunner from './DominoRunner.jsx'
@@ -103,6 +104,9 @@ export default function EvaluadoApp() {
     )
   }
 
+  // Cargando el perfil/pruebas del evaluado: espiral de ONE (evita el flash de colores).
+  if (!me) return <Loader full label="Cargando…" />
+
   // ----- Home: saludo + lista de pruebas -----
   const total = asigs?.length || 0
   const completadas = (asigs || []).filter((a) => a.estado === 'completado').length
@@ -138,7 +142,7 @@ export default function EvaluadoApp() {
         {error && <div className="pe-err">{error}</div>}
 
         {!asigs ? (
-          <div className="card pe-empty">Cargando…</div>
+          <div className="card pe-empty"><Loader /></div>
         ) : asigs.length === 0 ? (
           <div className="card pe-empty">Todavía no tenés pruebas asignadas. Tu empresa te las asignará y las verás acá.</div>
         ) : (

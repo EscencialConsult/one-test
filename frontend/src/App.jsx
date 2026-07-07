@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth, homeFor } from './auth/AuthContext.jsx'
-import Plexus from './Plexus.jsx'
+import Loader from './components/Loader.jsx'
 import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import SuperAdminShell from './superadmin/SuperAdminShell.jsx'
@@ -20,14 +20,7 @@ import EvaluadoApp from './EvaluadoApp.jsx'
 import Responder from './evaluaciones/Responder.jsx'
 
 function Cargando() {
-  return (
-    <div className="app">
-      <Plexus />
-      <div className="wrap" style={{ paddingTop: 100, textAlign: 'center' }}>
-        <div className="card pad" style={{ display: 'inline-block' }}>Cargando…</div>
-      </div>
-    </div>
-  )
+  return <Loader full />
 }
 
 // Ruta protegida por rol. Si no hay sesión → login; si el rol no coincide → su propio panel.
