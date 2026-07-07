@@ -48,7 +48,7 @@ class EvalFormulario(UUIDPkMixin, TimestampMixin, Base):
     nombre: Mapped[str] = mapped_column(String(160), nullable=False)
     descripcion: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     tipo: Mapped[str] = mapped_column(String(20), nullable=False, default=TIPO_360)
-    escala: Mapped[str] = mapped_column(String(10), nullable=False, default=ESCALA_LIKERT)
+    escala: Mapped[str] = mapped_column(String(20), nullable=False, default=ESCALA_LIKERT)
     # True = plantilla reutilizable (las globales del SuperAdmin lo son).
     es_plantilla: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=False, server_default=text("false")
@@ -81,7 +81,7 @@ class EvalCampania(UUIDPkMixin, TimestampMixin, TenantMixin, Base):
 
     nombre: Mapped[str] = mapped_column(String(160), nullable=False)
     tipo: Mapped[str] = mapped_column(String(20), nullable=False)
-    escala: Mapped[str] = mapped_column(String(10), nullable=False, default=ESCALA_LIKERT)
+    escala: Mapped[str] = mapped_column(String(20), nullable=False, default=ESCALA_LIKERT)
     # Snapshot inmutable del formulario al crear la campaña: {competencias:[{id,nombre,preguntas:[{id,texto}]}]}
     estructura: Mapped[dict] = mapped_column(JSON, nullable=False)
     formulario_id: Mapped[Optional[uuid.UUID]] = mapped_column(
