@@ -130,7 +130,7 @@ export default function EvaluadoApp() {
         <div className="card pe-hello">
           <span className="eb">MIS PRUEBAS</span>
           <h1>Hola, {me?.nombre || ''} 👋</h1>
-          <p>Estas son las pruebas que tu empresa te asignó. Elegí una para comenzar; las completadas no se vuelven a rendir. Los resultados los recibe tu empresa.</p>
+          <p>Te damos la bienvenida a tu espacio de evaluación. Desde <b>{emp?.razon_social || 'tu empresa'}</b> te asignamos las siguientes pruebas. Podés comenzarlas en el orden que prefieras; tu progreso se guardará automáticamente al finalizar cada una. Los resultados serán enviados de forma directa y confidencial al equipo de la empresa.</p>
           {total > 0 && (
             <div className="pe-stats">
               <div className="pe-stat"><span className="dotc" style={{ background: 'var(--oro)' }} /><div><div className="n">{pendientes}</div><div className="l">Pendientes</div></div></div>
