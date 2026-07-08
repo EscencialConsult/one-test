@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Plexus from './Plexus.jsx'
 import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
+import { temaEmpresa, MarcaLogo } from './evaluado/marca.jsx'
 
 // Metadatos de presentación por test (el cálculo siempre viene del backend).
 const META = {
@@ -84,6 +85,18 @@ const META = {
       innovacion: 'Innovación', autogestion: 'Autogestión',
     },
   },
+  'baron-eqi': {
+    nombre: 'Bar-On EQ-i',
+    subtitulo: 'Inteligencia Emocional',
+    intro: 'Un cuestionario sobre cómo reconocés, expresás y gestionás tus emociones. No hay respuestas correctas ni incorrectas: respondé según con qué frecuencia te identificás con cada afirmación.',
+    escalaLabel: 'escala 1–5 (Nunca → Siempre)',
+    instrucciones: [
+      'Indicá con qué frecuencia te identificás con cada afirmación (de Nunca a Siempre).',
+      'Respondé con sinceridad; no hay respuestas correctas ni incorrectas.',
+      'Son 133 afirmaciones; no te detengas demasiado en cada una.',
+    ],
+    dimNames: {},
+  },
   eneagrama: {
     nombre: 'Eneagrama Profesional',
     subtitulo: '9 eneatipos',
@@ -110,7 +123,7 @@ const META = {
   },
 }
 
-export default function TestRunner({ slug, onExit, onSubmit }) {
+export default function TestRunner({ slug, empresa, onExit, onSubmit }) {
   const meta = META[slug] || { nombre: slug, subtitulo: '', instrucciones: [], dimNames: {} }
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -186,10 +199,10 @@ export default function TestRunner({ slug, onExit, onSubmit }) {
   }
 
   return (
-    <div className="app">
+    <div className="app" style={temaEmpresa(empresa)}>
       <Plexus />
       <nav className="topnav">
-        <div className="brand"><span className="logo">O<b>NE</b></span></div>
+        <div className="brand"><MarcaLogo emp={empresa} /></div>
         {screen !== 'done' && <button className="btn ghost" onClick={volver}>← Volver</button>}
       </nav>
 

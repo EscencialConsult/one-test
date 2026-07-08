@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import Plexus from './Plexus.jsx'
 import Loader from './components/Loader.jsx'
 import { getPreguntas } from './api.js'
+import { temaEmpresa, MarcaLogo } from './evaluado/marca.jsx'
 
 // Runner de test de CONOCIMIENTO (quiz de opción múltiple). Sin feedback durante el
 // test: la corrección es del lado del servidor y la revisión aparece en el informe.
-export default function ExcelRunner({ slug, onExit, onSubmit }) {
+export default function ExcelRunner({ slug, empresa, onExit, onSubmit }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [screen, setScreen] = useState('intro') // intro | test | done
@@ -52,10 +53,10 @@ export default function ExcelRunner({ slug, onExit, onSubmit }) {
   }
 
   return (
-    <div className="app">
+    <div className="app" style={temaEmpresa(empresa)}>
       <Plexus />
       <nav className="topnav">
-        <div className="brand"><span className="logo">O<b>NE</b></span></div>
+        <div className="brand"><MarcaLogo emp={empresa} /></div>
         {screen !== 'done' && <button className="btn ghost" onClick={volver}>← Volver</button>}
       </nav>
 

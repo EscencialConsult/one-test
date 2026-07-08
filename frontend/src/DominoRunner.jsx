@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Plexus from './Plexus.jsx'
 import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
+import { temaEmpresa, MarcaLogo } from './evaluado/marca.jsx'
 
 // Posición de los puntos (pips) por número, en % dentro de cada mitad de la ficha.
 const PIP_POS = {
@@ -47,7 +48,7 @@ function shuffle(arr) {
 const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 const eqTile = (a, b) => a && b && a[0] === b[0] && a[1] === b[1]
 
-export default function DominoRunner({ slug, onExit, onSubmit }) {
+export default function DominoRunner({ slug, empresa, onExit, onSubmit }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [screen, setScreen] = useState('intro') // intro | practica | test | done
@@ -149,10 +150,10 @@ export default function DominoRunner({ slug, onExit, onSubmit }) {
   }
 
   return (
-    <div className="app">
+    <div className="app" style={temaEmpresa(empresa)}>
       <Plexus />
       <nav className="topnav">
-        <div className="brand"><span className="logo">O<b>NE</b></span></div>
+        <div className="brand"><MarcaLogo emp={empresa} /></div>
         {screen !== 'done' && <button className="btn ghost" onClick={volver}>← Volver</button>}
       </nav>
 

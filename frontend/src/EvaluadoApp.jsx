@@ -99,6 +99,7 @@ export default function EvaluadoApp() {
     return (
       <Runner
         slug={activo}
+        empresa={me?.empresa}
         onExit={() => { setActivo(null); cargar() }}
         onSubmit={(respuestas) => apiEval(`/yo/asignaciones/${activo}/resultado`, { method: 'POST', json: { respuestas } })}
       />

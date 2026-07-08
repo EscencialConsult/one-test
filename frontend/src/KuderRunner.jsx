@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import Plexus from './Plexus.jsx'
 import Loader from './components/Loader.jsx'
 import { getPreguntas, calcular } from './api.js'
+import { temaEmpresa, MarcaLogo } from './evaluado/marca.jsx'
 
 const completa = (a) => a && a.mas != null && a.menos != null && a.mas !== a.menos
 
-export default function KuderRunner({ slug, onExit, onSubmit }) {
+export default function KuderRunner({ slug, empresa, onExit, onSubmit }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [screen, setScreen] = useState('intro') // intro | test | done
@@ -75,10 +76,10 @@ export default function KuderRunner({ slug, onExit, onSubmit }) {
   }
 
   return (
-    <div className="app">
+    <div className="app" style={temaEmpresa(empresa)}>
       <Plexus />
       <nav className="topnav">
-        <div className="brand"><span className="logo">O<b>NE</b></span></div>
+        <div className="brand"><MarcaLogo emp={empresa} /></div>
         {screen !== 'done' && <button className="btn ghost" onClick={volver}>← Volver</button>}
       </nav>
 

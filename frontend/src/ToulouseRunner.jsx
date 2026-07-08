@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Plexus from './Plexus.jsx'
+import { temaEmpresa, MarcaLogo } from './evaluado/marca.jsx'
 
 // Test de cancelación de Toulouse-Piéron. Grilla de 1600 símbolos (8 tipos); el
 // evaluado marca los que coinciden con 2 símbolos de referencia, contra reloj.
@@ -32,7 +33,7 @@ function mmss(s) {
   return `${m}:${String(r).padStart(2, '0')}`
 }
 
-export default function ToulouseRunner({ onExit, onSubmit }) {
+export default function ToulouseRunner({ empresa, onExit, onSubmit }) {
   const [screen, setScreen] = useState('intro') // intro | test | done
   const [count, setCount] = useState(0)
   const [left, setLeft] = useState(TIEMPO_SEG)
@@ -102,10 +103,10 @@ export default function ToulouseRunner({ onExit, onSubmit }) {
   )), [grid])
 
   return (
-    <div className="app">
+    <div className="app" style={temaEmpresa(empresa)}>
       <Plexus />
       <nav className="topnav">
-        <div className="brand"><span className="logo">O<b>NE</b></span></div>
+        <div className="brand"><MarcaLogo emp={empresa} /></div>
         {screen !== 'done' && <button className="btn ghost" onClick={volver}>← Volver</button>}
       </nav>
 

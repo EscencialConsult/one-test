@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import Plexus from './Plexus.jsx'
 import Loader from './components/Loader.jsx'
 import { getPreguntas } from './api.js'
+import { temaEmpresa, MarcaLogo } from './evaluado/marca.jsx'
 
 // Runner del WAIS-IV (screening de opción múltiple, 2 partes). Sin feedback durante:
 // la corrección es del lado del servidor y el informe aparece después.
 
-export default function WaisRunner({ slug, onExit, onSubmit }) {
+export default function WaisRunner({ slug, empresa, onExit, onSubmit }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [screen, setScreen] = useState('intro') // intro | test | done
@@ -67,10 +68,10 @@ export default function WaisRunner({ slug, onExit, onSubmit }) {
   }
 
   return (
-    <div className="app">
+    <div className="app" style={temaEmpresa(empresa)}>
       <Plexus />
       <nav className="topnav">
-        <div className="brand"><span className="logo">O<b>NE</b></span></div>
+        <div className="brand"><MarcaLogo emp={empresa} /></div>
         {screen !== 'done' && <button className="btn ghost" onClick={volver}>← Volver</button>}
       </nav>
 
