@@ -267,4 +267,4 @@ svg .lab{fill:var(--tinta);font-size:12px;font-weight:700}
 .tp-cell svg{width:82%;height:82%}
 .tp-cell:hover{background:#eef0f6}
 .tp-cell.on{background:var(--violeta);color:#fff}
-@media(max-width:560px){.tp-bar{top:56px}.tp-cell{min-width:18px}}
+@media(max-width:560px){.tp-bar{top:56px}.tp-grid{min-width:0}.tp-cell{min-width:0}}

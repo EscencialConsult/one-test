@@ -41,6 +41,14 @@ export default function ToulouseRunner({ empresa, onExit, onSubmit }) {
   const [error, setError] = useState(null)
   const marcadosRef = useRef(new Set())
   const gridWrapRef = useRef(null)
+  // Columnas responsivas: en el celular usamos menos columnas para que las celdas sean
+  // más grandes y fáciles de tocar. El scoring va por índice, así que no lo afecta.
+  const [cols, setCols] = useState(() => (typeof window !== 'undefined' && window.innerWidth <= 560 ? 16 : COLS))
+  useEffect(() => {
+    const onR = () => setCols(window.innerWidth <= 560 ? 16 : COLS)
+    window.addEventListener('resize', onR)
+    return () => window.removeEventListener('resize', onR)
+  }, [])
 
   // Grilla y objetivos: se generan una sola vez al montar (no cambian durante el test).
   const { grid, objetivos } = useMemo(() => {
@@ -149,7 +157,7 @@ export default function ToulouseRunner({ empresa, onExit, onSubmit }) {
               </div>
             </div>
             <div className="tp-scroll">
-              <div className="tp-grid" ref={gridWrapRef} onClick={onGridClick} style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)` }}>
+              <div className="tp-grid" ref={gridWrapRef} onClick={onGridClick} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
                 {celdas}
               </div>
             </div>
