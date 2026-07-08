@@ -10,7 +10,7 @@ export function temaEmpresa(emp) {
 
 export function MarcaLogo({ emp }) {
   if (emp?.logo_url) {
-    return <img src={emp.logo_url} alt={emp.razon_social || ''} style={{ height: 40, maxWidth: 170, objectFit: 'contain', display: 'block' }} />
+    return <img src={emp.logo_url} alt={emp.razon_social || ''} style={{ height: 54, maxWidth: 210, objectFit: 'contain', display: 'block' }} />
   }
   return <span className="logo">O<b>NE</b></span>
 }
