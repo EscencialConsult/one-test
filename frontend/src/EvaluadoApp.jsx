@@ -221,7 +221,7 @@ function LoginEvaluado({ onLogged, brand }) {
           {brand ? (
             <span className="login-brand">
               {brand.logo_url
-                ? <img className="one-logo" src={brand.logo_url} alt={brand.razon_social} style={{ height: 42, maxWidth: 220 }} />
+                ? <img className="one-logo" src={brand.logo_url} alt={brand.razon_social} style={{ height: 60, maxWidth: 240, objectFit: 'contain' }} />
                 : <span className="one-sub" style={{ fontSize: 20, fontWeight: 800 }}>{brand.razon_social}</span>}
             </span>
           ) : (
