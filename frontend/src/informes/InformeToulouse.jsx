@@ -2,6 +2,8 @@
 // aciertos/errores/omisiones REALES (comparación marca vs objetivo), niveles, perfil
 // y distribución por segmentos. Sin IA.
 
+import FichaTest from './FichaTest.jsx'
+
 function Lista({ v }) {
   if (!Array.isArray(v)) return v ? <p className="inf-tx">{v}</p> : null
   return <ul className="inf-nolist">{v.map((x, i) => <li key={i}><span style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> {x}</li>)}</ul>
@@ -59,6 +61,8 @@ export default function InformeToulouse({ data }) {
           <div><div className="k">Perfil</div><div className="v">{perfil.nombre || d.nivelAtencion?.nivel || '—'}</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* MÉTRICAS PRINCIPALES */}
       <div className="inf-sheet"><div className="inf-pad">
@@ -123,22 +127,6 @@ export default function InformeToulouse({ data }) {
           </div>
         </div></div>
       )}
-
-      {/* SOBRE EL TEST */}
-      <div className="inf-sheet"><div className="inf-pad">
-        <span className="inf-eyebrow">Ficha técnica</span>
-        <h2 className="inf-sec">Sobre el Test de Toulouse-Piéron</h2>
-        <p className="inf-tx">Prueba psicométrica y perceptiva diseñada para evaluar la <b>atención sostenida</b>, la <b>concentración</b> y la <b>rapidez de procesamiento visual</b>. Presenta una matriz de <b>1.600 cuadrados</b> de distintos tipos; al inicio se indican dos cuadrados de referencia y la tarea es marcar, en <b>10 minutos</b>, todos los cuadrados idénticos a los de referencia, discriminándolos de los distractores. Es una prueba de alta exigencia en precisión.</p>
-        <h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '12px 0 6px' }}>Cómo se interpreta</h3>
-        <p className="inf-tx" style={{ margin: '0 0 6px' }}>A partir de las <b>puntuaciones directas</b> —Total Procesado, desglosado en <b>Aciertos</b>, <b>Errores</b> (marcas que no eran de referencia) y <b>Omisiones</b> (referencias pasadas por alto)— se obtienen tres baremos:</p>
-        <ul className="inf-nolist">
-          <li><span style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> <b>Atención</b> (según aciertos): de Muy Bajo a Muy Alto.</li>
-          <li><span style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> <b>Precisión</b> (según errores): de Muy Baja a Excelente.</li>
-          <li><span style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> <b>Velocidad</b> (según total procesado): de Muy Lento a Muy Rápido.</li>
-        </ul>
-        <p className="inf-tx" style={{ marginTop: 8 }}>El cruce de estos tres baremos define el <b>perfil de desempeño</b>: Atento y Preciso, Lento y Preciso, Intermedio, Rápido e Impulsivo o Disperso.</p>
-        <div className="ee-note" style={{ marginTop: 10 }}><b>Qué NO es:</b> no es un test de inteligencia general ni mide el coeficiente intelectual (CI); sólo evalúa la concentración visual focalizada frente a estímulos repetitivos. Un perfil <b>Disperso</b> o con <b>dificultades severas de atención</b> <b>no</b> constituye un diagnóstico (por ejemplo, TDAH): ante resultados atípicos se requiere una <b>evaluación neuropsicológica complementaria</b>.</div>
-      </div></div>
 
       <div className="inf-sheet inf-foot"><b>ONE Core Analytics</b><br />Cálculo determinista por comparación real de marcas contra los objetivos. Informe confidencial.</div>
     </div>

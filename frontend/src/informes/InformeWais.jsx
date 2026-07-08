@@ -2,6 +2,8 @@
 // cognitivos con interpretación. Datos deterministas del motor (sin IA).
 // NOTA: es una estimación orientativa, NO sustituye una evaluación clínica.
 
+import FichaTest from './FichaTest.jsx'
+
 export default function InformeWais({ data }) {
   const d = data.datos || {}
   const ev = data.evaluado
@@ -28,6 +30,8 @@ export default function InformeWais({ data }) {
           <div><div className="k">CI estimado</div><div className="v">{d.ciTotal}</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* CI TOTAL */}
       <div className="inf-sheet"><div className="inf-pad" style={{ textAlign: 'center' }}>

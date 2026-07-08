@@ -1,6 +1,8 @@
 // Informe Eneagrama (90 ítems). Datos deterministas del motor: tipo base + alas +
 // flechas (integración/desintegración) + interpretación rica por eneatipo. Sin IA.
 
+import FichaTest from './FichaTest.jsx'
+
 function Lista({ v }) {
   if (!Array.isArray(v) || v.length === 0) return null
   return <ul className="inf-nolist">{v.map((x, i) => <li key={i}><span className="ok" style={{ color: 'var(--violeta)', fontWeight: 800, flex: 'none' }}>›</span> {x}</li>)}</ul>
@@ -43,6 +45,8 @@ export default function InformeEneagrama({ data }) {
           <div><div className="k">Tipo base</div><div className="v">{d.base} · {p.nombre || d.base_nombre}</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* NOTACIÓN + SÍNTESIS */}
       <div className="inf-sheet inf-divider">

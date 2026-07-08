@@ -2,6 +2,8 @@
 // CE Total + 5 escalas compuestas (con interpretación y características por nivel) +
 // 15 subescalas + fortalezas / áreas de oportunidad. Sin IA.
 
+import FichaTest from './FichaTest.jsx'
+
 function kind(nivel) {
   const n = (nivel || '').toUpperCase().replace(/_/g, ' ')
   if (n.includes('ALTO') || n.includes('ALTA')) return 'alto'
@@ -45,6 +47,8 @@ export default function InformeBaronEQi({ data }) {
           <div><div className="k">Cociente Emocional</div><div className="v" style={{ color: COLOR[ceK] }}>{fmtNivel(ce.nivel)}</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* CE TOTAL */}
       <div className="inf-sheet"><div className="inf-pad">
@@ -149,15 +153,6 @@ export default function InformeBaronEQi({ data }) {
           </ul>
         </div></div>
       )}
-
-      {/* SOBRE EL TEST */}
-      <div className="inf-sheet"><div className="inf-pad">
-        <span className="inf-eyebrow">Ficha técnica</span>
-        <h2 className="inf-sec">Sobre el Test Bar-On EQ-i</h2>
-        <p className="inf-tx">El <b>Bar-On Emotional Quotient Inventory (EQ-i)</b> es uno de los instrumentos de evaluación de la inteligencia emocional y social más reconocidos y validados científicamente a nivel mundial, desarrollado por el Dr. Reuven Bar-On. Consta de <b>133 ítems</b> (escala Likert de 5 puntos) organizados en <b>15 subescalas</b> agrupadas en <b>5 componentes</b>: intrapersonal, interpersonal, adaptabilidad, manejo del estrés y estado de ánimo general.</p>
-        <p className="inf-tx">El modelo define la inteligencia emocional como un conjunto de capacidades, competencias y habilidades no cognitivas que influyen en la capacidad de una persona para afrontar las demandas y presiones del entorno.</p>
-        <div className="ee-note" style={{ marginTop: 10 }}><b>Qué NO es:</b> no mide coeficiente intelectual (IQ) ni habilidades cognitivas; no emite diagnósticos inmutables (refleja el momento actual y puede variar por factores contextuales); no debe interpretarse de forma aislada — conviene complementarlo con la orientación de un profesional de la psicología.</div>
-      </div></div>
 
       <div className="inf-sheet inf-foot"><b>ONE Core Analytics</b><br />Resultado determinista del cuestionario. Evaluación estandarizada, parte de un proceso más amplio. Informe confidencial.</div>
     </div>

@@ -1,6 +1,8 @@
 // Informe DISC Profesional (Método Cleaver). Datos deterministas del motor: perfil
 // D/I/S/C, patrón, natural vs bajo presión, detalle. Sin IA.
 
+import FichaTest from './FichaTest.jsx'
+
 const DIM = {
   D: { nombre: 'Dominancia', color: '#ef4444' },
   I: { nombre: 'Influencia', color: '#f59e0b' },
@@ -56,6 +58,8 @@ export default function InformeDisc({ data }) {
           <div><div className="k">Perfil</div><div className="v">{d.profileLabel}</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* QUÉ ES / QUÉ NO ES */}
       <div className="inf-sheet"><div className="inf-pad">

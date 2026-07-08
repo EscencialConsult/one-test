@@ -1,5 +1,7 @@
 // Informe de test de conocimiento (Excel). Puntaje %, desglose por categoría y
 // revisión ítem por ítem. Los datos vienen ya calculados del servidor (sin IA).
+import FichaTest from './FichaTest.jsx'
+
 const BANDA = {
   excelente: { color: '#0f9d6b', bg: 'rgba(16,185,129,.12)', txt: 'Excelente' },
   muy_bien: { color: '#0f9d6b', bg: 'rgba(16,185,129,.12)', txt: 'Muy bien' },
@@ -34,6 +36,8 @@ export default function InformeExcel({ data }) {
           <div><div className="k">Resultado</div><div className="v">{d.correctos}/{d.total} · {d.porcentaje}%</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* PUNTAJE */}
       <div className="inf-sheet"><div className="inf-pad" style={{ textAlign: 'center' }}>

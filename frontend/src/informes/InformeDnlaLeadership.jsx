@@ -1,6 +1,8 @@
 // Informe DNLA — Liderazgo y Mandos Medios. 8 competencias con nivel + descripción,
 // perfil global y síntesis de fortalezas/áreas a desarrollar. Datos deterministas.
 
+import FichaTest from './FichaTest.jsx'
+
 function colorScore(p) {
   const n = parseFloat(p) || 0
   if (n >= 3.5) return '#0f9d6b'
@@ -40,6 +42,8 @@ export default function InformeDnlaLeadership({ data }) {
           <div><div className="k">Puntuación global</div><div className="v">{g.puntuacion} / 5</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* PERFIL GLOBAL */}
       <div className="inf-sheet"><div className="inf-pad" style={{ textAlign: 'center' }}>

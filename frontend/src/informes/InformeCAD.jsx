@@ -9,6 +9,8 @@ const ALFAS = [
 ]
 const num = (x) => Number(x || 0).toFixed(2)
 
+import FichaTest from './FichaTest.jsx'
+
 export default function InformeCAD({ data }) {
   const d = data.datos || {}
   const ev = data.evaluado
@@ -37,6 +39,8 @@ export default function InformeCAD({ data }) {
           <div><div className="k">Ítems</div><div className="v">31 · escala 0–4</div></div>
         </div>
       </div>
+
+      <FichaTest slug={data.test_slug} />
 
       {/* DESCRIPCIÓN */}
       <div className="inf-sheet"><div className="inf-pad">
@@ -80,17 +84,6 @@ export default function InformeCAD({ data }) {
             <ul className="inf-nolist">{bottom.map((t) => <li key={t.key}><span className="ok" style={{ color: 'var(--muted)', fontWeight: 800, flex: 'none' }}>›</span> {t.key} — <b>{num(t.avg)}</b>/4</li>)}</ul>
             <p className="inf-tx" style={{ fontSize: 12.5, marginTop: 6 }}>No implica “déficit”: puede indicar menor preferencia, menor utilidad percibida o menor entrenamiento en esa respuesta.</p>
           </div>
-        </div>
-      </div></div>
-
-      {/* SOBRE EL CAD */}
-      <div className="inf-sheet"><div className="inf-pad">
-        <span className="inf-eyebrow">Ficha técnica</span>
-        <h2 className="inf-sec">Sobre el CAD</h2>
-        <p className="inf-tx">Cuestionario autoadministrado creado en España (Soriano y Monsalve) para evaluar estrategias de afrontamiento del dolor crónico. Consta de 31 ítems y explora seis estrategias: religión, catarsis, distracción, autocontrol mental, autoafirmación y búsqueda de información.</p>
-        <h3 style={{ fontSize: 14, color: 'var(--violeta)', margin: '12px 0 6px' }}>Fiabilidad (alfa de Cronbach)</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px 24px' }}>
-          {ALFAS.map(([k, a]) => <div key={k} className="inf-tx" style={{ margin: 0, fontSize: 13 }}>{k}: <b>{a}</b></div>)}
         </div>
       </div></div>
 
