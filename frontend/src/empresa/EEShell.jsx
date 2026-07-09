@@ -16,6 +16,12 @@ const NAV = [
   { to: '/empresa/config', end: false, icon: 'cog', label: 'Configuración' },
 ]
 
+// Marca de la empresa cacheada en el navegador (se limpia al cerrar sesión, ver AuthContext).
+export const MARCA_KEY = 'one_ee_brand'
+function leerMarcaCache() {
+  try { const c = localStorage.getItem(MARCA_KEY); return c ? JSON.parse(c) : null } catch { return null }
+}
+
 function tituloDe(path) {
   if (path.startsWith('/empresa/evaluados')) return 'Evaluados'
   if (path.startsWith('/empresa/e360')) return 'Evaluaciones'
@@ -31,14 +37,34 @@ export default function EEShell() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const [sp] = useSearchParams()
-  const [empresa, setEmpresa] = useState(null)
-  const [cargandoEmpresa, setCargandoEmpresa] = useState(true)
+  // Marca cacheada: al recargar se pinta al instante desde localStorage y NO se pierde
+  // aunque la API tarde o falle (p. ej. cold start de Render). Antes, un fallo dejaba la
+  // empresa en null y el panel volvía a los colores de ONE.
+  const [empresa, setEmpresa] = useState(leerMarcaCache)
+  const [cargandoEmpresa, setCargandoEmpresa] = useState(() => !leerMarcaCache())
   const [bell, setBell] = useState(false)
   const [notis, setNotis] = useState({ no_leidas: 0, items: [] })
   const [navOpen, setNavOpen] = useState(false)
   const bellRef = useRef(null)
 
-  useEffect(() => { api('/empresa/me').then(setEmpresa).catch(() => {}).finally(() => setCargandoEmpresa(false)) }, [])
+  useEffect(() => {
+    let vivo = true
+    const cargar = async (intentos) => {
+      try {
+        const e = await api('/empresa/me')
+        if (!vivo) return
+        setEmpresa(e)
+        try { localStorage.setItem(MARCA_KEY, JSON.stringify(e)) } catch { /* sin cuota */ }
+        setCargandoEmpresa(false)
+      } catch {
+        if (!vivo) return
+        if (intentos > 0) setTimeout(() => cargar(intentos - 1), 1500) // reintenta (cold start)
+        else setCargandoEmpresa(false) // sin respuesta: conserva la marca cacheada si la hay
+      }
+    }
+    cargar(3)
+    return () => { vivo = false }
+  }, [])
   useEffect(() => { setNavOpen(false) }, [pathname]) // cerrar menú móvil al navegar
 
   async function cargarNotis() {

@@ -33,6 +33,7 @@ export function AuthProvider({ children }) {
       .catch(() => {
         if (!vivo) return
         localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem('one_ee_brand')
         setToken(null)
         setUser(null)
       })
@@ -61,6 +62,7 @@ export function AuthProvider({ children }) {
 
   function logout() {
     localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem('one_ee_brand') // marca de empresa cacheada (ver EEShell)
     setToken(null)
     setUser(null)
   }

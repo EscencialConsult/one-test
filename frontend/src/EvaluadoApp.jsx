@@ -24,7 +24,11 @@ async function apiEval(path, opts = {}) {
   const res = await fetch(`/api${path}`, { ...opts, headers, body })
   if (res.status === 204) return null
   const data = await res.json().catch(() => null)
-  if (!res.ok) throw new Error((data && data.detail) || 'Error en la solicitud')
+  if (!res.ok) {
+    const err = new Error((data && data.detail) || 'Error en la solicitud')
+    err.status = res.status // para distinguir 401 (sesión inválida) de fallos transitorios
+    throw err
+  }
   return data
 }
 
@@ -48,6 +52,12 @@ function runnerFor(slug) {
   return TestRunner
 }
 
+// Marca cacheada por subdominio (para pintar el login del evaluado sin esperar a la API).
+function leerMarcaCache(sub) {
+  if (!sub) return null
+  try { const c = localStorage.getItem(`one_ev_marca:${sub}`); return c ? JSON.parse(c) : null } catch { return null }
+}
+
 const DOT = { psicometrico: 'var(--rosa)', psicotecnico: 'var(--cian)', vocacional: 'var(--oro)', clinico: 'var(--violeta)' }
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s)
 const sigla = (n) => (n || '?').split(/\s+/).slice(0, 2).map((p) => p[0]).join('').toUpperCase()
@@ -59,27 +69,34 @@ export default function EvaluadoApp() {
   const [asigs, setAsigs] = useState(null)
   const [error, setError] = useState(null)
   const [activo, setActivo] = useState(null) // slug del test en curso
-  const [brand, setBrand] = useState(null)
+  const [brand, setBrand] = useState(() => leerMarcaCache(sub))
 
-  // Si se entró por /acceso/:sub/evaluado, traemos la marca para el login.
+  // Si se entró por /acceso/:sub/evaluado, traemos la marca para el login. La cacheamos por
+  // subdominio y la hidratamos al instante, así en un cold start no se ve la marca de ONE.
   useEffect(() => {
     if (!sub) { setBrand(null); return }
+    setBrand(leerMarcaCache(sub))
     let vivo = true
     fetch(`/api/publico/marca/${encodeURIComponent(sub)}`)
       .then((r) => (r.ok ? r.json() : null))
-      .then((b) => { if (vivo) setBrand(b) })
+      .then((b) => { if (vivo && b) { setBrand(b); try { localStorage.setItem(`one_ev_marca:${sub}`, JSON.stringify(b)) } catch { /* sin cuota */ } } })
       .catch(() => {})
     return () => { vivo = false }
   }, [sub])
 
-  async function cargar() {
+  async function cargar(intentos = 3) {
     setError(null)
     try {
       const [m, a] = await Promise.all([apiEval('/yo/me'), apiEval('/yo/asignaciones')])
       setMe(m); setAsigs(a)
+      if (m?.empresa) { try { localStorage.setItem(`one_ev_marca:${m.empresa.subdominio || ''}`, JSON.stringify(m.empresa)) } catch { /* sin cuota */ } }
     } catch (e) {
-      localStorage.removeItem(EVAL_KEY)
-      setToken(null); setMe(null)
+      // Solo cerramos sesión si el token es inválido (401). Ante un fallo transitorio
+      // (cold start de Render, red), reintentamos y conservamos la sesión: así al recargar
+      // no se pierde la marca ni se lo expulsa al login.
+      if (e.status === 401) { localStorage.removeItem(EVAL_KEY); setToken(null); setMe(null) }
+      else if (intentos > 0) { setTimeout(() => cargar(intentos - 1), 1500) }
+      else setError('No pudimos cargar tus pruebas. Revisá tu conexión y reintentá.')
     }
   }
 
