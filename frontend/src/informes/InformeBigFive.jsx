@@ -174,8 +174,8 @@ export default function InformeBigFive({ data }) {
             <div className="bf-dscore"><i style={{ width: w(x.puntuacion, 50) }} /></div>
             <p className="bf-desc">{x.descripcion}</p>
             <div className="bf-two">
-              <div className="bf-two fort"><h4>Fortalezas</h4><ul>{(x.fortalezas || []).map((f, i) => <li key={i}>{f}</li>)}</ul></div>
-              <div className="bf-two area"><h4>Áreas de atención</h4><ul>{(x.areas || []).map((a, i) => <li key={i}>{a}</li>)}</ul></div>
+              <div className="fort"><h4>Fortalezas</h4><ul>{(x.fortalezas || []).map((f, i) => <li key={i}>{f}</li>)}</ul></div>
+              <div className="area"><h4>Áreas de atención</h4><ul>{(x.areas || []).map((a, i) => <li key={i}>{a}</li>)}</ul></div>
             </div>
             {x.profesional && <div className="bf-prof"><b>Implicaciones profesionales:</b> {x.profesional}</div>}
           </div>
