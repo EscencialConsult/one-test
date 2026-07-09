@@ -12,7 +12,7 @@ export function homeFor(user) {
 
 async function fetchMe(token) {
   const res = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
-  if (!res.ok) throw new Error('sesión inválida')
+  if (!res.ok) { const e = new Error('sesión inválida'); e.status = res.status; throw e }
   return res.json()
 }
 
@@ -28,16 +28,27 @@ export function AuthProvider({ children }) {
       return
     }
     let vivo = true
-    fetchMe(token)
-      .then((u) => { if (vivo) setUser(u) })
-      .catch(() => {
-        if (!vivo) return
-        localStorage.removeItem(TOKEN_KEY)
-        localStorage.removeItem('one_ee_brand')
-        setToken(null)
-        setUser(null)
-      })
-      .finally(() => { if (vivo) setLoading(false) })
+    setLoading(true)
+    // Validamos la sesión con reintentos: solo cerramos sesión ante un 401/403 real (token
+    // inválido). Un fallo transitorio (cold start de Render, red) NO debe expulsar al login;
+    // se mantiene el spinner y se reintenta. Antes, cualquier fallo borraba el token.
+    const intentar = (quedan) => {
+      fetchMe(token)
+        .then((u) => { if (vivo) { setUser(u); setLoading(false) } })
+        .catch((e) => {
+          if (!vivo) return
+          if (e.status === 401 || e.status === 403) {
+            localStorage.removeItem(TOKEN_KEY)
+            localStorage.removeItem('one_ee_brand')
+            setToken(null); setUser(null); setLoading(false)
+          } else if (quedan > 0) {
+            setTimeout(() => intentar(quedan - 1), 3000) // reintenta (server despertando)
+          } else {
+            setLoading(false) // el server no respondió en ~1 min: recién ahí soltamos
+          }
+        })
+    }
+    intentar(20)
     return () => { vivo = false }
   }, [token])
 
