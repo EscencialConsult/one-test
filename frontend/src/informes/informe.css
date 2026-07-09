@@ -222,4 +222,7 @@
   .inf-doc svg { break-inside: avoid; page-break-inside: avoid; }
   /* Forzar impresión de fondos/colores (gradientes de portada, barras, badges, gráficos). */
   .inf-body, .inf-doc, .inf-doc * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* Texto nítido al imprimir: render de glifos preciso (evita que Segoe UI engorde los
+     trazos finos de i/l) y sin negrita sintética (las negritas reales de <b>/títulos siguen). */
+  .inf-doc, .inf-doc * { text-rendering: geometricPrecision; font-synthesis: none; -webkit-font-smoothing: antialiased; }
 }
