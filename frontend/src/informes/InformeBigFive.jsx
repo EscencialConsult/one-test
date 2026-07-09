@@ -1,9 +1,6 @@
 // Informe Big Five (IPIP-50) — data-driven, replicando la maqueta aprobada.
 // Parte I: educativa (estática). Parte II: perfil real desde Resultado.datos.
-import {
-  Cell, Legend, Pie, PieChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis,
-  Radar, RadarChart, ResponsiveContainer, Tooltip,
-} from 'recharts'
+import { RadarSVG, DonutSVG } from './charts.jsx'
 
 const iniciales = (ev) => ((ev?.nombre?.[0] || '') + (ev?.apellido?.[0] || '')).toUpperCase() || 'EV'
 const w = (n, max) => `${Math.max(0, Math.min(100, (n / max) * 100))}%`
@@ -38,7 +35,7 @@ export default function InformeBigFive({ data }) {
 
   // Datos para el panorama (dashboard) con los colores de la empresa.
   const acento = marca?.color_acento || '#4d248f'
-  const radarData = dims.map((x) => ({ dim: x.nombre, percentil: x.percentil }))
+  const radarData = dims.map((x) => ({ label: x.nombre, value: x.percentil }))
   const nivelDe = (p) => (p >= 50 ? 'Alto' : p >= 40 ? 'Medio' : 'Bajo')
   const NIVCOL = { Alto: '#16a34a', Medio: '#d97706', Bajo: '#dc2626' }
   const nivCount = { Alto: 0, Medio: 0, Bajo: 0 }
@@ -154,29 +151,14 @@ export default function InformeBigFive({ data }) {
           <Kpi label="A desarrollar" valor={String(nBajas)} sub="percentil < 40" color="#d97706" />
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18, alignItems: 'start' }}>
           <div style={chartBox}>
             <h4 style={chartTitle}>Perfil por dimensión (percentil 0–100)</h4>
-            <ResponsiveContainer width="100%" height={260}>
-              <RadarChart data={radarData} outerRadius="70%">
-                <PolarGrid stroke="#e6e7ee" />
-                <PolarAngleAxis dataKey="dim" tick={{ fontSize: 10.5, fill: '#6b6b76' }} />
-                <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 9, fill: '#a4a8c0' }} />
-                <Radar name={nombreEv} dataKey="percentil" stroke={acento} fill={acento} fillOpacity={0.28} isAnimationActive={false} />
-                <Tooltip />
-              </RadarChart>
-            </ResponsiveContainer>
+            <RadarSVG data={radarData} color={acento} />
           </div>
           <div style={chartBox}>
             <h4 style={chartTitle}>Dimensiones por nivel</h4>
-            <ResponsiveContainer width="100%" height={260}>
-              <PieChart>
-                <Pie data={nivelData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={54} outerRadius={88} paddingAngle={2} isAnimationActive={false} label={(e) => `${e.name}: ${e.value}`}>
-                  {nivelData.map((x) => <Cell key={x.name} fill={x.color} />)}
-                </Pie>
-                <Tooltip /><Legend />
-              </PieChart>
-            </ResponsiveContainer>
+            <DonutSVG data={nivelData} />
           </div>
         </div>
         <p className="inf-tx" style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>El <b>percentil</b> compara a {nombreEv} con la población de referencia (50 = promedio). La dona resume cuántas de las 5 dimensiones caen en cada nivel.</p>
