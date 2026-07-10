@@ -208,29 +208,14 @@
 /* Ancho fijo y anclado a la izquierda mientras se genera el PDF (evita el recorte). */
 .inf-doc.pdf-cap { width: 800px; max-width: 800px; margin: 0; }
 
-@page { size: A4; margin: 13mm; }
+@page { margin: 12mm; }
 @media print {
   .inf-body { background: #fff; padding: 0; }
-  .inf-toolbar { display: none !important; }
-  .inf-doc { margin: 0; max-width: 100%; gap: 0; }
-  /* DOCUMENTO CONTINUO: sin tarjetas flotantes. Se quitan bordes/sombras/redondeos y las
-     secciones fluyen para llenar la página (antes cada tarjeta saltaba entera a la hoja
-     siguiente y dejaba huecos grandes). */
-  .inf-sheet { box-shadow: none; border: 0; border-radius: 0; background: transparent; break-inside: auto; }
-  .inf-pad { padding: 2px 2px 16px; }
-  /* Los encabezados de sección no quedan huérfanos al pie de la página. */
-  .inf-eyebrow, .inf-sec { break-after: avoid; }
-  .inf-sec { break-inside: avoid; }
-  /* Banners (portada, PARTE I/II) a todo el ancho, redondeados y sin cortarse. */
-  .inf-cover, .inf-divider { break-inside: avoid; border-radius: 14px; }
-  .inf-divider { margin: 4px 0; }
-  .inf-who { border-radius: 0 0 12px 12px; }
-  /* Bloques atómicos que no deben partirse a mitad de página. */
-  .bf-dim, .bf-bar, .inf-callout, .inf-two > *, .inf-table tr, .inf-resultrow, .bf-phead,
-  .inf-nolist li, .inf-doc svg { break-inside: avoid; }
-  /* Fuente limpia SOLO para el PDF: Segoe UI engordaba los trazos finos (i, l) al rasterizar.
-     Arial se dibuja parejo. Sin negrita sintética (las negritas reales de <b>/títulos siguen). */
-  .inf-doc, .inf-doc * { font-family: Arial, Helvetica, sans-serif !important; font-synthesis: none; }
-  /* Forzar impresión de fondos/colores (gradientes de portada, barras, badges, gráficos). */
+  .inf-toolbar { display: none; }
+  .inf-doc { margin: 0 auto; max-width: 100%; gap: 14px; }
+  /* Cada tarjeta fluye en la página (varias por hoja si entran) y no se parte al medio. */
+  .inf-sheet { box-shadow: none; border: 1px solid #e3e5ee; break-inside: avoid; }
+  .inf-cover, .inf-divider, .bf-bar, .inf-two > *, .inf-table tr, .inf-resultrow { break-inside: avoid; }
+  /* Forzar impresión de fondos/colores (gradientes de portada, barras, badges). */
   .inf-body, .inf-doc, .inf-doc * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { api } from '../lib/api.js'
 import ErrorBoundary from '../components/ErrorBoundary.jsx'
@@ -54,6 +54,8 @@ export default function InformeView() {
   const navigate = useNavigate()
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
+  const [bajando, setBajando] = useState(false)
+  const bodyRef = useRef(null)
 
   useEffect(() => {
     api(`/resultados/${resultadoId}`).then(setData).catch((e) => setError(e.message))
@@ -61,19 +63,53 @@ export default function InformeView() {
 
   const Informe = data ? INFORMES[data.test_slug] : null
 
-  // PDF por impresión NATIVA del navegador (→ "Guardar como PDF"). A diferencia de
-  // html2canvas (que capturaba todo como una imagen gigante), el motor real del navegador
-  // rinde los gráficos SVG perfecto, pagina bien y no deja páginas en blanco.
-  function descargarPDF() {
-    document.title = nombreArchivo(data).replace(/\.pdf$/, '') // sugiere el nombre de archivo
-    window.print()
+  async function descargarPDF() {
+    const src = bodyRef.current?.querySelector('.inf-doc')
+    if (!src || bajando) return
+    setBajando(true)
+    // Se clona el informe en un contenedor de ancho fijo FUERA de pantalla: la captura
+    // no depende del ancho de la ventana, así queda centrado y sin recortes.
+    const ANCHO = 760
+    const wrap = document.createElement('div')
+    // Visible en la esquina superior por el instante que dura la captura (html2canvas no
+    // renderiza bien elementos fuera de pantalla). Tapa la vista ~1s mientras genera.
+    wrap.style.cssText = `position:fixed; left:0; top:0; width:${ANCHO}px; z-index:99999; background:#ffffff;`
+    const clone = src.cloneNode(true)
+    clone.classList.remove('pdf-cap')
+    clone.style.width = ANCHO + 'px'
+    clone.style.maxWidth = ANCHO + 'px'
+    clone.style.margin = '0'
+    clone.style.boxSizing = 'border-box'
+    clone.style.padding = '6px 46px' // aire blanco simétrico: absorbe el desborde y evita recortes
+    wrap.appendChild(clone)
+    document.body.appendChild(wrap)
+    try {
+      // Bundle pre-armado (incluye html2canvas + jsPDF); evita resolver canvg/core-js.
+      const mod = await import('html2pdf.js/dist/html2pdf.bundle.min.js')
+      const html2pdf = window.html2pdf || mod.default || mod
+      if (typeof html2pdf !== 'function') throw new Error('html2pdf no disponible')
+      await html2pdf().set({
+        margin: [12, 12, 14, 12],
+        filename: nombreArchivo(data),
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        // Cada sección/tarjeta se mantiene entera en una página (no se parte al medio).
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.inf-sheet', '.inf-two', '.inf-cover', '.bf-bar', 'tr', '.inf-resultrow'] },
+      }).from(clone).save()
+    } catch (e) {
+      window.alert('No se pudo generar el PDF. Probá de nuevo o usá Ctrl+P para imprimir.')
+    } finally {
+      document.body.removeChild(wrap)
+      setBajando(false)
+    }
   }
 
   return (
-    <div className="inf-body">
+    <div className="inf-body" ref={bodyRef}>
       <div className="inf-toolbar">
         <button className="inf-back" onClick={() => navigate(-1)}>← Volver</button>
-        <button className="inf-print" disabled={!data} onClick={descargarPDF}>Descargar PDF</button>
+        <button className="inf-print" disabled={bajando || !data} onClick={descargarPDF}>{bajando ? 'Generando PDF…' : 'Descargar PDF'}</button>
       </div>
 
       {error && <div className="inf-doc"><div className="inf-sheet"><div className="inf-pad">⚠️ {error}</div></div></div>}
