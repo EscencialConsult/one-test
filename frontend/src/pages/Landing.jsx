@@ -95,21 +95,7 @@ export default function Landing() {
             <li><Ico id="i-check" /> Batería de tests a elección, habilitada para tu empresa.</li>
           </ul>
         </div>
-        <div className="lp-card lp-aboutart" style={{ padding: 22 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid var(--linea)', borderRadius: 10, padding: '9px 13px', fontSize: 13, color: 'var(--tinta)', marginBottom: 16 }}>
-            🔒 <b>tuempresa</b>.one.com
-          </div>
-          <div style={{ background: 'linear-gradient(135deg,var(--violeta),var(--rosa) 60%,var(--cian))', borderRadius: 14, padding: 22, color: '#fff', marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontWeight: 800, fontSize: 18, background: 'rgba(255,255,255,.9)', color: 'var(--violeta)', padding: '5px 12px', borderRadius: 9 }}>TU LOGO</span>
-            <span style={{ fontSize: 12, opacity: .9 }}>Portal de evaluación</span>
-          </div>
-          <div style={{ display: 'flex', gap: 9, alignItems: 'center' }}>
-            <span style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600 }}>Tus colores:</span>
-            {['var(--violeta)', 'var(--rosa)', 'var(--cian)', 'var(--oro)'].map((c) => (
-              <span key={c} style={{ width: 26, height: 26, borderRadius: 8, background: c, boxShadow: '0 0 0 1px var(--linea)' }} />
-            ))}
-          </div>
-        </div>
+        <PanelMock />
       </div></section>
 
       {/* QUÉ ES */}
@@ -210,6 +196,66 @@ export default function Landing() {
         </div>
         <div className="lp-copy"><img className="one-logo" src="/logo.png" alt="ONE" style={{ height: 22, verticalAlign: 'middle', marginRight: 8 }} />© 2026 {EMPRESA} · {PRODUCTO}. Todos los derechos reservados.</div>
       </div></footer>
+    </div>
+  )
+}
+
+// ── Maqueta ANIMADA del panel interno (sección "Tu espacio corporativo") ──────
+// Réplica en miniatura del dashboard real: logo redondo "tu logo", email de ejemplo,
+// KPIs, gráfico de barras que crece y lista de pruebas. Se anima al entrar en pantalla.
+function PanelMock() {
+  const kpis = [{ n: 3, l: 'Evaluados' }, { n: 1, l: 'En curso' }, { n: 1, l: 'Completados' }, { n: 1, l: 'Sin iniciar' }]
+  const bars = [28, 18, 44, 33, 58, 40, 96] // Ene → Jul
+  const tests = [{ n: 'GDS-15', w: 100 }, { n: 'IPP-R', w: 82 }, { n: 'Big Five', w: 64 }, { n: 'DISC', w: 48 }]
+  const nav = ['Dashboard', 'Evaluados', 'Evaluaciones', 'Configuración']
+  return (
+    <div className="pm-win lp-reveal">
+      <div className="pm-bar">
+        <span className="pm-dots"><i /><i /><i /></span>
+        <span className="pm-url">🔒 tuempresa<b>.one.com</b></span>
+      </div>
+      <div className="pm-app">
+        <aside className="pm-side">
+          <div className="pm-brand">
+            <span className="pm-logo"><span className="pm-ring" /><span className="pm-logotxt">tu<br />logo</span></span>
+            <span className="pm-bname">Tu empresa<small>Panel de evaluación</small></span>
+          </div>
+          <div className="pm-nav">
+            {nav.map((n, i) => <span key={n} className={'pm-navi' + (i === 0 ? ' on' : '')}><i />{n}</span>)}
+          </div>
+          <div className="pm-user">
+            <span className="pm-av">TE</span>
+            <span className="pm-uinfo"><b>Tu Empresa</b><small>tu.empresa@gmail.com</small></span>
+          </div>
+        </aside>
+        <main className="pm-main">
+          <div className="pm-top"><b>Dashboard</b><span className="pm-search">Buscar evaluado…</span></div>
+          <div className="pm-kpis">
+            {kpis.map((k, i) => (
+              <div className="pm-kpi" key={k.l} style={{ '--d': i * 0.08 + 's' }}>
+                <span className="pm-kpin">{k.n}</span><span className="pm-kpil">{k.l}</span>
+              </div>
+            ))}
+          </div>
+          <div className="pm-row">
+            <div className="pm-chart">
+              <div className="pm-cardh">Evaluaciones completadas</div>
+              <div className="pm-bars">
+                {bars.map((h, i) => <span key={i} className="pm-b" style={{ '--h': h + '%', '--d': 0.2 + i * 0.06 + 's' }} />)}
+              </div>
+            </div>
+            <div className="pm-tests">
+              <div className="pm-cardh">Pruebas más asignadas</div>
+              {tests.map((t, i) => (
+                <div className="pm-test" key={t.n} style={{ '--d': 0.35 + i * 0.09 + 's' }}>
+                  <span className="pm-tn">{t.n}</span>
+                  <span className="pm-tbar"><i style={{ '--w': t.w + '%' }} /></span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
