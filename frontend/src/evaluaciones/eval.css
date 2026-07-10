@@ -82,9 +82,18 @@ textarea.ev-input { resize: vertical; min-height: 60px; font-family: inherit; }
 .inf-item .bar i { display: block; height: 100%; border-radius: 999px; }
 .inf-item .pct { width: 46px; text-align: right; font-weight: 800; font-size: 13px; flex: none; }
 
+/* Bloque de "lectura": texto que interpreta cada gráfico en palabras. */
+.inf-read { margin-top: 14px; background: rgba(77,36,143,.05); border: 1px solid var(--linea); border-left: 3px solid var(--violeta); border-radius: 0 10px 10px 0; padding: 12px 16px; }
+.inf-read-lbl { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--violeta); margin-bottom: 6px; }
+.inf-read-body { font-size: 13.5px; line-height: 1.6; }
+.inf-read-body b { font-weight: 800; }
+.inf-read-list { margin: 8px 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.inf-read-list li { font-size: 13.5px; line-height: 1.5; padding-left: 15px; position: relative; }
+.inf-read-list li::before { content: "•"; position: absolute; left: 0; color: var(--violeta); font-weight: 800; }
+
 @media print {
   .sa-side, .sa-topbar, .no-print { display: none !important; }
   .sa-content { padding: 0 !important; }
   .sa-app { display: block !important; }
-  .inf-card, .inf-camp-head { break-inside: avoid; }
+  .inf-card, .inf-camp-head, .inf-read { break-inside: avoid; }
 }

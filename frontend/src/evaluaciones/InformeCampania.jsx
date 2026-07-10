@@ -17,6 +17,21 @@ function brecha(gap) {
   return { tag: 'Percepción alineada', style: { color: 'var(--violeta)', background: 'rgba(77,36,143,.1)' }, txt: 'Coincide tu visión con la del resto' }
 }
 
+// Formato de número (1 decimal, coma decimal) y qué es cada relación evaluadora.
+const fmt = (n) => (n == null ? '—' : Number(n).toFixed(1).replace('.', ','))
+const prom = (arr, k) => { const v = arr.map((x) => x[k]).filter((n) => n != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null }
+const REL_DESC = { auto: 'la propia persona', supervisor: 'su jefatura directa', par: 'colegas de su mismo nivel', reporte: 'personas a su cargo', observador: 'observadores designados' }
+
+// Bloque de "lectura" (texto que interpreta el gráfico de al lado, en palabras).
+function Lectura({ children }) {
+  return (
+    <div className="inf-read">
+      <span className="inf-read-lbl">Cómo leerlo</span>
+      <div className="inf-read-body">{children}</div>
+    </div>
+  )
+}
+
 export default function InformeCampania({ id, onBack }) {
   const [d, setD] = useState(null)
   const [error, setError] = useState(null)
@@ -115,18 +130,59 @@ export default function InformeCampania({ id, onBack }) {
 
 // ── 360° ──────────────────────────────────────────────────────────────────────
 function Trescientos({ d, acento, sec, gruposMostrados }) {
+  const suj = d.campania.sujeto_nombre
   const radar = d.competencias.map((c) => ({ competencia: c.nombre, 'Autoevaluación': c.auto, 'Cómo lo ven': c.otros }))
   const relBar = gruposMostrados.map((g) => g.relacion)
+  const relExt = relBar.filter((r) => r !== 'auto') // relaciones externas (sin la autoevaluación)
   const barData = d.competencias.map((c) => ({ competencia: c.nombre, ...c.por_grupo }))
   const brechas = d.competencias.filter((c) => c.gap !== null && c.gap !== undefined).sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap))
   const radarConDatos = radar.some((r) => r['Autoevaluación'] != null || r['Cómo lo ven'] != null)
   const barConDatos = barData.some((row) => relBar.some((rel) => row[rel] != null))
 
+  // Promedios globales de autoevaluación y de "cómo lo ven".
+  const autoAvg = prom(d.competencias, 'auto')
+  const otrosAvg = prom(d.competencias, 'otros')
+  const gapG = autoAvg != null && otrosAvg != null ? autoAvg - otrosAvg : null
+
+  // Por cada grupo: su promedio y la competencia que valora más alto y más bajo.
+  const grupoStats = relBar.map((rel) => {
+    const withVal = d.competencias.filter((c) => c.por_grupo[rel] != null).map((c) => ({ nombre: c.nombre, v: c.por_grupo[rel] }))
+    if (!withVal.length) return null
+    const avg = withVal.reduce((s, x) => s + x.v, 0) / withVal.length
+    const ord = [...withVal].sort((a, b) => b.v - a.v)
+    return { rel, label: label(d, rel), avg, top: ord[0], bottom: ord[ord.length - 1], n: withVal.length }
+  }).filter(Boolean)
+
+  // Nivel de acuerdo entre las miradas externas (dispersión promedio entre grupos).
+  const spreads = d.competencias.map((c) => {
+    const vs = relExt.map((r) => c.por_grupo[r]).filter((v) => v != null)
+    return vs.length >= 2 ? Math.max(...vs) - Math.min(...vs) : null
+  }).filter((v) => v != null)
+  const acuerdo = spreads.length ? spreads.reduce((a, b) => a + b, 0) / spreads.length : null
+  const acuerdoTxt = acuerdo == null ? null
+    : acuerdo < 0.6 ? 'Las distintas miradas coinciden bastante entre sí: hay un mensaje consistente.'
+    : acuerdo < 1.2 ? 'Hay un acuerdo moderado entre los grupos; conviene mirar las diferencias por competencia.'
+    : 'Las miradas difieren de forma marcada según el grupo: vale la pena leer cada relación por separado.'
+
+  const gapFrase = gapG == null ? '' : Math.abs(gapG) <= 0.3
+    ? ', prácticamente sin diferencia: su autopercepción está bien calibrada respecto de cómo lo ven.'
+    : gapG > 0.3 ? ` — ${fmt(gapG)} puntos por encima: tiende a percibirse mejor de lo que lo ve el resto (posibles puntos ciegos).`
+    : ` — ${fmt(Math.abs(gapG))} puntos por debajo: el resto lo valora mejor de lo que él mismo se ve (fortalezas no reconocidas).`
+
+  const nCiegos = d.competencias.filter((c) => c.gap != null && c.gap > 0.5).length
+  const nOcultas = d.competencias.filter((c) => c.gap != null && c.gap < -0.5).length
+  const nAlineadas = brechas.length - nCiegos - nOcultas
+
   return (
     <>
       <div className="inf-card">
+        <h3>Cómo funciona esta evaluación</h3>
+        <p className="inf-tx">Una evaluación 360° reúne <b>varias miradas</b> sobre {suj}: su propia <b>autoevaluación</b> y la de quienes lo rodean —{relExt.map((r) => REL_DESC[r]).filter(Boolean).join(', ') || 'su entorno'}—. La empresa definió las competencias y las preguntas; cada evaluador respondió en una escala de 1 (nunca) a 5 (siempre). Comparar la autopercepción con la mirada externa es lo que revela fortalezas, puntos ciegos y potencial no reconocido.</p>
+      </div>
+
+      <div className="inf-card">
         <h3>Mapa de competencias</h3>
-        <div className="sub">Tu autoevaluación (violeta) frente a cómo te ve el resto de la organización.</div>
+        <div className="sub">La autoevaluación de {suj} (violeta) frente a cómo lo ve el resto de la organización (turquesa).</div>
         {radarConDatos ? (
           <ResponsiveContainer width="100%" height={340}>
             <RadarChart data={radar} outerRadius="72%">
@@ -139,12 +195,20 @@ function Trescientos({ d, acento, sec, gruposMostrados }) {
             </RadarChart>
           </ResponsiveContainer>
         ) : <div className="sa-empty">Todavía no hay datos suficientes: faltan respuestas o los grupos no alcanzan el mínimo de anonimato.</div>}
+        {radarConDatos && otrosAvg != null && (
+          <Lectura>
+            En promedio, {suj} <b>se autoevalúa en {fmt(autoAvg)}/5</b> y el resto de la organización lo <b>valora en {fmt(otrosAvg)}/5</b>{gapFrase} En el gráfico, cuando la línea violeta queda <b>por fuera</b> de la turquesa, {suj} se percibe mejor de lo que lo ven; cuando queda <b>por dentro</b>, lo ven mejor de lo que se ve.
+          </Lectura>
+        )}
+        {radarConDatos && otrosAvg == null && (
+          <Lectura>Por ahora solo hay datos de la autoevaluación ({fmt(autoAvg)}/5). Cuando respondan al menos {d.campania.anonimato_min} evaluadores externos, vas a poder comparar ambas miradas.</Lectura>
+        )}
       </div>
 
       {relBar.length > 0 && barConDatos && (
         <div className="inf-card">
           <h3>Promedio por grupo</h3>
-          <div className="sub">Cómo puntúa cada relación a {d.campania.sujeto_nombre}.</div>
+          <div className="sub">Cómo puntúa cada relación a {suj}.</div>
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={barData} margin={{ top: 8, right: 8, left: -16, bottom: 8 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -156,22 +220,48 @@ function Trescientos({ d, acento, sec, gruposMostrados }) {
               ))}
             </BarChart>
           </ResponsiveContainer>
+          {grupoStats.length > 0 && (
+            <Lectura>
+              Cada relación mira a {suj} desde un lugar distinto:
+              <ul className="inf-read-list">
+                {grupoStats.map((g) => (
+                  <li key={g.rel}>
+                    <b>{g.label}</b>{REL_DESC[g.rel] ? ` (${REL_DESC[g.rel]})` : ''}: promedio <b>{fmt(g.avg)}/5</b>
+                    {g.top && g.bottom && g.top.nombre !== g.bottom.nombre
+                      ? <> — valora más alto <b>{g.top.nombre}</b> ({fmt(g.top.v)}) y más bajo <b>{g.bottom.nombre}</b> ({fmt(g.bottom.v)}).</>
+                      : '.'}
+                  </li>
+                ))}
+              </ul>
+              {acuerdoTxt}
+            </Lectura>
+          )}
         </div>
       )}
 
       <div className="inf-card">
         <h3>Brechas y puntos ciegos</h3>
-        <div className="sub">Diferencia entre tu autopercepción y la mirada del resto (autoevaluación − otros).</div>
-        {brechas.length === 0 ? <div className="sa-empty">No hay datos suficientes para calcular brechas.</div> : brechas.map((c) => {
-          const b = brecha(c.gap)
-          return (
-            <div className="inf-gaprow" key={c.nombre}>
-              <span className="nm">{c.nombre}</span>
-              <span className="tag" style={b.style}>{b.tag}</span>
-              <span className="val" style={{ color: c.gap > 0 ? '#d6336c' : c.gap < 0 ? '#1b9aa0' : 'var(--muted)' }}>{c.gap > 0 ? '+' : ''}{c.gap}</span>
-            </div>
-          )
-        })}
+        <div className="sub">Diferencia entre la autopercepción de {suj} y la mirada del resto (autoevaluación − otros).</div>
+        {brechas.length === 0 ? <div className="sa-empty">No hay datos suficientes para calcular brechas.</div> : (
+          <>
+            {brechas.map((c) => {
+              const b = brecha(c.gap)
+              return (
+                <div className="inf-gaprow" key={c.nombre}>
+                  <span className="nm">{c.nombre}</span>
+                  <span className="tag" style={b.style}>{b.tag}</span>
+                  <span className="val" style={{ color: c.gap > 0 ? '#d6336c' : c.gap < 0 ? '#1b9aa0' : 'var(--muted)' }}>{c.gap > 0 ? '+' : ''}{c.gap}</span>
+                </div>
+              )
+            })}
+            <Lectura>
+              De {brechas.length} competencia(s) con ambas miradas: <b>{nAlineadas}</b> con percepción alineada
+              {nCiegos > 0 ? <>, <b style={{ color: '#d6336c' }}>{nCiegos}</b> punto(s) ciego(s) (se ve mejor de lo que lo ven)</> : ''}
+              {nOcultas > 0 ? <>, <b style={{ color: '#1b9aa0' }}>{nOcultas}</b> fortaleza(s) no reconocida(s) (lo ven mejor de lo que se ve)</> : ''}.
+              {' '}Un valor cercano a <b>0</b> significa que {suj} y su entorno coinciden; cuanto más lejos de 0, mayor el desajuste entre ambas miradas.
+            </Lectura>
+          </>
+        )}
       </div>
     </>
   )
@@ -179,12 +269,17 @@ function Trescientos({ d, acento, sec, gruposMostrados }) {
 
 // ── Áreas (Likert, un grupo) ─────────────────────────────────────────────────
 function Areas({ d, acento }) {
+  const suj = d.campania.sujeto_nombre
   const data = d.competencias.map((c) => ({ competencia: c.nombre, Promedio: c.promedio }))
   const conDatos = data.some((x) => x.Promedio !== null && x.Promedio !== undefined)
+  const comps = d.competencias.filter((c) => c.promedio != null)
+  const avg = prom(comps, 'promedio')
+  const ord = [...comps].sort((a, b) => b.promedio - a.promedio)
+  const esCli = d.campania.tipo === 'clientes'
   return (
     <div className="inf-card">
       <h3>Promedio por competencia</h3>
-      <div className="sub">Valoración sobre {d.campania.sujeto_nombre} (escala 1 a 5).</div>
+      <div className="sub">{esCli ? 'Nivel de satisfacción' : 'Valoración'} sobre {suj} (escala 1 a 5).</div>
       {conDatos ? (
         <ResponsiveContainer width="100%" height={340}>
           <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 8 }}>
@@ -196,19 +291,28 @@ function Areas({ d, acento }) {
           </BarChart>
         </ResponsiveContainer>
       ) : <div className="sa-empty">Todavía no hay datos para mostrar: el grupo no alcanza el mínimo de anonimato. Bajá el mínimo arriba o sumá más respuestas.</div>}
+      {comps.length > 0 && (
+        <Lectura>
+          En promedio, {suj} obtiene <b>{fmt(avg)}/5</b>{esCli ? ' de satisfacción' : ''}. Lo mejor valorado es <b>{ord[0].nombre}</b> ({fmt(ord[0].promedio)})
+          {ord.length > 1 && <> y lo más bajo, <b>{ord[ord.length - 1].nombre}</b> ({fmt(ord[ord.length - 1].promedio)})</>}. Cada barra muestra dónde se concentran las fortalezas y dónde conviene reforzar.
+        </Lectura>
+      )}
     </div>
   )
 }
 
 // ── Procesos (Sí/No, cumplimiento) ───────────────────────────────────────────
 function Procesos({ d, acento }) {
+  const suj = d.campania.sujeto_nombre
   const data = d.competencias.filter((c) => c.promedio !== null && c.promedio !== undefined).map((c) => ({ competencia: c.nombre, Cumplimiento: c.promedio }))
   const items = [...(d.preguntas || [])].sort((a, b) => a.cumplimiento - b.cumplimiento)
+  const avgC = data.length ? Math.round(data.reduce((s, x) => s + x.Cumplimiento, 0) / data.length) : null
+  const ordC = [...data].sort((a, b) => b.Cumplimiento - a.Cumplimiento)
   return (
     <>
       <div className="inf-card">
         <h3>Cumplimiento por competencia</h3>
-        <div className="sub">Porcentaje de cumplimiento observado en {d.campania.sujeto_nombre}.</div>
+        <div className="sub">Porcentaje de cumplimiento observado en {suj}.</div>
         {data.length > 0 ? (
           <ResponsiveContainer width="100%" height={320}>
             <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 8 }}>
@@ -220,6 +324,12 @@ function Procesos({ d, acento }) {
             </BarChart>
           </ResponsiveContainer>
         ) : <div className="sa-empty">Todavía no hay datos para mostrar: el grupo no alcanza el mínimo de anonimato. Bajá el mínimo arriba o sumá más respuestas.</div>}
+        {data.length > 0 && (
+          <Lectura>
+            El cumplimiento promedio de {suj} es <b>{avgC}%</b>. La competencia más sólida es <b>{ordC[0].competencia}</b> ({ordC[0].Cumplimiento}%)
+            {ordC.length > 1 && <> y la que más falla, <b>{ordC[ordC.length - 1].competencia}</b> ({ordC[ordC.length - 1].Cumplimiento}%)</>}. El detalle por ítem, más abajo, ordena de menor a mayor cumplimiento para priorizar lo urgente.
+          </Lectura>
+        )}
       </div>
 
       {items.length > 0 && (
